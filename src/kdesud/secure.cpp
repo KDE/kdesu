@@ -69,8 +69,8 @@ SocketSecurity::SocketSecurity(int sockfd) : pid(-1), gid(-1), uid(-1)
     static bool warned_him = false;
 
     if (!warned_him) {
-        kWarning() << "Using void socket security. Please add support for your" << endl;
-        kWarning() << "platform to src/kdesud/secure.cpp" << endl;
+        kWarning() << "Using void socket security. Please add support for your" ;
+        kWarning() << "platform to src/kdesud/secure.cpp" ;
         warned_him = true;
     }
 
