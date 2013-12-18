@@ -27,9 +27,11 @@
 
 extern int kdesuDebugArea();
 
-namespace KDESu {
+namespace KDESu
+{
 
-class KDEsuClient::KDEsuClientPrivate {
+class KDEsuClient::KDEsuClientPrivate
+{
 public:
     KDEsuClientPrivate() : sockfd(-1) {}
     QString daemon;
@@ -39,7 +41,7 @@ public:
 
 #ifndef SUN_LEN
 #define SUN_LEN(ptr) ((QT_SOCKLEN_T) (((struct sockaddr_un *) 0)->sun_path) \
-                     + strlen ((ptr)->sun_path))
+                      + strlen ((ptr)->sun_path))
 #endif
 
 KDEsuClient::KDEsuClient()
@@ -59,11 +61,10 @@ KDEsuClient::KDEsuClient()
 #endif
 
     d->sock = QFile::encodeName(QStandardPaths::writableLocation(QStandardPaths::RuntimeLocation) +
-                                                                 QStringLiteral("/kdesud_") +
-                                                                 display);
+                                QStringLiteral("/kdesud_") +
+                                display);
     connect();
 }
-
 
 KDEsuClient::~KDEsuClient()
 {
@@ -78,7 +79,7 @@ int KDEsuClient::connect()
     if (d->sockfd >= 0) {
         close(d->sockfd);
     }
-    if (access(d->sock.constData(), R_OK|W_OK)) {
+    if (access(d->sock.constData(), R_OK | W_OK)) {
         d->sockfd = -1;
         return -1;
     }
@@ -218,12 +219,12 @@ int KDEsuClient::exec(const QByteArray &prog, const QByteArray &user, const QByt
     cmd += ' ';
     cmd += escape(user);
     if (!options.isEmpty() || !env.isEmpty()) {
-       cmd += ' ';
-       cmd += escape(options);
-       for (int i = 0; i < env.count(); ++i) {
-          cmd += ' ';
-          cmd += escape(env.at(i));
-       }
+        cmd += ' ';
+        cmd += escape(options);
+        for (int i = 0; i < env.count(); ++i) {
+            cmd += ' ';
+            cmd += escape(env.at(i));
+        }
     }
     cmd += '\n';
     return command(cmd);
@@ -295,7 +296,7 @@ QList<QByteArray> KDEsuClient::getKeys(const QByteArray &group)
     cmd += '\n';
     QByteArray reply;
     command(cmd, &reply);
-    int index=0, pos;
+    int index = 0, pos;
     QList<QByteArray> list;
     if (!reply.isEmpty()) {
         while (1) {
@@ -308,7 +309,7 @@ QList<QByteArray> KDEsuClient::getKeys(const QByteArray &group)
                 }
                 break;
             } else {
-                list.append(reply.mid(index, pos-index));
+                list.append(reply.mid(index, pos - index));
             }
             index = pos + 1;
         }
@@ -360,7 +361,7 @@ int KDEsuClient::exitCode()
 {
     QByteArray result;
     if (command("EXIT\n", &result) != 0) {
-       return -1;
+        return -1;
     }
 
     return result.toInt();
@@ -386,10 +387,10 @@ static QString findDaemon()
 bool KDEsuClient::isServerSGID()
 {
     if (d->daemon.isEmpty()) {
-       d->daemon = findDaemon();
+        d->daemon = findDaemon();
     }
     if (d->daemon.isEmpty()) {
-       return false;
+        return false;
     }
 
     QT_STATBUF sbuf;

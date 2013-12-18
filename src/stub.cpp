@@ -20,7 +20,8 @@
 
 extern int kdesuDebugArea();
 
-namespace KDESu {
+namespace KDESu
+{
 
 using namespace KDESuPrivate;
 
@@ -103,9 +104,15 @@ void StubProcess::writeString(const QByteArray &str)
  * Map pid_t to a signed integer type that makes sense for QByteArray;
  * only the most common sizes 16 bit and 32 bit are special-cased.
  */
-template<int T> struct PIDType { typedef pid_t PID_t; } ;
-template<> struct PIDType<2> { typedef qint16 PID_t; } ;
-template<> struct PIDType<4> { typedef qint32 PID_t; } ;
+template<int T> struct PIDType {
+    typedef pid_t PID_t;
+};
+template<> struct PIDType<2> {
+    typedef qint16 PID_t;
+};
+template<> struct PIDType<4> {
+    typedef qint32 PID_t;
+};
 
 /*
  * Conversation with kdesu_stub. This is how we pass the authentication
@@ -153,13 +160,15 @@ int StubProcess::converseStub(int check)
             writeString(m_command);
         } else if (line == "path") {
             QByteArray path = qgetenv("PATH");
-            if (!path.isEmpty() && path[0] == ':')
+            if (!path.isEmpty() && path[0] == ':') {
                 path = path.mid(1);
+            }
             if (m_user == "root") {
-                if (!path.isEmpty())
+                if (!path.isEmpty()) {
                     path = "/sbin:/bin:/usr/sbin:/usr/bin:" + path;
-                else
+                } else {
                     path = "/sbin:/bin:/usr/sbin:/usr/bin";
+                }
             }
             writeLine(path);
         } else if (line == "user") {
@@ -203,7 +212,7 @@ int StubProcess::converseStub(int check)
             for (int i = 0; i < env.count(); ++i) {
                 writeString(env.at(i));
             }
-            writeLine( "" );
+            writeLine("");
         } else if (line == "end") {
             return 0;
         } else {

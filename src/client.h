@@ -19,7 +19,8 @@
 
 #ifdef Q_OS_UNIX
 
-namespace KDESu {
+namespace KDESu
+{
 
 /** \class KDEsuClient client.h kdesu/client.h
  * A client class to access kdesud, the KDE su daemon. Kdesud can assist in
@@ -39,7 +40,8 @@ namespace KDESu {
  * See setVar, delVar, delGroup.
  */
 
-class KDESU_EXPORT KDEsuClient {
+class KDESU_EXPORT KDEsuClient
+{
 public:
     KDEsuClient();
     ~KDEsuClient();

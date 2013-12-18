@@ -44,7 +44,8 @@
 
 extern int kdesuDebugArea();
 
-namespace KDESu {
+namespace KDESu
+{
 
 using namespace KDESuPrivate;
 
@@ -126,7 +127,6 @@ public:
     QByteArray inputBuffer;
 };
 
-
 PtyProcess::PtyProcess()
     : d(new PtyProcessPrivate)
 {
@@ -197,9 +197,9 @@ QByteArray PtyProcess::readAll(bool block)
     }
 
     if ((flags != oflags) && (fcntl(fd(), F_SETFL, flags) < 0)) {
-       // We get an error here when the child process has closed
-       // the file descriptor already.
-       return ret;
+        // We get an error here when the child process has closed
+        // the file descriptor already.
+        return ret;
     }
 
     while (1) {
@@ -426,15 +426,18 @@ int PtyProcess::waitForChild()
 
         if (ret) {
             forever {
-                QByteArray output = readAll(false);
-                if (output.isEmpty()) {
+            QByteArray output = readAll(false);
+                if (output.isEmpty())
+                {
                     break;
                 }
-                if (m_terminal) {
+                if (m_terminal)
+                {
                     fwrite(output.constData(), output.size(), 1, stdout);
                     fflush(stdout);
                 }
-                if (!m_exitString.isEmpty()) {
+                if (!m_exitString.isEmpty())
+                {
                     // match exit string only at line starts
                     remainder += output;
                     while (remainder.length() >= m_exitString.length()) {

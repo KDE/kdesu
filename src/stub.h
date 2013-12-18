@@ -17,9 +17,13 @@
 #include <QtCore/QByteRef>
 #include <QtCore/QList>
 
-namespace KDESu {
+namespace KDESu
+{
 
-namespace KDESuPrivate { class KCookie; }
+namespace KDESuPrivate
+{
+class KCookie;
+}
 
 /** \class StubProcess stub.h kdesu/stub.h
  * Chat with kdesu_stub.
@@ -100,7 +104,7 @@ private:
     void writeString(const QByteArray &str);
 
     class StubProcessPrivate;
-    StubProcessPrivate * const d;
+    StubProcessPrivate *const d;
 };
 
 }

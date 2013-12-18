@@ -23,7 +23,8 @@
 
 #include <kpty.h>
 
-namespace KDESu {
+namespace KDESu
+{
 
 /** \class PtyProcess process.h kdesu/process.h
  * Synchronous communication with tty programs.
@@ -42,7 +43,7 @@ public:
         Error = -1,     /**< No child */
         NotExited = -2, /**< Child hasn't exited */
         Killed = -3     /**< Child terminated by signal */
-    } ;
+    };
 
     PtyProcess();
     virtual ~PtyProcess();
@@ -171,7 +172,6 @@ public:
     ** If child @p has not exited, return -2.
     */
     static int checkPidExited(pid_t pid);
-
 
 protected:
     /** Standard hack to add virtual methods in a BC way. Unused. */

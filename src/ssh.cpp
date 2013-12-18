@@ -19,7 +19,8 @@
 
 extern int kdesuDebugArea();
 
-namespace KDESu {
+namespace KDESu
+{
 
 using namespace KDESuPrivate;
 
@@ -35,7 +36,6 @@ public:
     QByteArray error;
     QByteArray stub;
 };
-
 
 SshProcess::SshProcess(const QByteArray &host, const QByteArray &user, const QByteArray &command)
     : d(new SshProcessPrivate(host))
@@ -113,8 +113,7 @@ int SshProcess::exec(const char *password, int check)
             qCritical() << "[" << __FILE__ << ":" << __LINE__ << "] " << "Conversation with kdesu_stub failed.";
         }
         return ret;
-    }
-    else if (ret == 1) {
+    } else if (ret == 1) {
         kill(m_pid, SIGTERM);
         waitForChild();
         ret = SshIncorrectPassword;

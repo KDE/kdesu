@@ -67,14 +67,12 @@
  * Params sent by the peer.
  */
 
-struct param_struct 
-{
+struct param_struct {
     const char *name;
     char *value;
 };
 
-struct param_struct params[] = 
-{
+struct param_struct params[] = {
     { "kdesu_stub", 0L },
     { "display", 0L },
     { "display_auth", 0L },
@@ -84,7 +82,7 @@ struct param_struct params[] =
     { "user", 0L },
     { "priority", 0L },
     { "scheduler", 0L },
-/* obsoleted by app_startup_id    { "app_start_pid", 0L } */
+    /* obsoleted by app_startup_id    { "app_start_pid", 0L } */
     { "app_startup_id", 0L }
 };
 
@@ -113,7 +111,6 @@ char *xmalloc(size_t size)
     exit(1);
 }
 
-
 char **xrealloc(char **ptr, int size)
 {
     ptr = realloc(ptr, size);
@@ -123,7 +120,6 @@ char **xrealloc(char **ptr, int size)
     perror("realloc()");
     exit(1);
 }
-
 
 /**
  * Solaris does not have a setenv()...
@@ -169,7 +165,7 @@ char **xstrsep(char *str)
         }
         *nptr = '\000';
         list[i++] = ptr;
-        ptr = nptr+1;
+        ptr = nptr + 1;
     }
     if (*ptr != '\000') {
         list[i++] = ptr;
@@ -178,7 +174,7 @@ char **xstrsep(char *str)
     return list;
 }
 
-#define BUFSIZE	8192
+#define BUFSIZE 8192
 
 static void dequote(char *buf)
 {
@@ -205,13 +201,13 @@ static void dequote(char *buf)
 
 int main()
 {
-    char buf[BUFSIZE+1];
+    char buf[BUFSIZE + 1];
     char xauthority[200];
     int i, prio;
     pid_t pid;
     FILE *fout;
     struct passwd *pw;
-    const char* kdesu_lc_all;
+    const char *kdesu_lc_all;
 
     xauthority[0] = '\0';
 
@@ -234,15 +230,15 @@ int main()
     }
     printf("environment\n");
     fflush(stdout);
-    for(;;) {
-        char* tmp;
+    for (;;) {
+        char *tmp;
         if (fgets(buf, BUFSIZE, stdin) == 0L) {
             printf("end\n"); fflush(stdout);
             perror("kdesu_stub: fgets()");
             exit(1);
         }
         dequote(buf);
-        tmp = xstrdup( buf );
+        tmp = xstrdup(buf);
         if (tmp[0] == '\0') { /* terminator */
             break;
         }
@@ -257,7 +253,7 @@ int main()
 
     kdesu_lc_all = getenv("KDESU_LC_ALL");
     if (kdesu_lc_all != NULL) {
-        xsetenv("LC_ALL",kdesu_lc_all);
+        xsetenv("LC_ALL", kdesu_lc_all);
     } else {
         unsetenv("LC_ALL");
     }
@@ -282,14 +278,14 @@ int main()
         struct sched_param sched;
         int min = sched_get_priority_min(SCHED_FIFO);
         int max = sched_get_priority_max(SCHED_FIFO);
-        sched.sched_priority = min + (int) (((double) prio) * (max - min) / 100 + 0.5);
+        sched.sched_priority = min + (int)(((double) prio) * (max - min) / 100 + 0.5);
         sched_setscheduler(0, SCHED_FIFO, &sched);
 #else
         printf("kdesu_stub: realtime scheduling not supported\n");
 #endif
     } else {
 #if HAVE_SETPRIORITY
-        int val = 20 - (int) (((double) prio) * 40 / 100 + 0.5);
+        int val = 20 - (int)(((double) prio) * 40 / 100 + 0.5);
         setpriority(PRIO_PROCESS, getpid(), val);
 #endif
     }
@@ -343,7 +339,7 @@ int main()
             }
             xsetenv("XAUTHORITY", xauthority);
 
-            fout = popen("xauth >/dev/null 2>&1","w");
+            fout = popen("xauth >/dev/null 2>&1", "w");
             if (fout == NULL) {
                 perror("kdesu_stub: popen(xauth)");
                 exit(1);

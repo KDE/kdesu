@@ -14,9 +14,11 @@
 
 #include <config-kdesu.h>
 
-namespace KDESu {
+namespace KDESu
+{
 
-namespace KDESuPrivate {
+namespace KDESuPrivate
+{
 
 /**
  * Utility class to access the authentication tokens needed to run a KDE
@@ -46,9 +48,10 @@ private:
     void getXCookie();
 
     class KCookiePrivate;
-    KCookiePrivate * const d;
+    KCookiePrivate *const d;
 };
 
-}}
+}
+}
 
 #endif // KDESUKCOOKIE_H

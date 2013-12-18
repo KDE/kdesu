@@ -14,7 +14,8 @@
 
 #include <kdesu/kdesu_export.h>
 
-namespace KDESu {
+namespace KDESu
+{
 
 /** \class SshProcess ssh.h kdesu/ssh.h
  * Executes a remote command, using ssh.
@@ -44,8 +45,8 @@ public:
      */
     void setStub(const QByteArray &stub);
 
-    /** 
-     * Checks if the current user\@host needs a password. 
+    /**
+     * Checks if the current user\@host needs a password.
      * @return The prompt for the password if a password is required. A null
      * string otherwise.
      *

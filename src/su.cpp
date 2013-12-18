@@ -39,7 +39,8 @@
 #  define DEFAULT_SUPER_USER_COMMAND QStringLiteral("su")
 #endif
 
-namespace KDESu {
+namespace KDESu
+{
 using namespace KDESuPrivate;
 
 class SuProcess::SuProcessPrivate
@@ -220,7 +221,7 @@ int SuProcess::converseSU(const char *password)
     while (true) {
         line = readLine();
         if (line.isNull()) {
-            return ( state == HandleStub ? notauthorized : error);
+            return (state == HandleStub ? notauthorized : error);
         }
 
         if (line == "kdesu_stub") {
@@ -281,7 +282,7 @@ int SuProcess::converseSU(const char *password)
         //////////////////////////////////////////////////////////////////////////
         case HandleStub:
             break;
-        //////////////////////////////////////////////////////////////////////////
+            //////////////////////////////////////////////////////////////////////////
         } // end switch
     } // end while (true)
     return ok;

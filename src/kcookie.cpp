@@ -18,8 +18,10 @@
 
 extern int kdesuDebugArea();
 
-namespace KDESu {
-namespace KDESuPrivate {
+namespace KDESu
+{
+namespace KDESuPrivate
+{
 
 class KCookie::KCookiePrivate
 {
@@ -69,7 +71,7 @@ void KCookie::getXCookie()
 #if HAVE_X11 // No need to mess with X Auth stuff
     QByteArray disp = d->display;
     if (disp.startsWith("localhost:")) { // krazy:exclude=strings
-       disp.remove(0, 9);
+        disp.remove(0, 9);
     }
 
     QProcess proc;
@@ -82,8 +84,8 @@ void KCookie::getXCookie()
 
     QByteArray output = proc.readLine().simplified();
     if (output.isEmpty()) {
-       qWarning() << "No X authentication info set for display" << d->display;
-       return;
+        qWarning() << "No X authentication info set for display" << d->display;
+        return;
     }
 
     QList<QByteArray> lst = output.split(' ');

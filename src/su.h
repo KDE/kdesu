@@ -14,7 +14,8 @@
 
 #include "stub.h"
 
-namespace KDESu {
+namespace KDESu
+{
 
 /** \class SuProcess su.h kdesu/su.h
  * Executes a command under elevated privileges, using su.
@@ -81,7 +82,7 @@ private:
     int converseSU(const char *password);
 
     class SuProcessPrivate;
-    SuProcessPrivate * const d;
+    SuProcessPrivate *const d;
 };
 
 }
