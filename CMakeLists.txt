@@ -25,6 +25,7 @@ set(HAVE_X11 ${X11_FOUND})
 
 include(FeatureSummary)
 include(ECMSetupVersion)
+include(ECMGenerateHeaders)
 
 ecm_setup_version(${KF5_VERSION} VARIABLE_PREFIX KDESU
                         VERSION_HEADER "${CMAKE_CURRENT_BINARY_DIR}/kdesu_version.h"

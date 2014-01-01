@@ -29,6 +29,9 @@ add_library(KF5::Su ALIAS KF5Su)
 
 target_include_directories(KF5Su PRIVATE ${CMAKE_CURRENT_BINARY_DIR}/..)
 
+# Apps must include <KDESu/File> or <kdesu/file.h>
+target_include_directories(KF5Su INTERFACE "$<INSTALL_INTERFACE:${INCLUDE_INSTALL_DIR}>")
+
 target_link_libraries(KF5Su
   PUBLIC
     KF5::Pty
@@ -48,6 +51,18 @@ set_target_properties(KF5Su PROPERTIES
   EXPORT_NAME Su
 )
 
+ecm_generate_headers(
+  PtyProcess
+  SuProcess
+  SshProcess
+  StubProcess
+  Client # technically the class is called KDEsuClient...
+
+  MODULE_NAME KDESu
+  REQUIRED_HEADERS KDESu_HEADERS
+)
+install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/KDESu DESTINATION ${INCLUDE_INSTALL_DIR} COMPONENT Devel)
+
 install(TARGETS KF5Su EXPORT KF5SuTargets ${INSTALL_TARGETS_DEFAULT_ARGS})
 
 ########### next target ###############
@@ -61,16 +76,12 @@ install(TARGETS kdesu_stub DESTINATION ${LIBEXEC_INSTALL_DIR})
 
 ########### install files ###############
 install(FILES
-  client.h
-  ptyprocess.h
-  suprocess.h
-  sshprocess.h
-  stubprocess.h
   su.h
   ssh.h
   stub.h
   process.h
   defaults.h
   ${CMAKE_CURRENT_BINARY_DIR}/kdesu/kdesu_export.h
+  ${KDESu_HEADERS}
   DESTINATION  ${INCLUDE_INSTALL_DIR}/kdesu COMPONENT Devel
 )
