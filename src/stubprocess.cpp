@@ -6,10 +6,10 @@
  * General Public License, version 2. See the file "COPYING.LIB" for the
  * exact licensing terms.
  *
- * stub.cpp: Conversation with kdesu_stub.
+ * stubprocess.cpp: Conversation with kdesu_stub.
  */
 
-#include "stub.h"
+#include "stubprocess.h"
 #include "kcookie_p.h"
 
 #include <config-kdesu.h>

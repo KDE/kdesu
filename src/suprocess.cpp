@@ -12,7 +12,7 @@
  * su.cpp: Execute a program as another user with "class SuProcess".
  */
 
-#include "su.h"
+#include "suprocess.h"
 #include "kcookie_p.h"
 
 #include <QtCore/QFile>

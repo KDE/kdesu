@@ -15,11 +15,11 @@ configure_file(config-kdesu.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config-kdesu.h)
 
 set(kdesu_LIB_SRCS
   client.cpp
-  process.cpp
+  ptyprocess.cpp
   kcookie.cpp
-  su.cpp
-  ssh.cpp
-  stub.cpp
+  suprocess.cpp
+  sshprocess.cpp
+  stubprocess.cpp
 )
 
 
@@ -62,10 +62,14 @@ install(TARGETS kdesu_stub DESTINATION ${LIBEXEC_INSTALL_DIR})
 ########### install files ###############
 install(FILES
   client.h
-  process.h
+  ptyprocess.h
+  suprocess.h
+  sshprocess.h
+  stubprocess.h
   su.h
   ssh.h
   stub.h
+  process.h
   defaults.h
   ${CMAKE_CURRENT_BINARY_DIR}/kdesu/kdesu_export.h
   DESTINATION  ${INCLUDE_INSTALL_DIR}/kdesu COMPONENT Devel

@@ -9,7 +9,7 @@
  * ssh.cpp: Execute a program on a remote machine using ssh.
  */
 
-#include "ssh.h"
+#include "sshprocess.h"
 #include "kcookie_p.h"
 
 #include <unistd.h>

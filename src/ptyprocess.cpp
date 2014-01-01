@@ -13,7 +13,7 @@
  *  terminal programs.
  */
 
-#include "process.h"
+#include "ptyprocess.h"
 #include "kcookie_p.h"
 
 #include <config-kdesu.h>
