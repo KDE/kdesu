@@ -30,7 +30,7 @@ add_library(KF5::Su ALIAS KF5Su)
 target_include_directories(KF5Su PRIVATE ${CMAKE_CURRENT_BINARY_DIR}/..)
 
 # Apps must include <KDESu/File> or <kdesu/file.h>
-target_include_directories(KF5Su INTERFACE "$<INSTALL_INTERFACE:${INCLUDE_INSTALL_DIR}>")
+target_include_directories(KF5Su INTERFACE "$<INSTALL_INTERFACE:${INCLUDE_INSTALL_DIR}/KDESu>")
 
 target_link_libraries(KF5Su
   PUBLIC
@@ -59,6 +59,7 @@ ecm_generate_headers(
   Client # technically the class is called KDEsuClient...
 
   MODULE_NAME KDESu
+  PREFIX KDESu
   REQUIRED_HEADERS KDESu_HEADERS
 )
 install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/KDESu DESTINATION ${INCLUDE_INSTALL_DIR} COMPONENT Devel)
@@ -83,5 +84,5 @@ install(FILES
   defaults.h
   ${CMAKE_CURRENT_BINARY_DIR}/kdesu/kdesu_export.h
   ${KDESu_HEADERS}
-  DESTINATION  ${INCLUDE_INSTALL_DIR}/kdesu COMPONENT Devel
+  DESTINATION  ${INCLUDE_INSTALL_DIR}/KDESu/kdesu COMPONENT Devel
 )
