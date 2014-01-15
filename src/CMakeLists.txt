@@ -1,5 +1,6 @@
 include(CheckTypeSize)
 include(CheckIncludeFiles)
+include(CheckFunctionExists)
 
 check_function_exists(setpriority HAVE_SETPRIORITY)
 check_function_exists(getpeereid HAVE_GETPEEREID)
