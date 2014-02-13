@@ -50,6 +50,10 @@ KDEsuClient::KDEsuClient()
 #if HAVE_X11
     QString display = QString::fromLocal8Bit(qgetenv("DISPLAY"));
     if (display.isEmpty()) {
+        // we might be on Wayland
+        display = QString::fromLocal8Bit(qgetenv("WAYLAND_DISPLAY"));
+    }
+    if (display.isEmpty()) {
         qWarning() << "[" << __FILE__ << ":" << __LINE__ << "] " << "$DISPLAY is not set.";
         return;
     }

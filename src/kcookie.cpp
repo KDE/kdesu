@@ -61,6 +61,14 @@ void KCookie::getXCookie()
 {
 #if HAVE_X11
     d->display = qgetenv("DISPLAY");
+    if (d->display.isEmpty()) {
+        // maybe we are on Wayland?
+        d->display = qgetenv("WAYLAND_DISPLAY");
+        if (!d->display.isEmpty()) {
+            // don't go into the xauth code path
+            return;
+        }
+    }
 #else
     d->display = qgetenv("QWS_DISPLAY");
 #endif
