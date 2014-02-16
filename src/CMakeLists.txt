@@ -52,18 +52,18 @@ set_target_properties(KF5Su PROPERTIES
   EXPORT_NAME Su
 )
 
-ecm_generate_headers(
+ecm_generate_headers(KDESu_CamelCase_HEADERS
+  HEADER_NAMES
   PtyProcess
   SuProcess
   SshProcess
   StubProcess
   Client # technically the class is called KDEsuClient...
 
-  MODULE_NAME KDESu
   PREFIX KDESu
   REQUIRED_HEADERS KDESu_HEADERS
 )
-install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/KDESu DESTINATION ${INCLUDE_INSTALL_DIR} COMPONENT Devel)
+install(FILES ${KDESu_CamelCase_HEADERS} DESTINATION ${INCLUDE_INSTALL_DIR}/KDESu/KDESu COMPONENT Devel)
 
 install(TARGETS KF5Su EXPORT KF5SuTargets ${INSTALL_TARGETS_DEFAULT_ARGS})
 
