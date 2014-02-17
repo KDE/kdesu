@@ -106,6 +106,13 @@ public:
      */
     int waitSlave();
 
+#ifndef KDESU_NO_DEPRECATED
+    /**
+     * @deprecated use waitSlave()
+     */
+    KDESU_DEPRECATED int WaitSlave() { return waitSlave(); }
+#endif
+
     /**
      * Enables/disables local echo on the pseudo tty.
      */
