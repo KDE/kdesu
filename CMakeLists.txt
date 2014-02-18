@@ -37,9 +37,9 @@ add_subdirectory(src)
 # create a Config.cmake and a ConfigVersion.cmake file and install them
 set(CMAKECONFIG_INSTALL_DIR "${CMAKECONFIG_INSTALL_PREFIX}/KF5Su")
 
-include(CMakePackageConfigHelpers)
+include(ECMPackageConfigHelpers)
 
-configure_package_config_file(
+ecm_configure_package_config_file(
   "${CMAKE_CURRENT_SOURCE_DIR}/KF5SuConfig.cmake.in"
   "${CMAKE_CURRENT_BINARY_DIR}/KF5SuConfig.cmake"
   INSTALL_DESTINATION  ${CMAKECONFIG_INSTALL_DIR}
