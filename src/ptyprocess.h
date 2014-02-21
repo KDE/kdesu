@@ -108,7 +108,7 @@ public:
 
 #ifndef KDESU_NO_DEPRECATED
     /**
-     * @deprecated use waitSlave()
+     * @deprecated since 5.0, use waitSlave()
      */
     KDESU_DEPRECATED int WaitSlave() { return waitSlave(); }
 #endif
