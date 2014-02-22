@@ -13,11 +13,9 @@ include(KDEFrameworkCompilerSettings)
 include(KDECMakeSettings)
 
 set(KF5_VERSION "4.96.0")
-if ("${CMAKE_BINARY_DIR}" STREQUAL "${CMAKE_CURRENT_BINARY_DIR}")
-  find_package(KF5CoreAddons ${KF5_VERSION} REQUIRED)
-  find_package(KF5Service ${KF5_VERSION} REQUIRED)
-  find_package(KF5Pty ${KF5_VERSION} REQUIRED)
-endif()
+find_package(KF5CoreAddons ${KF5_VERSION} REQUIRED)
+find_package(KF5Service ${KF5_VERSION} REQUIRED)
+find_package(KF5Pty ${KF5_VERSION} REQUIRED)
 
 #optional features
 find_package(X11)
@@ -60,6 +58,4 @@ install(FILES
   DESTINATION ${INCLUDE_INSTALL_DIR} COMPONENT Devel
 )
 
-if ("${CMAKE_BINARY_DIR}" STREQUAL "${CMAKE_CURRENT_BINARY_DIR}")
-  feature_summary(WHAT ALL   FATAL_ON_MISSING_REQUIRED_PACKAGES)
-endif()
+feature_summary(WHAT ALL   FATAL_ON_MISSING_REQUIRED_PACKAGES)
