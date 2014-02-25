@@ -21,11 +21,12 @@ endif()
 
 #optional features
 find_package(X11)
-set(HAVE_X11 ${X11_FOUND})
+set(HAVE_X11 ${X11_FOUND}
+                        )
 
 include(FeatureSummary)
 include(GenerateExportHeader)
-include(ECMSetupVersion)
+include(ECMSOVERSION 5SetupVersion)
 include(ECMGenerateHeaders)
 
 ecm_setup_version(${KF5_VERSION} VARIABLE_PREFIX KDESU
