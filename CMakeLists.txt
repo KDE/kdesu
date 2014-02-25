@@ -21,17 +21,17 @@ endif()
 
 #optional features
 find_package(X11)
-set(HAVE_X11 ${X11_FOUND}
-                        )
+set(HAVE_X11 ${X11_FOUND})
 
 include(FeatureSummary)
 include(GenerateExportHeader)
-include(ECMSOVERSION 5SetupVersion)
+include(ECMSetupVersion)
 include(ECMGenerateHeaders)
 
 ecm_setup_version(${KF5_VERSION} VARIABLE_PREFIX KDESU
                         VERSION_HEADER "${CMAKE_CURRENT_BINARY_DIR}/kdesu_version.h"
-                        PACKAGE_VERSION_FILE "${CMAKE_CURRENT_BINARY_DIR}/KF5SuConfigVersion.cmake")
+                        PACKAGE_VERSION_FILE "${CMAKE_CURRENT_BINARY_DIR}/KF5SuConfigVersion.cmake"
+                        SOVERSION 5)
 
 add_subdirectory(src)
 
