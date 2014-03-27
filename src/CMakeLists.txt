@@ -1,3 +1,5 @@
+add_subdirectory(kdesud)
+
 include(CheckTypeSize)
 include(CheckIncludeFiles)
 include(CheckFunctionExists)

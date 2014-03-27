@@ -33,7 +33,7 @@
  */
 
 
-#include <config-runtime.h>
+#include <config-kdesu.h>
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -65,8 +65,8 @@
 #include <qstandardpaths.h>
 #include <qcommandlineparser.h>
 
-#include <kdesu/client.h>
-#include <kdesu/defaults.h>
+#include <client.h>
+#include <defaults.h>
 #include <KLocalizedString>
 #include <KAboutData>
 
@@ -93,7 +93,7 @@ using namespace KDESu;
 // Globals
 
 Repository *repo;
-const char *Version = "1.01";
+QString Version(QStringLiteral("1.01"));
 QByteArray sock;
 #ifdef Q_WS_X11
 Display *x11Display;
@@ -102,7 +102,7 @@ int pipeOfDeath[2];
 
 void kdesud_cleanup()
 {
-    unlink(sock);
+    unlink(sock.constData());
 }
 
 
@@ -167,7 +167,7 @@ int create_socket()
     socklen_t addrlen;
     struct stat s;
 
-    QString display = QString::fromAscii(getenv("DISPLAY"));
+    QString display = QString::fromLocal8Bit(qgetenv("DISPLAY"));
     if (display.isEmpty())
     {
         qCWarning(category) << "$DISPLAY is not set\n";
@@ -175,25 +175,25 @@ int create_socket()
     }
 
     // strip the screen number from the display
-    display.replace(QRegExp("\\.[0-9]+$"), "");
+    display.replace(QRegExp(QStringLiteral("\\.[0-9]+$")), QString());
 
-    sock = QFile::encodeName(QStandardPaths::writableLocation(QStandardPaths::RuntimeLocation) + QLatin1Char('/') + QString("kdesud_%1").arg(display));
-    int stat_err=lstat(sock, &s);
+    sock = QFile::encodeName(QStandardPaths::writableLocation(QStandardPaths::RuntimeLocation) + QStringLiteral("/kdesud_%1").arg(display));
+    int stat_err=lstat(sock.constData(), &s);
     if(!stat_err && S_ISLNK(s.st_mode)) {
         qCWarning(category) << "Someone is running a symlink attack on you\n";
-        if(unlink(sock)) {
+        if(unlink(sock.constData())) {
             qCWarning(category) << "Could not delete symlink\n";
             return -1;
         }
     }
 
-    if (!access(sock, R_OK|W_OK))
+    if (!access(sock.constData(), R_OK|W_OK))
     {
         KDEsuClient client;
         if (client.ping() == -1)
         {
             qCWarning(category) << "stale socket exists\n";
-            if (unlink(sock))
+            if (unlink(sock.constData()))
             {
                 qCWarning(category) << "Could not delete stale socket\n";
                 return -1;
@@ -215,7 +215,7 @@ int create_socket()
 
     struct sockaddr_un addr;
     addr.sun_family = AF_UNIX;
-    strncpy(addr.sun_path, sock, sizeof(addr.sun_path)-1);
+    strncpy(addr.sun_path, sock.constData(), sizeof(addr.sun_path)-1);
     addr.sun_path[sizeof(addr.sun_path)-1] = '\000';
     addrlen = SUN_LEN(&addr);
     if (bind(sockfd, (struct sockaddr *)&addr, addrlen) < 0)
@@ -247,7 +247,7 @@ int create_socket()
         qCritical() << "setsockopt(SO_KEEPALIVE): " << ERR << "\n";
         return -1;
     }
-    chmod(sock, 0600);
+    chmod(sock.constData(), 0600);
     return sockfd;
 }
 
@@ -259,12 +259,11 @@ int create_socket()
 int main(int argc, char *argv[])
 {
     QCoreApplication app(argc, argv);
-    KAboutData aboutData("kdesud", 0, i18n("KDE su daemon"),
+    KAboutData aboutData(QStringLiteral("kdesud"), QString(), i18n("KDE su daemon"),
             Version, i18n("Daemon used by kdesu"),
             KAboutData::License_Artistic,
             i18n("Copyright (c) 1999,2000 Geert Jansen"));
-    aboutData.addAuthor(i18n("Geert Jansen"), i18n("Author"),
-            "jansen@kde.org", "http://www.stack.nl/~geertj/");
+    aboutData.addAuthor(i18n("Geert Jansen"), i18n("Author"), QStringLiteral("jansen@kde.org"), QStringLiteral("http://www.stack.nl/~geertj/"));
 
     KAboutData::setApplicationData(aboutData);
     QCommandLineParser parser;

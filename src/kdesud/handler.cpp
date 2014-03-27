@@ -17,8 +17,8 @@
 #include <sys/types.h>
 #include <sys/socket.h>
 
-#include <kdesu/su.h>
-#include <kdesu/ssh.h>
+#include <su.h>
+#include <ssh.h>
 #include <qloggingcategory.h>
 
 #include "repo.h"
@@ -244,7 +244,7 @@ int ConnectionHandler::doCommand(QByteArray buf)
                    goto parse_error;
                QByteArray env_str = l->lval();
                env.append(env_str);
-               if (strncmp(env_str, "DESKTOP_STARTUP_ID=", strlen("DESKTOP_STARTUP_ID=")) != 0)
+               if (strncmp(env_str.constData(), "DESKTOP_STARTUP_ID=", strlen("DESKTOP_STARTUP_ID=")) != 0)
                    env_check += '*'+env_str;
                tok = l->lex();
             }

@@ -8,7 +8,6 @@
 
 #include "secure.h"
 
-#include <config-runtime.h>
 #include <config-kdesud.h>
 
 #include <stdio.h>

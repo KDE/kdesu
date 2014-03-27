@@ -25,6 +25,7 @@ include(FeatureSummary)
 include(GenerateExportHeader)
 include(ECMSetupVersion)
 include(ECMGenerateHeaders)
+include(ECMMarkNonGuiExecutable)
 
 ecm_setup_version(${KF5_VERSION} VARIABLE_PREFIX KDESU
                         VERSION_HEADER "${CMAKE_CURRENT_BINARY_DIR}/kdesu_version.h"
