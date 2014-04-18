@@ -1,3 +1,4 @@
+include(CheckFunctionExists)
 check_function_exists(getpeereid HAVE_GETPEEREID) # openbsd style
 check_function_exists(getpeereucred HAVE_GETPEERUCRED) # solaris style
 
