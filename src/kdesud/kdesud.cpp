@@ -268,6 +268,8 @@ int main(int argc, char *argv[])
     KAboutData::setApplicationData(aboutData);
     QCommandLineParser parser;
     aboutData.setupCommandLine(&parser);
+    parser.addHelpOption();
+    parser.addVersionOption();
     parser.process(app);
     aboutData.processCommandLine(&parser);
 
