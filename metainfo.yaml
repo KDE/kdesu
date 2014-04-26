@@ -1,1 +1,9 @@
+maintainer:
+description: Integration with su for elevated privileges
 tier: 3
+type: integration
+platforms:
+    - name: Linux
+portingAid: false
+deprecated: false
+release: true
