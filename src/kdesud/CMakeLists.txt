@@ -24,9 +24,9 @@ endif()
 
 ########### install files ###############
 
-install(TARGETS kdesud DESTINATION ${LIBEXEC_INSTALL_DIR})
+install(TARGETS kdesud DESTINATION ${KF5_LIBEXEC_INSTALL_DIR})
 install(CODE "
-    set(KDESUD_PATH \"\$ENV{DESTDIR}${LIBEXEC_INSTALL_DIR}/kdesud\")
+    set(KDESUD_PATH \"\$ENV{DESTDIR}${KF5_LIBEXEC_INSTALL_DIR}/kdesud\")
     execute_process(COMMAND sh -c \"chgrp nogroup '\${KDESUD_PATH}' && chmod g+s '\${KDESUD_PATH}'\")
 ")
 

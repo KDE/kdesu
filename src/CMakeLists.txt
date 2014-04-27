@@ -76,7 +76,7 @@ include(ECMMarkNonGuiExecutable)
 add_executable(kdesu_stub kdesu_stub.c)
 ecm_mark_nongui_executable(kdesu_stub)
 
-install(TARGETS kdesu_stub DESTINATION ${LIBEXEC_INSTALL_DIR})
+install(TARGETS kdesu_stub DESTINATION ${KF5_LIBEXEC_INSTALL_DIR})
 
 ########### install files ###############
 install(FILES
