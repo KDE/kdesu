@@ -33,6 +33,9 @@ ecm_setup_version(${KF5_VERSION} VARIABLE_PREFIX KDESU
                         PACKAGE_VERSION_FILE "${CMAKE_CURRENT_BINARY_DIR}/KF5SuConfigVersion.cmake"
                         SOVERSION 5)
 
+if (IS_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/po")
+    ki18n_install(po)
+endif()
 add_subdirectory(src)
 
 # create a Config.cmake and a ConfigVersion.cmake file and install them
