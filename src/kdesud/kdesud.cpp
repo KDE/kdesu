@@ -261,10 +261,9 @@ int main(int argc, char *argv[])
     QCoreApplication app(argc, argv);
     KAboutData aboutData(
             QStringLiteral("kdesud") /* componentName */,
-            QStringLiteral("kdesud5") /* catalogName */,
             i18n("KDE su daemon"),
             Version, i18n("Daemon used by kdesu"),
-            KAboutData::License_Artistic,
+            KAboutLicense::Artistic,
             i18n("Copyright (c) 1999,2000 Geert Jansen"));
     aboutData.addAuthor(i18n("Geert Jansen"), i18n("Author"), QStringLiteral("jansen@kde.org"), QStringLiteral("http://www.stack.nl/~geertj/"));
 
