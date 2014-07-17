@@ -124,7 +124,7 @@ int SuProcess::exec(const char *password, int check)
     if (d->superUserCommand == QLatin1String("su")) {
         args += "-c";
     }
-    args += QByteArray(KF5_LIBEXEC_INSTALL_DIR) + "/kdesu_stub";
+    args += QByteArray(CMAKE_INSTALL_FULL_LIBEXECDIR_KF5) + "/kdesu_stub";
     args += "-"; // krazy:exclude=doublequote_chars (QList, not QString)
 
     QByteArray command;

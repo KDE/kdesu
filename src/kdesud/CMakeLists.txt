@@ -25,13 +25,8 @@ endif()
 ########### install files ###############
 
 install(TARGETS kdesud DESTINATION ${KF5_LIBEXEC_INSTALL_DIR})
-if(IS_ABSOLUTE KF5_LIBEXEC_INSTALL_DIR)
-    set(ABS_KF5_LIBEXEC_INSTALL_DIR "${KF5_LIBEXEC_INSTALL_DIR}")
-else()
-    set(ABS_KF5_LIBEXEC_INSTALL_DIR "\${CMAKE_INSTALL_PREFIX}/${KF5_LIBEXEC_INSTALL_DIR}")
-endif()
 install(CODE "
-    set(KDESUD_PATH \"\$ENV{DESTDIR}${ABS_KF5_LIBEXEC_INSTALL_DIR}/kdesud\")
+    set(KDESUD_PATH \"\$ENV{DESTDIR}${CMAKE_INSTALL_FULL_LIBEXECDIR_KF5}/kdesud\")
     execute_process(COMMAND sh -c \"chgrp nogroup '\${KDESUD_PATH}' && chmod g+s '\${KDESUD_PATH}'\")
 ")
 
