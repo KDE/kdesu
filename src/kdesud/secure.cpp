@@ -66,7 +66,7 @@ SocketSecurity::SocketSecurity(int sockfd) : pid(-1), gid(-1), uid(-1)
     ucred cred;
     ksocklen_t len = sizeof(struct ucred);
     if (getsockopt(sockfd, SOL_SOCKET, SO_PEERCRED, &cred, &len) < 0) {
-	qCritical() << "getsockopt(SO_PEERCRED) " << perror << endl;
+        qCritical() << "getsockopt(SO_PEERCRED) " << perror << endl;
 	return;
     }
     pid = cred.pid;
