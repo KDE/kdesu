@@ -73,7 +73,7 @@
 #include "repo.h"
 #include "handler.h"
 
-#if defined(HAVE_X11) && !defined(Q_OS_MAC)
+#if HAVE_X11
 #include <X11/X.h>
 #include <X11/Xlib.h>
 #endif
@@ -94,7 +94,7 @@ using namespace KDESu;
 Repository *repo;
 QString Version(QStringLiteral("1.01"));
 QByteArray sock;
-#if defined(HAVE_X11) && !defined(Q_OS_MAC)
+#if HAVE_X11
 Display *x11Display;
 #endif
 int pipeOfDeath[2];
@@ -107,7 +107,7 @@ void kdesud_cleanup()
 
 // Borrowed from kdebase/kaudio/kaudioserver.cpp
 
-#if defined(HAVE_X11) && !defined(Q_OS_MAC)
+#if HAVE_X11
 extern "C" int xio_errhandler(Display *);
 
 int xio_errhandler(Display *)
@@ -307,7 +307,7 @@ int main(int argc, char *argv[])
     if (pid)
         _exit(0);
 
-#if defined(HAVE_X11) && !defined(Q_OS_MAC)
+#if HAVE_X11
     // Make sure we exit when the display gets closed.
     int x11Fd = initXconnection();
     maxfd = qMax(maxfd, x11Fd);
@@ -344,7 +344,7 @@ int main(int argc, char *argv[])
     FD_ZERO(&active_fds);
     FD_SET(sockfd, &active_fds);
     FD_SET(pipeOfDeath[0], &active_fds);
-#if defined(HAVE_X11) && !defined(Q_OS_MAC)
+#if HAVE_X11
     if (x11Fd != -1)
         FD_SET(x11Fd, &active_fds);
 #endif
@@ -352,7 +352,7 @@ int main(int argc, char *argv[])
     while (1)
     {
         tmp_fds = active_fds;
-#if defined(HAVE_X11) && !defined(Q_OS_MAC)
+#if HAVE_X11
         if(x11Display)
             XFlush(x11Display);
 #endif
@@ -396,7 +396,7 @@ int main(int argc, char *argv[])
                 while(result > 0);
             }
 
-#if defined(HAVE_X11) && !defined(Q_OS_MAC)
+#if HAVE_X11
             if (i == x11Fd)
             {
                 // Discard X events
