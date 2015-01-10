@@ -33,7 +33,7 @@ add_library(KF5::Su ALIAS KF5Su)
 target_include_directories(KF5Su PRIVATE ${CMAKE_CURRENT_BINARY_DIR}/..)
 
 # Apps must include <KDESu/File> or <kdesu/file.h>
-target_include_directories(KF5Su INTERFACE "$<INSTALL_INTERFACE:${KF5_INCLUDE_INSTALL_DIR}/KDESu>")
+target_include_directories(KF5Su INTERFACE "$<INSTALL_INTERFACE:${KDE_INSTALL_INCLUDEDIR_KF5}/KDESu>")
 
 target_link_libraries(KF5Su
   PUBLIC
@@ -65,7 +65,7 @@ ecm_generate_headers(KDESu_CamelCase_HEADERS
   PREFIX KDESu
   REQUIRED_HEADERS KDESu_HEADERS
 )
-install(FILES ${KDESu_CamelCase_HEADERS} DESTINATION ${KF5_INCLUDE_INSTALL_DIR}/KDESu/KDESu COMPONENT Devel)
+install(FILES ${KDESu_CamelCase_HEADERS} DESTINATION ${KDE_INSTALL_INCLUDEDIR_KF5}/KDESu/KDESu COMPONENT Devel)
 
 install(TARGETS KF5Su EXPORT KF5SuTargets ${KF5_INSTALL_TARGETS_DEFAULT_ARGS})
 
@@ -76,7 +76,7 @@ include(ECMMarkNonGuiExecutable)
 add_executable(kdesu_stub kdesu_stub.c)
 ecm_mark_nongui_executable(kdesu_stub)
 
-install(TARGETS kdesu_stub DESTINATION ${KF5_LIBEXEC_INSTALL_DIR})
+install(TARGETS kdesu_stub DESTINATION ${KDE_INSTALL_LIBEXECDIR_KF5})
 
 ########### install files ###############
 install(FILES
@@ -87,9 +87,9 @@ install(FILES
   defaults.h
   ${CMAKE_CURRENT_BINARY_DIR}/kdesu/kdesu_export.h
   ${KDESu_HEADERS}
-  DESTINATION  ${KF5_INCLUDE_INSTALL_DIR}/KDESu/kdesu COMPONENT Devel
+  DESTINATION  ${KDE_INSTALL_INCLUDEDIR_KF5}/KDESu/kdesu COMPONENT Devel
 )
 
 include(ECMGeneratePriFile)
-ecm_generate_pri_file(BASE_NAME KDESu LIB_NAME KF5Su DEPS "KPty" FILENAME_VAR PRI_FILENAME INCLUDE_INSTALL_DIR ${KF5_INCLUDE_INSTALL_DIR}/KDESu)
+ecm_generate_pri_file(BASE_NAME KDESu LIB_NAME KF5Su DEPS "KPty" FILENAME_VAR PRI_FILENAME INCLUDE_INSTALL_DIR ${KDE_INSTALL_INCLUDEDIR_KF5}/KDESu)
 install(FILES ${PRI_FILENAME} DESTINATION ${ECM_MKSPECS_INSTALL_DIR})
