@@ -74,7 +74,7 @@ public:
     void setScheduler(int sched);
 
 protected:
-    virtual void virtual_hook(int id, void *data);
+    void virtual_hook(int id, void *data) Q_DECL_OVERRIDE;
 
     /**
      * Exchange all parameters with kdesu_stub.

@@ -69,9 +69,9 @@ public:
     QByteArray error() const;
 
 protected:
-    virtual void virtual_hook(int id, void *data);
-    virtual QByteArray display();
-    virtual QByteArray displayAuth();
+    void virtual_hook(int id, void *data) Q_DECL_OVERRIDE;
+    QByteArray display() Q_DECL_OVERRIDE;
+    QByteArray displayAuth() Q_DECL_OVERRIDE;
 
 private:
     int converseSsh(const char *password, int check);
