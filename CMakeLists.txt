@@ -15,6 +15,7 @@ include(KDECMakeSettings)
 set(KF5_VERSION "5.8.0") # handled by release scripts
 set(KF5_DEP_VERSION "5.8.0") # handled by release scripts
 find_package(KF5CoreAddons ${KF5_DEP_VERSION} REQUIRED)
+find_package(KF5I18n ${KF5_DEP_VERSION} REQUIRED)
 find_package(KF5Service ${KF5_DEP_VERSION} REQUIRED)
 find_package(KF5Pty ${KF5_DEP_VERSION} REQUIRED)
 
