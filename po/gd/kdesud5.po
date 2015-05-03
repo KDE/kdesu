@@ -1,0 +1,48 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR This_file_is_part_of_KDE
+# This file is distributed under the same license as the PACKAGE package.
+# GunChleoc <fios@foramnagaidhlig.net>, 2014.
+msgid ""
+msgstr ""
+"Project-Id-Version: kdesud5\n"
+"Report-Msgid-Bugs-To: http://bugs.kde.org\n"
+"POT-Creation-Date: 2014-11-13 07:46+0000\n"
+"PO-Revision-Date: 2014-12-09 12:21+0100\n"
+"Last-Translator: GunChleoc <fios@foramnagaidhlig.net>\n"
+"Language-Team: Fòram na Gàidhlig\n"
+"Language: gd\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=4; plural=(n==1 || n==11) ? 0 : (n==2 || n==12) ? 1 : "
+"(n > 2 && n < 20) ? 2 : 3;\n"
+"X-Generator: Virtaal 0.7.1\n"
+"X-Project-Style: kde\n"
+
+msgctxt "NAME OF TRANSLATORS"
+msgid "Your names"
+msgstr "GunChleoc"
+
+msgctxt "EMAIL OF TRANSLATORS"
+msgid "Your emails"
+msgstr "fios@foramnagaidhlig.net"
+
+#: kdesud.cpp:263
+msgid "KDE su daemon"
+msgstr "Daemon su airson KDE"
+
+#: kdesud.cpp:264
+msgid "Daemon used by kdesu"
+msgstr "An daemon a chleachdas kdesu"
+
+#: kdesud.cpp:266
+msgid "Copyright (c) 1999,2000 Geert Jansen"
+msgstr "Còir-lethbhreac (c) 1999,2000 Geert Jansen"
+
+#: kdesud.cpp:267
+msgid "Geert Jansen"
+msgstr "Geert Jansen"
+
+#: kdesud.cpp:267
+msgid "Author"
+msgstr "Ùghdar"
