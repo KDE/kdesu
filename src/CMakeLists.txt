@@ -30,6 +30,13 @@ add_library(KF5Su ${kdesu_LIB_SRCS})
 generate_export_header(KF5Su BASE_NAME KDESu EXPORT_FILE_NAME kdesu/kdesu_export.h)
 add_library(KF5::Su ALIAS KF5Su)
 
+option(KDESU_USE_SUDO_DEFAULT "Set On to use sudo instead of su [default=Off]" Off)
+if(KDESU_USE_SUDO_DEFAULT)
+  message("Using sudo as default")
+  target_compile_definitions(KF5Su PRIVATE -DKDESU_USE_SUDO_DEFAULT="true")
+else()
+  message("Using su as default (set KDESU_USE_SUDO_DEFAULT=On to use sudo)")
+endif()
 target_include_directories(KF5Su PRIVATE ${CMAKE_CURRENT_BINARY_DIR}/..)
 
 # Apps must include <KDESu/File> or <kdesu/file.h>
