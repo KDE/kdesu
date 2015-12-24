@@ -212,6 +212,14 @@ int create_socket()
         return -1;
     }
 
+    // Ensure socket closed on error
+    struct fd_ScopeGuard {
+        fd_ScopeGuard(int fd) : _fd(fd) { }
+        ~fd_ScopeGuard() { if(_fd >= 0) { close(_fd); } }
+        void reset() { _fd = -1; }
+        int _fd;
+    } guard(sockfd);
+
     struct sockaddr_un addr;
     addr.sun_family = AF_UNIX;
     strncpy(addr.sun_path, sock.constData(), sizeof(addr.sun_path)-1);
@@ -247,6 +255,7 @@ int create_socket()
         return -1;
     }
     chmod(sock.constData(), 0600);
+    guard.reset();
     return sockfd;
 }
 
