@@ -1,0 +1,47 @@
+# translation of kdesud.po to
+# KDE Finnish translation sprint participants:
+# Mikko Piippo <piippo@cc.helsinki.fi>, 2007.
+# Lasse Liehu <lasse.liehu@gmail.com>, 2014.
+msgid ""
+msgstr ""
+"Project-Id-Version: kdesud\n"
+"Report-Msgid-Bugs-To: http://bugs.kde.org\n"
+"POT-Creation-Date: 2015-12-25 07:06+0000\n"
+"PO-Revision-Date: 2014-11-08 04:14+0200\n"
+"Last-Translator: Lasse Liehu <lasse.liehu@gmail.com>\n"
+"Language-Team: Finnish <lokalisointi@lists.coss.fi>\n"
+"Language: fi\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-POT-Import-Date: 2012-12-01 22:22:12+0000\n"
+"X-Generator: Lokalize 1.5\n"
+
+msgctxt "NAME OF TRANSLATORS"
+msgid "Your names"
+msgstr "Kim Enkovaara"
+
+msgctxt "EMAIL OF TRANSLATORS"
+msgid "Your emails"
+msgstr "kim.enkovaara@iki.fi"
+
+#: kdesud.cpp:272
+msgid "KDE su daemon"
+msgstr "KDE su-palvelin"
+
+#: kdesud.cpp:273
+msgid "Daemon used by kdesu"
+msgstr "Palvelin jota kdesu käyttää"
+
+#: kdesud.cpp:275
+msgid "Copyright (c) 1999,2000 Geert Jansen"
+msgstr "Copyright © 1999, 2000 Geert Jansen"
+
+#: kdesud.cpp:276
+msgid "Geert Jansen"
+msgstr "Geert Jansen"
+
+#: kdesud.cpp:276
+msgid "Author"
+msgstr "Tekijä"
