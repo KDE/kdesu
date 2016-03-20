@@ -80,6 +80,8 @@ install(TARGETS KF5Su EXPORT KF5SuTargets ${KF5_INSTALL_TARGETS_DEFAULT_ARGS})
 
 include(ECMMarkNonGuiExecutable)
 
+set_source_files_properties(kdesu_stub.c PROPERTIES
+                            COMPILE_DEFINITIONS "_XOPEN_SOURCE;_BSD_SOURCE")
 add_executable(kdesu_stub kdesu_stub.c)
 ecm_mark_nongui_executable(kdesu_stub)
 
