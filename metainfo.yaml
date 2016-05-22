@@ -11,3 +11,7 @@ libraries:
  - qmake: KDESu
    cmake: "KF5::Su"
 cmakename: KF5Su
+
+public_lib: true
+group: Frameworks
+subgroup: Tier 3
