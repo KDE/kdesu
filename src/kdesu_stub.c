@@ -258,6 +258,8 @@ int main()
         unsetenv("LC_ALL");
     }
 
+    unsetenv("XDG_RUNTIME_DIR");
+
     /* Do we need to change uid? */
 
     pw = getpwnam(params[P_USER].value);
