@@ -39,7 +39,7 @@ public:
         NeedPassword = 2
     };
 
-    explicit SuProcess(const QByteArray &user = 0, const QByteArray &command = 0);
+    explicit SuProcess(const QByteArray &user = nullptr, const QByteArray &command = nullptr);
     ~SuProcess();
 
     int exec(const char *password, int check = NoCheck);

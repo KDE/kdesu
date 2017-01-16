@@ -92,7 +92,7 @@ int SuProcess::checkInstall(const char *password)
 
 int SuProcess::checkNeedPassword()
 {
-    return exec(0L, NeedPassword);
+    return exec(nullptr, NeedPassword);
 }
 
 /*
@@ -251,7 +251,7 @@ int SuProcess::converseSU(const char *password)
                 }
             }
             if (colon == 1 && line[j] == ':') {
-                if (password == 0L) {
+                if (password == nullptr) {
                     return killme;
                 }
                 if (waitSlave()) {

@@ -26,7 +26,7 @@ namespace KDESu
 using namespace KDESuPrivate;
 
 StubProcess::StubProcess()
-    : d(0)
+    : d(nullptr)
 {
     m_user = "root";
     m_scheduler = SchedNormal;

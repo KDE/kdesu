@@ -58,7 +58,7 @@ public:
      */
     int exec(const QByteArray &command,
              const QByteArray &user,
-             const QByteArray &options = 0,
+             const QByteArray &options = nullptr,
              const QList<QByteArray> &env = QList<QByteArray>());
 
     /**
@@ -108,7 +108,7 @@ public:
      * @param group Make the key part of a group. See delGroup.
      * @return zero on success, -1 on failure.
      */
-    int setVar(const QByteArray &key, const QByteArray &value, int timeout = 0, const QByteArray &group = 0);
+    int setVar(const QByteArray &key, const QByteArray &value, int timeout = 0, const QByteArray &group = nullptr);
 
     /**
      * Get a persistent variable.
@@ -189,7 +189,7 @@ public:
 private:
     int connect();
 
-    int command(const QByteArray &cmd, QByteArray *result = 0L);
+    int command(const QByteArray &cmd, QByteArray *result = nullptr);
     QByteArray escape(const QByteArray &str);
 
     class KDEsuClientPrivate;

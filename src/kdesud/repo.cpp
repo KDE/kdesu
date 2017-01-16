@@ -33,7 +33,7 @@ void Repository::add(const QByteArray &key, Data_entry &data)
     if (data.timeout == 0)
         data.timeout = (unsigned) -1;
     else
-        data.timeout += time(0L);
+        data.timeout += time(nullptr);
     head_time = qMin(head_time, data.timeout);
     repo.insert(key, data);
 }
@@ -152,18 +152,18 @@ QByteArray Repository::findKeys(const QByteArray &group, const char *sep ) const
 QByteArray Repository::find(const QByteArray &key) const
 {
     if( key.isEmpty() )
-        return 0;
+        return nullptr;
 
     RepoCIterator it = repo.find(key);
     if (it == repo.end())
-        return 0;
+        return nullptr;
     return it.value().value;
 }
 
 
 int Repository::expire()
 {
-    unsigned current = time(0L);
+    unsigned current = time(nullptr);
     if (current < head_time)
 	return 0;
 

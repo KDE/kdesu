@@ -120,8 +120,8 @@ int xio_errhandler(Display *)
 
 int initXconnection()
 {
-    x11Display = XOpenDisplay(NULL);
-    if (x11Display != 0L)
+    x11Display = XOpenDisplay(nullptr);
+    if (x11Display != nullptr)
     {
         XSetIOErrorHandler(xio_errhandler);
         XCreateSimpleWindow(x11Display, DefaultRootWindow(x11Display),
@@ -333,16 +333,16 @@ int main(int argc, char *argv[])
     sa.sa_handler = signal_exit;
     sigemptyset(&sa.sa_mask);
     sa.sa_flags = 0;
-    sigaction(SIGHUP, &sa, 0L);
-    sigaction(SIGINT, &sa, 0L);
-    sigaction(SIGTERM, &sa, 0L);
-    sigaction(SIGQUIT, &sa, 0L);
+    sigaction(SIGHUP, &sa, nullptr);
+    sigaction(SIGINT, &sa, nullptr);
+    sigaction(SIGTERM, &sa, nullptr);
+    sigaction(SIGQUIT, &sa, nullptr);
 
     sa.sa_handler = sigchld_handler;
     sa.sa_flags = SA_NOCLDSTOP;
-    sigaction(SIGCHLD, &sa, 0L);
+    sigaction(SIGCHLD, &sa, nullptr);
     sa.sa_handler = SIG_IGN;
-    sigaction(SIGPIPE, &sa, 0L);
+    sigaction(SIGPIPE, &sa, nullptr);
 
     // Main execution loop
 
@@ -365,7 +365,7 @@ int main(int argc, char *argv[])
         if(x11Display)
             XFlush(x11Display);
 #endif
-        if (select(maxfd+1, &tmp_fds, 0L, 0L, 0L) < 0)
+        if (select(maxfd+1, &tmp_fds, nullptr, nullptr, nullptr) < 0)
         {
             if (errno == EINTR) continue;
 
@@ -429,7 +429,7 @@ int main(int argc, char *argv[])
                     continue;
                 }
 		while (fd+1 > (int) handler.size())
-		    handler.append(0);
+		    handler.append(nullptr);
 		delete handler[fd];
 		handler[fd] = new ConnectionHandler(fd);
                 maxfd = qMax(maxfd, fd);
@@ -442,7 +442,7 @@ int main(int argc, char *argv[])
             if (handler[i] && handler[i]->handle() < 0)
             {
 		delete handler[i];
-		handler[i] = 0;
+		handler[i] = nullptr;
                 FD_CLR(i, &active_fds);
             }
         }

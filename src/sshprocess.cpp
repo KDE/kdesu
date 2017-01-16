@@ -43,7 +43,7 @@ SshProcess::SshProcess(const QByteArray &host, const QByteArray &user, const QBy
 {
     m_user = user;
     m_command = command;
-    srand(time(0L));
+    srand(time(nullptr));
 }
 
 SshProcess::~SshProcess()
@@ -68,7 +68,7 @@ int SshProcess::checkInstall(const char *password)
 
 int SshProcess::checkNeedPassword()
 {
-    return exec(0L, 2);
+    return exec(nullptr, 2);
 }
 
 int SshProcess::exec(const char *password, int check)

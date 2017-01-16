@@ -64,7 +64,7 @@ int PtyProcess::waitMS(int fd, int ms)
     fd_set fds;
     FD_ZERO(&fds);
     FD_SET(fd, &fds);
-    return select(fd + 1, &fds, 0L, 0L, &tv);
+    return select(fd + 1, &fds, nullptr, nullptr, &tv);
 }
 
 // XXX this function is nonsense:
@@ -117,7 +117,7 @@ int PtyProcess::checkPidExited(pid_t pid)
 class PtyProcess::PtyProcessPrivate
 {
 public:
-    PtyProcessPrivate() : pty(0L) {}
+    PtyProcessPrivate() : pty(nullptr) {}
     ~PtyProcessPrivate()
     {
         delete pty;
@@ -338,7 +338,7 @@ int PtyProcess::exec(const QByteArray &command, const QList<QByteArray> &args)
         argp[i] = (*it).constData();
     }
 
-    argp[i] = NULL;
+    argp[i] = nullptr;
 
     execv(path.constData(), const_cast<char **>(argp));
     qCritical() << "[" << __FILE__ << ":" << __LINE__ << "] " << "execv(" << path << "):" << strerror(errno);
@@ -415,7 +415,7 @@ int PtyProcess::waitForChild()
         timeval timeout;
         timeout.tv_sec = 0;
         timeout.tv_usec = 100000;
-        int ret = select(fd() + 1, &fds, 0L, 0L, &timeout);
+        int ret = select(fd() + 1, &fds, nullptr, nullptr, &timeout);
         if (ret == -1) {
             if (errno != EINTR) {
                 qCritical() << "[" << __FILE__ << ":" << __LINE__ << "] " << "select():" << strerror(errno);
