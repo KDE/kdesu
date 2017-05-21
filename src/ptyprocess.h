@@ -24,7 +24,7 @@
 namespace KDESu
 {
 
-/** \class PtyProcess kdesu/ptyprocess.h
+/** \class PtyProcess ptyprocess.h KDESu/PtyProcess
  * Synchronous communication with tty programs.
  *
  * PtyProcess provides synchronous communication with tty based programs.

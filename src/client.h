@@ -22,7 +22,7 @@
 namespace KDESu
 {
 
-/** \class KDEsuClient client.h kdesu/client.h
+/** \class KDEsuClient client.h KDESu/Client
  * A client class to access kdesud, the KDE su daemon. Kdesud can assist in
  * password caching in two ways:
  *

@@ -17,7 +17,7 @@
 namespace KDESu
 {
 
-/** \class SshProcess kdesu/sshprocess.h
+/** \class SshProcess sshprocess.h KDESu/SshProcess
  * Executes a remote command, using ssh.
  */
 

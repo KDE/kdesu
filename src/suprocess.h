@@ -17,7 +17,7 @@
 namespace KDESu
 {
 
-/** \class SuProcess kdesu/suprocess.h
+/** \class SuProcess suprocess.h KDESu/SuProcess
  * Executes a command under elevated privileges, using su.
  */
 
