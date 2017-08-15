@@ -30,7 +30,7 @@ extern int kdesuDebugArea();
 namespace KDESu
 {
 
-class KDEsuClient::KDEsuClientPrivate
+class Q_DECL_HIDDEN KDEsuClient::KDEsuClientPrivate
 {
 public:
     KDEsuClientPrivate() : sockfd(-1) {}

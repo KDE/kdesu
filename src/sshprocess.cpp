@@ -25,7 +25,7 @@ namespace KDESu
 
 using namespace KDESuPrivate;
 
-class SshProcess::SshProcessPrivate
+class Q_DECL_HIDDEN SshProcess::SshProcessPrivate
 {
 public:
     SshProcessPrivate(const QByteArray &host)

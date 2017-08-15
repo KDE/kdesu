@@ -43,7 +43,7 @@ namespace KDESu
 {
 using namespace KDESuPrivate;
 
-class SuProcess::SuProcessPrivate
+class Q_DECL_HIDDEN SuProcess::SuProcessPrivate
 {
 public:
     QString superUserCommand;

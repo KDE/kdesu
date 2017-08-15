@@ -114,7 +114,7 @@ int PtyProcess::checkPidExited(pid_t pid)
     return NotExited;
 }
 
-class PtyProcess::PtyProcessPrivate
+class Q_DECL_HIDDEN PtyProcess::PtyProcessPrivate
 {
 public:
     PtyProcessPrivate() : pty(nullptr) {}
