@@ -25,14 +25,6 @@
 #include <ksharedconfig.h>
 #include <kuser.h>
 
-#ifndef __PATH_SU
-#define __PATH_SU "false"
-#endif
-
-#ifndef __PATH_SUDO
-#define __PATH_SUDO "false"
-#endif
-
 #ifdef KDESU_USE_SUDO_DEFAULT
 #  define DEFAULT_SUPER_USER_COMMAND QStringLiteral("sudo")
 #else
@@ -127,18 +119,9 @@ int SuProcess::exec(const char *password, int check)
     args += QByteArray(CMAKE_INSTALL_FULL_LIBEXECDIR_KF5) + "/kdesu_stub";
     args += "-"; // krazy:exclude=doublequote_chars (QList, not QString)
 
-    QByteArray command;
-    if (d->superUserCommand == QLatin1String("sudo")) {
-        command = __PATH_SUDO;
-    } else {
-        command = __PATH_SU;
-    }
-
-    if (QT_ACCESS(command.constData(), X_OK) != 0) {
-        command = QFile::encodeName(QStandardPaths::findExecutable(d->superUserCommand));
-        if (command.isEmpty()) {
-            return check ? SuNotFound : -1;
-        }
+    const QByteArray command = QFile::encodeName(QStandardPaths::findExecutable(d->superUserCommand));
+    if (command.isEmpty()) {
+        return check ? SuNotFound : -1;
     }
 
     if (StubProcess::exec(command, args) < 0) {
