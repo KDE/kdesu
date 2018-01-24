@@ -51,7 +51,7 @@ target_link_libraries(KF5Su
 )
 
 if(KDESU_USE_SUDO_DEFAULT)
-   set_source_files_properties(su.cpp PROPERTIES 
+   set_source_files_properties(suprocess.cpp PROPERTIES 
                                COMPILE_FLAGS -DKDESU_USE_SUDO_DEFAULT)
 endif()
 
