@@ -15,7 +15,7 @@
 #include "suprocess.h"
 #include "kcookie_p.h"
 
-#include <QtCore/QFile>
+#include <QFile>
 #include <QDebug>
 #include <QStandardPaths>
 #include <qplatformdefs.h>

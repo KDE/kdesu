@@ -11,9 +11,9 @@
 
 #include "kcookie_p.h"
 
-#include <QtCore/QString>
-#include <QtCore/QStringList>
-#include <QtCore/Q_PID>
+#include <QString>
+#include <QStringList>
+#include <Q_PID>
 #include <QDebug>
 
 extern int kdesuDebugArea();

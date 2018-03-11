@@ -12,10 +12,10 @@
 
 #include <sys/types.h>
 
-#include <QtCore/QByteRef>
-#include <QtCore/QString>
-#include <QtCore/QStringList>
-#include <QtCore/QList>
+#include <QByteRef>
+#include <QString>
+#include <QStringList>
+#include <QList>
 
 #include <kdesu/kdesu_export.h>
 

@@ -17,8 +17,8 @@
 #include <sys/socket.h>
 #include <sys/un.h>
 
-#include <QtCore/QFile>
-#include <QtCore/QRegExp>
+#include <QFile>
+#include <QRegExp>
 #include <QStandardPaths>
 #include <qplatformdefs.h>
 #include <QDebug>

@@ -10,7 +10,7 @@
 #ifndef KDESUKCOOKIE_H
 #define KDESUKCOOKIE_H
 
-#include <QtCore/QByteRef>
+#include <QByteRef>
 
 #include <config-kdesu.h>
 

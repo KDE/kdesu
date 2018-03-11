@@ -14,8 +14,8 @@
 
 #include <kdesu/kdesu_export.h>
 
-#include <QtCore/QByteRef>
-#include <QtCore/QList>
+#include <QByteRef>
+#include <QList>
 
 namespace KDESu
 {

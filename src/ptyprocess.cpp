@@ -35,7 +35,7 @@
 #include <sys/select.h>                // Needed on some systems.
 #endif
 
-#include <QtCore/QFile>
+#include <QFile>
 #include <QStandardPaths>
 #include <QDebug>
 
