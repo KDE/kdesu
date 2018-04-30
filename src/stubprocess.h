@@ -44,7 +44,7 @@ public:
     };
 
     StubProcess();
-    ~StubProcess();
+    ~StubProcess() Q_DECL_OVERRIDE;
 
     /**
      * Set the command.

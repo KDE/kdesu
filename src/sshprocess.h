@@ -33,7 +33,7 @@ public:
     explicit SshProcess(const QByteArray &host = QByteArray(),
                         const QByteArray &user = QByteArray(),
                         const QByteArray &command = QByteArray());
-    ~SshProcess();
+    ~SshProcess() Q_DECL_OVERRIDE;
 
     /**
      * Sets the target host.
