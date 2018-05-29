@@ -44,7 +44,7 @@ public:
     };
 
     StubProcess();
-    ~StubProcess() Q_DECL_OVERRIDE;
+    ~StubProcess() override;
 
     /**
      * Set the command.
@@ -74,7 +74,7 @@ public:
     void setScheduler(int sched);
 
 protected:
-    void virtual_hook(int id, void *data) Q_DECL_OVERRIDE;
+    void virtual_hook(int id, void *data) override;
 
     /**
      * Exchange all parameters with kdesu_stub.

@@ -33,7 +33,7 @@ public:
     explicit SshProcess(const QByteArray &host = QByteArray(),
                         const QByteArray &user = QByteArray(),
                         const QByteArray &command = QByteArray());
-    ~SshProcess() Q_DECL_OVERRIDE;
+    ~SshProcess() override;
 
     /**
      * Sets the target host.
@@ -69,9 +69,9 @@ public:
     QByteArray error() const;
 
 protected:
-    void virtual_hook(int id, void *data) Q_DECL_OVERRIDE;
-    QByteArray display() Q_DECL_OVERRIDE;
-    QByteArray displayAuth() Q_DECL_OVERRIDE;
+    void virtual_hook(int id, void *data) override;
+    QByteArray display() override;
+    QByteArray displayAuth() override;
 
 private:
     int converseSsh(const char *password, int check);
