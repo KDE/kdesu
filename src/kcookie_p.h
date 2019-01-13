@@ -32,6 +32,9 @@ public:
     KCookie();
     ~KCookie();
 
+    KCookie(const KCookie &) = delete;
+    KCookie &operator=(const KCookie &) = delete;
+
     /**
      * Returns the X11 display.
      */

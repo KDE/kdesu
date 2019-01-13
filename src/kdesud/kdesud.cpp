@@ -216,6 +216,8 @@ int create_socket()
     struct fd_ScopeGuard {
         fd_ScopeGuard(int fd) : _fd(fd) { }
         ~fd_ScopeGuard() { if(_fd >= 0) { close(_fd); } }
+        fd_ScopeGuard(const fd_ScopeGuard &) = delete;
+        fd_ScopeGuard &operator=(const fd_ScopeGuard &) = delete;
         void reset() { _fd = -1; }
         int _fd;
     } guard(sockfd);

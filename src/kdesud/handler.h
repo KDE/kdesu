@@ -26,6 +26,9 @@ public:
     ConnectionHandler(int fd);
     ~ConnectionHandler();
 
+    ConnectionHandler(const ConnectionHandler &) = delete;
+    ConnectionHandler &operator=(const ConnectionHandler &) = delete;
+
     /** Handle incoming data. */
     int handle();
 

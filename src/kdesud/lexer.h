@@ -18,6 +18,9 @@ public:
     Lexer(const QByteArray &input);
     ~Lexer();
 
+    Lexer(const Lexer &) = delete;
+    Lexer &operator=(const Lexer &) = delete;
+
     /** Read next token. */
     int lex();
 
