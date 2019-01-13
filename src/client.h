@@ -46,6 +46,9 @@ public:
     KDEsuClient();
     ~KDEsuClient();
 
+    KDEsuClient(const KDEsuClient &) = delete;
+    KDEsuClient &operator=(const KDEsuClient &) = delete;
+
     /**
      * Lets kdesud execute a command. If the daemon does not have a password
      * for this command, this will fail and you need to call setPass().
