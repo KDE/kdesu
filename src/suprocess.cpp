@@ -116,10 +116,16 @@ int SuProcess::exec(const char *password, int check)
     if (d->superUserCommand == QLatin1String("su")) {
         args += "-c";
     }
-    args += QByteArray(CMAKE_INSTALL_FULL_LIBEXECDIR_KF5) + "/kdesu_stub";
+    // Get the kdesu_stub and su command from a config file if set, used in test
+    KSharedConfig::Ptr config = KSharedConfig::openConfig();
+    KConfigGroup group(config, "super-user-command");
+    const QString defaultPath = QStringLiteral(CMAKE_INSTALL_FULL_LIBEXECDIR_KF5) + QStringLiteral("/kdesu_stub");
+    const QString kdesuStubPath = group.readEntry("kdesu_stub_path", defaultPath);
+    args += kdesuStubPath.toLocal8Bit();
     args += "-"; // krazy:exclude=doublequote_chars (QList, not QString)
 
-    const QByteArray command = QFile::encodeName(QStandardPaths::findExecutable(d->superUserCommand));
+    const QString commandString = group.readEntry("command", QStandardPaths::findExecutable(d->superUserCommand));
+    const QByteArray command = commandString.toLocal8Bit();
     if (command.isEmpty()) {
         return check ? SuNotFound : -1;
     }
@@ -203,7 +209,8 @@ int SuProcess::converseSU(const char *password)
     QByteArray line;
     while (true) {
         line = readLine();
-        if (line.isNull()) {
+        // return if problem. sudo checks for a second prompt || su gets a blank line
+        if ((line.contains(':') && state != WaitForPrompt) || line.isNull()) {
             return (state == HandleStub ? notauthorized : error);
         }
 

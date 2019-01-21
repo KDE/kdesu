@@ -82,4 +82,8 @@ install(FILES
   DESTINATION ${KDE_INSTALL_INCLUDEDIR_KF5} COMPONENT Devel
 )
 
+if(BUILD_TESTING)
+  add_subdirectory(autotests)
+endif()
+
 feature_summary(WHAT ALL   FATAL_ON_MISSING_REQUIRED_PACKAGES)
