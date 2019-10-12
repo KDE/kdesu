@@ -27,9 +27,16 @@ set(kdesu_LIB_SRCS
 
 
 add_library(KF5Su ${kdesu_LIB_SRCS})
-generate_export_header(KF5Su BASE_NAME KDESu EXPORT_FILE_NAME kdesu/kdesu_export.h)
 add_library(KF5::Su ALIAS KF5Su)
-
+ecm_generate_export_header(KF5Su
+    EXPORT_FILE_NAME kdesu/kdesu_export.h
+    BASE_NAME KDESu
+    # GROUP_BASE_NAME KF <- enable once all of KF modules use ecm_generate_export_header
+    VERSION ${KF5_VERSION}
+    DEPRECATED_BASE_VERSION 0
+    DEPRECATION_VERSIONS 5.0
+    EXCLUDE_DEPRECATED_BEFORE_AND_AT ${EXCLUDE_DEPRECATED_BEFORE_AND_AT}
+)
 option(KDESU_USE_SUDO_DEFAULT "Set On to use sudo instead of su [default=Off]" Off)
 if(KDESU_USE_SUDO_DEFAULT)
   message("Using sudo as default")
