@@ -31,7 +31,7 @@ add_library(KF5::Su ALIAS KF5Su)
 ecm_generate_export_header(KF5Su
     EXPORT_FILE_NAME kdesu/kdesu_export.h
     BASE_NAME KDESu
-    # GROUP_BASE_NAME KF <- enable once all of KF modules use ecm_generate_export_header
+    GROUP_BASE_NAME KF
     VERSION ${KF5_VERSION}
     DEPRECATED_BASE_VERSION 0
     DEPRECATION_VERSIONS 5.0
