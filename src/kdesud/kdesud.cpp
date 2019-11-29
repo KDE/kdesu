@@ -174,7 +174,7 @@ int create_socket()
     }
 
     // strip the screen number from the display
-    display.replace(QRegExp(QStringLiteral("\\.[0-9]+$")), QString());
+    display.remove(QRegExp(QStringLiteral("\\.[0-9]+$")));
 
     sock = QFile::encodeName(QStandardPaths::writableLocation(QStandardPaths::RuntimeLocation) + QStringLiteral("/kdesud_%1").arg(display));
     int stat_err=lstat(sock.constData(), &s);
