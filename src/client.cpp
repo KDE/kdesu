@@ -18,7 +18,7 @@
 #include <sys/un.h>
 
 #include <QFile>
-#include <QRegExp>
+#include <QRegularExpression>
 #include <QStandardPaths>
 #include <qplatformdefs.h>
 #include <QDebug>
@@ -59,7 +59,7 @@ KDEsuClient::KDEsuClient()
     }
 
     // strip the screen number from the display
-    display.remove(QRegExp(QStringLiteral("\\.[0-9]+$")));
+    display.remove(QRegularExpression(QStringLiteral("\\.[0-9]+$")));
 #else
     QString display = QStringLiteral("NODISPLAY");
 #endif

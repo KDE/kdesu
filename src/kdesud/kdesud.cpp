@@ -59,7 +59,7 @@
 
 #include <QVector>
 #include <QFile>
-#include <QRegExp>
+#include <QRegularExpression>
 #include <QByteArray>
 #include <qloggingcategory.h>
 #include <qstandardpaths.h>
@@ -174,7 +174,7 @@ int create_socket()
     }
 
     // strip the screen number from the display
-    display.remove(QRegExp(QStringLiteral("\\.[0-9]+$")));
+    display.remove(QRegularExpression(QStringLiteral("\\.[0-9]+$")));
 
     sock = QFile::encodeName(QStandardPaths::writableLocation(QStandardPaths::RuntimeLocation) + QStringLiteral("/kdesud_%1").arg(display));
     int stat_err=lstat(sock.constData(), &s);
