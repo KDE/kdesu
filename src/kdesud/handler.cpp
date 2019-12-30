@@ -341,7 +341,7 @@ int ConnectionHandler::doCommand(QByteArray buf)
     }
     else {
         qCDebug(category) << "Deleted command: " << command << ", user = "
-                      << user << endl;
+                      << user;
         respond(Res_OK);
     }
     break;
