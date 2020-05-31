@@ -84,6 +84,12 @@
 #include <X11/Xlib.h>
 #endif
 
+#ifdef __FreeBSD__
+#include <sys/procctl.h>
+#else
+#include <sys/prctl.h>
+#endif
+
 #ifndef SUN_LEN
 #define SUN_LEN(ptr) ((socklen_t)(offsetof(struct sockaddr_un, sun_path) + strlen((ptr)->sun_path)))
 #endif
@@ -310,6 +316,19 @@ int create_socket()
     guard.reset();
     return sockfd;
 }
+/* The daemon stores passwords, which we don't want any other process to be able to read. */
+static bool prevent_tracing()
+{
+    int r = -1;
+#ifdef PR_SET_DUMPABLE
+    r = prctl(PR_SET_DUMPABLE, 0, 0, 0, 0);
+#elif defined(PROC_TRACE_CTL)
+    int disable = PROC_TRACE_CTL_DISABLE_EXEC;
+    r = procctl(P_PID, getpid(), PROC_TRACE_CTL, &disable);
+#endif
+
+    return r == 0;
+}
 
 /**
  * Main program
@@ -317,6 +336,11 @@ int create_socket()
 
 int main(int argc, char *argv[])
 {
+    if (!prevent_tracing())
+    {
+        qWarning() << "[" << __FILE__ << ":" << __LINE__ << "] " << "failed to make process memory untraceable" << strerror(errno) << "\n";
+    }
+
     QCoreApplication app(argc, argv);
     KAboutData aboutData(QStringLiteral("kdesud") /* componentName */,
                          i18n("KDE su daemon"),

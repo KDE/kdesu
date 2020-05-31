@@ -394,20 +394,7 @@ static QString findDaemon()
 
 bool KDEsuClient::isServerSGID()
 {
-    if (d->daemon.isEmpty()) {
-        d->daemon = findDaemon();
-    }
-    if (d->daemon.isEmpty()) {
-        return false;
-    }
-
-    QT_STATBUF sbuf;
-    if (QT_STAT(QFile::encodeName(d->daemon).constData(), &sbuf) < 0) {
-        qCWarning(KSU_LOG) << "[" << __FILE__ << ":" << __LINE__ << "] "
-                           << "stat():" << strerror(errno);
-        return false;
-    }
-    return (sbuf.st_mode & S_ISGID);
+    return true;
 }
 
 int KDEsuClient::startServer()

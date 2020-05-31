@@ -26,15 +26,12 @@ namespace KDESu
  *
  * @li For high security passwords, like for su and ssh, it executes the
  * password requesting command for you. It feeds the password to the
- * command, without ever returning it to you, the user. The daemon should
- * be installed setgid nogroup, in order to be able to act as an inaccessible,
- * trusted 3rd party.
+ * command, without ever returning it to you, the user.
  * See exec, setPass, delCommand.
  *
  * @li For lower security passwords, like web and ftp passwords, it can act
  * as a persistent storage for string variables. These variables are
- * returned to the user, and the daemon doesn't need to be setgid nogroup
- * for this.
+ * returned to the user.
  * See setVar, delVar, delGroup.
  */
 
@@ -180,7 +177,10 @@ public:
     int startServer();
 
     /**
-     * Returns true if the server is safe (installed setgid), false otherwise.
+     * Obsolete: returns true.
+     *
+     * The server used to rely on being installed with an sgid bit to prevent core dumps, ptrace and similar.
+     * This has been changed, and the same security guarantees now apply even without the sgid bit.
      */
     bool isServerSGID();
 
