@@ -388,23 +388,6 @@ static QString findDaemon()
     return daemon;
 }
 
-bool KDEsuClient::isServerSGID()
-{
-    if (d->daemon.isEmpty()) {
-        d->daemon = findDaemon();
-    }
-    if (d->daemon.isEmpty()) {
-        return false;
-    }
-
-    QT_STATBUF sbuf;
-    if (QT_STAT(QFile::encodeName(d->daemon).constData(), &sbuf) < 0) {
-        qWarning() << "[" << __FILE__ << ":" << __LINE__ << "] " << "stat():" << strerror(errno);
-        return false;
-    }
-    return (sbuf.st_mode & S_ISGID);
-}
-
 int KDEsuClient::startServer()
 {
     if (d->daemon.isEmpty()) {
@@ -412,10 +395,6 @@ int KDEsuClient::startServer()
     }
     if (d->daemon.isEmpty()) {
         return -1;
-    }
-
-    if (!isServerSGID()) {
-        qWarning() << "[" << __FILE__ << ":" << __LINE__ << "] " << "kdesud not setgid!";
     }
 
     // kdesud only forks to the background after it is accepting
