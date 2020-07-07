@@ -19,7 +19,7 @@
 
 #include <su.h>
 #include <ssh.h>
-#include <qloggingcategory.h>
+#include <QLoggingCategory>
 
 #include "repo.h"
 #include "lexer.h"

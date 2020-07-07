@@ -19,7 +19,7 @@
 
 #include <kdesu/kdesu_export.h>
 
-#include <kpty.h>
+#include <KPty>
 
 namespace KDESu
 {

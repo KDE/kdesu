@@ -61,9 +61,9 @@
 #include <QFile>
 #include <QRegularExpression>
 #include <QByteArray>
-#include <qloggingcategory.h>
-#include <qstandardpaths.h>
-#include <qcommandlineparser.h>
+#include <QLoggingCategory>
+#include <QStandardPaths>
+#include <QCommandLineParser>
 
 #include <client.h>
 #include <defaults.h>

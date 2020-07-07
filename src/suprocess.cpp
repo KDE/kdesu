@@ -20,9 +20,9 @@
 #include <QStandardPaths>
 #include <qplatformdefs.h>
 
-#include <kconfig.h>
-#include <kconfiggroup.h>
-#include <ksharedconfig.h>
+#include <KConfig>
+#include <KConfigGroup>
+#include <KSharedConfig>
 #include <kuser.h>
 
 #ifdef KDESU_USE_SUDO_DEFAULT

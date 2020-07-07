@@ -23,7 +23,7 @@
 #include <qplatformdefs.h>
 #include <QDebug>
 
-#include <ktoolinvocation.h>
+#include <KToolInvocation>
 
 extern int kdesuDebugArea();
 

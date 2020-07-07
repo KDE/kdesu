@@ -39,8 +39,8 @@
 #include <QStandardPaths>
 #include <QDebug>
 
-#include <ksharedconfig.h>
-#include <kconfiggroup.h>
+#include <KSharedConfig>
+#include <KConfigGroup>
 
 extern int kdesuDebugArea();
 

@@ -20,7 +20,7 @@
 #include <sys/stat.h>
 #include <sys/socket.h>
 
-#include <qdebug.h>
+#include <QDebug>
 
 // FIXME: This is just here to make it compile (since ksock* was removed from kdelibs).
 // It would be better to fix it more globally. (Caleb Tennis)

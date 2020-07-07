@@ -26,9 +26,9 @@
 #include <QTest>
 #include <QString>
 
-#include <kconfig.h>
-#include <kconfiggroup.h>
-#include <ksharedconfig.h>
+#include <KConfig>
+#include <KConfigGroup>
+#include <KSharedConfig>
 
 #include "suprocess.h"
 
