@@ -14,9 +14,9 @@
 
 #include "suprocess.h"
 #include "kcookie_p.h"
+#include <ksu_debug.h>
 
 #include <QFile>
-#include <QDebug>
 #include <QStandardPaths>
 #include <qplatformdefs.h>
 
@@ -52,7 +52,7 @@ SuProcess::SuProcess(const QByteArray &user, const QByteArray &command)
     d->superUserCommand = group.readEntry("super-user-command", DEFAULT_SUPER_USER_COMMAND);
 
     if (d->superUserCommand != QLatin1String("sudo") && d->superUserCommand != QLatin1String("su")) {
-        qWarning() << "unknown super user command.";
+        qCWarning(KSU_LOG) << "unknown super user command.";
         d->superUserCommand = DEFAULT_SUPER_USER_COMMAND;
     }
 }
@@ -138,7 +138,7 @@ int SuProcess::exec(const char *password, int check)
 
     if (ret == error) {
         if (!check) {
-            qCritical() << "[" << __FILE__ << ":" << __LINE__ << "] " << "Conversation with su failed.";
+            qCCritical(KSU_LOG) << "[" << __FILE__ << ":" << __LINE__ << "] " << "Conversation with su failed.";
         }
         return ret;
     }
@@ -178,7 +178,7 @@ int SuProcess::exec(const char *password, int check)
     int iret = converseStub(check);
     if (iret < 0) {
         if (!check) {
-            qCritical() << "[" << __FILE__ << ":" << __LINE__ << "] " << "Conversation with kdesu_stub failed.";
+            qCCritical(KSU_LOG) << "[" << __FILE__ << ":" << __LINE__ << "] " << "Conversation with kdesu_stub failed.";
         }
         return iret;
     } else if (iret == 1) {

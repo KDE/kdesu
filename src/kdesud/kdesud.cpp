@@ -33,6 +33,7 @@
  */
 
 
+#include <ksud_debug.h>
 #include <config-kdesu.h>
 
 #include <stdio.h>
@@ -61,7 +62,6 @@
 #include <QFile>
 #include <QRegularExpression>
 #include <QByteArray>
-#include <QLoggingCategory>
 #include <QStandardPaths>
 #include <QCommandLineParser>
 
@@ -84,8 +84,6 @@
 #endif
 
 #define ERR strerror(errno)
-
-static QLoggingCategory category("org.kde.kdesud");
 
 using namespace KDESu;
 
@@ -112,7 +110,7 @@ extern "C" int xio_errhandler(Display *);
 
 int xio_errhandler(Display *)
 {
-    qCritical() << "Fatal IO error, exiting...\n";
+    qCCritical(KSUD_LOG) << "Fatal IO error, exiting...\n";
     kdesud_cleanup();
     exit(1);
     return 1;  //silence compilers
@@ -131,8 +129,8 @@ int initXconnection()
         return XConnectionNumber(x11Display);
     } else
     {
-        qCWarning(category) << "Can't connect to the X Server.\n";
-        qCWarning(category) << "Might not terminate at end of session.\n";
+        qCWarning(KSUD_LOG) << "Can't connect to the X Server.\n";
+        qCWarning(KSUD_LOG) << "Might not terminate at end of session.\n";
         return -1;
     }
 }
@@ -145,7 +143,7 @@ extern "C" {
 
 void signal_exit(int sig)
 {
-    qCDebug(category) << "Exiting on signal " << sig << "\n";
+    qCDebug(KSUD_LOG) << "Exiting on signal " << sig << "\n";
     kdesud_cleanup();
     exit(1);
 }
@@ -169,7 +167,7 @@ int create_socket()
     QString display = QString::fromLocal8Bit(qgetenv("DISPLAY"));
     if (display.isEmpty())
     {
-        qCWarning(category) << "$DISPLAY is not set\n";
+        qCWarning(KSUD_LOG) << "$DISPLAY is not set\n";
         return -1;
     }
 
@@ -179,9 +177,9 @@ int create_socket()
     sock = QFile::encodeName(QStandardPaths::writableLocation(QStandardPaths::RuntimeLocation) + QStringLiteral("/kdesud_%1").arg(display));
     int stat_err=lstat(sock.constData(), &s);
     if(!stat_err && S_ISLNK(s.st_mode)) {
-        qCWarning(category) << "Someone is running a symlink attack on you\n";
+        qCWarning(KSUD_LOG) << "Someone is running a symlink attack on you\n";
         if(unlink(sock.constData())) {
-            qCWarning(category) << "Could not delete symlink\n";
+            qCWarning(KSUD_LOG) << "Could not delete symlink\n";
             return -1;
         }
     }
@@ -191,15 +189,15 @@ int create_socket()
         KDEsuClient client;
         if (client.ping() == -1)
         {
-            qCWarning(category) << "stale socket exists\n";
+            qCWarning(KSUD_LOG) << "stale socket exists\n";
             if (unlink(sock.constData()))
             {
-                qCWarning(category) << "Could not delete stale socket\n";
+                qCWarning(KSUD_LOG) << "Could not delete stale socket\n";
                 return -1;
             }
         } else
         {
-            qCWarning(category) << "kdesud is already running\n";
+            qCWarning(KSUD_LOG) << "kdesud is already running\n";
             return -1;
         }
 
@@ -208,7 +206,7 @@ int create_socket()
     sockfd = socket(PF_UNIX, SOCK_STREAM, 0);
     if (sockfd < 0)
     {
-        qCritical() << "socket(): " << ERR << "\n";
+        qCCritical(KSUD_LOG) << "socket(): " << ERR << "\n";
         return -1;
     }
 
@@ -229,7 +227,7 @@ int create_socket()
     addrlen = SUN_LEN(&addr);
     if (bind(sockfd, (struct sockaddr *)&addr, addrlen) < 0)
     {
-        qCritical() << "bind(): " << ERR << "\n";
+        qCCritical(KSUD_LOG) << "bind(): " << ERR << "\n";
         return -1;
     }
 
@@ -238,7 +236,7 @@ int create_socket()
     if (setsockopt(sockfd, SOL_SOCKET, SO_LINGER, (char *) &lin,
                    sizeof(linger)) < 0)
     {
-        qCritical() << "setsockopt(SO_LINGER): " << ERR << "\n";
+        qCCritical(KSUD_LOG) << "setsockopt(SO_LINGER): " << ERR << "\n";
         return -1;
     }
 
@@ -246,14 +244,14 @@ int create_socket()
     if (setsockopt(sockfd, SOL_SOCKET, SO_REUSEADDR, (char *) &opt,
                    sizeof(opt)) < 0)
     {
-        qCritical() << "setsockopt(SO_REUSEADDR): " << ERR << "\n";
+        qCCritical(KSUD_LOG) << "setsockopt(SO_REUSEADDR): " << ERR << "\n";
         return -1;
     }
     opt = 1;
     if (setsockopt(sockfd, SOL_SOCKET, SO_KEEPALIVE, (char *) &opt,
                    sizeof(opt)) < 0)
     {
-        qCritical() << "setsockopt(SO_KEEPALIVE): " << ERR << "\n";
+        qCCritical(KSUD_LOG) << "setsockopt(SO_KEEPALIVE): " << ERR << "\n";
         return -1;
     }
     chmod(sock.constData(), 0600);
@@ -289,7 +287,7 @@ int main(int argc, char *argv[])
     rlim.rlim_cur = rlim.rlim_max = 0;
     if (setrlimit(RLIMIT_CORE, &rlim) < 0)
     {
-        qCritical() << "setrlimit(): " << ERR << "\n";
+        qCCritical(KSUD_LOG) << "setrlimit(): " << ERR << "\n";
         exit(1);
     }
 
@@ -299,7 +297,7 @@ int main(int argc, char *argv[])
         exit(1);
     if (listen(sockfd, 10) < 0)
     {
-        qCritical() << "listen(): " << ERR << "\n";
+        qCCritical(KSUD_LOG) << "listen(): " << ERR << "\n";
         kdesud_cleanup();
         exit(1);
     }
@@ -309,7 +307,7 @@ int main(int argc, char *argv[])
     pid_t pid = fork();
     if (pid == -1)
     {
-        qCritical() << "fork():" << ERR << "\n";
+        qCCritical(KSUD_LOG) << "fork():" << ERR << "\n";
         kdesud_cleanup();
         exit(1);
     }
@@ -369,7 +367,7 @@ int main(int argc, char *argv[])
         {
             if (errno == EINTR) continue;
 
-            qCritical() << "select(): " << ERR << "\n";
+            qCCritical(KSUD_LOG) << "select(): " << ERR << "\n";
             exit(1);
         }
         repo->expire();
@@ -425,7 +423,7 @@ int main(int argc, char *argv[])
                 fd = accept(sockfd, (struct sockaddr *) &clientname, &addrlen);
                 if (fd < 0)
                 {
-                    qCritical() << "accept():" << ERR << "\n";
+                    qCCritical(KSUD_LOG) << "accept():" << ERR << "\n";
                     continue;
                 }
 		while (fd+1 > (int) handler.size())
@@ -447,6 +445,6 @@ int main(int argc, char *argv[])
             }
         }
     }
-    qCWarning(category) << "???\n";
+    qCWarning(KSUD_LOG) << "???\n";
 }
 

@@ -16,6 +16,7 @@
 #include "ptyprocess.h"
 #include "kcookie_p.h"
 
+#include <ksu_debug.h>
 #include <config-kdesu.h>
 
 #include <stdlib.h>
@@ -37,7 +38,6 @@
 
 #include <QFile>
 #include <QStandardPaths>
-#include <QDebug>
 
 #include <KSharedConfig>
 #include <KConfigGroup>
@@ -100,7 +100,7 @@ int PtyProcess::checkPidExited(pid_t pid)
     ret = waitpid(pid, &state, WNOHANG);
 
     if (ret < 0) {
-        qCritical() << "[" << __FILE__ << ":" << __LINE__ << "] " << "waitpid():" << strerror(errno);
+        qCCritical(KSU_LOG) << "[" << __FILE__ << ":" << __LINE__ << "] " << "waitpid():" << strerror(errno);
         return Error;
     }
     if (ret == pid) {
@@ -144,7 +144,7 @@ int PtyProcess::init()
     delete d->pty;
     d->pty = new KPty();
     if (!d->pty->open()) {
-        qCritical() << "[" << __FILE__ << ":" << __LINE__ << "] " << "Failed to open PTY.";
+        qCCritical(KSU_LOG) << "[" << __FILE__ << ":" << __LINE__ << "] " << "Failed to open PTY.";
         return -1;
     }
     d->inputBuffer.resize(0);
@@ -186,7 +186,7 @@ QByteArray PtyProcess::readAll(bool block)
 
     int flags = fcntl(fd(), F_GETFL);
     if (flags < 0) {
-        qCritical() << "[" << __FILE__ << ":" << __LINE__ << "] " << "fcntl(F_GETFL):" << strerror(errno);
+        qCCritical(KSU_LOG) << "[" << __FILE__ << ":" << __LINE__ << "] " << "fcntl(F_GETFL):" << strerror(errno);
         return ret;
     }
     int oflags = flags;
@@ -282,7 +282,7 @@ int PtyProcess::exec(const QByteArray &command, const QList<QByteArray> &args)
     }
 
     if ((m_pid = fork()) == -1) {
-        qCritical() << "[" << __FILE__ << ":" << __LINE__ << "] " << "fork():" << strerror(errno);
+        qCCritical(KSU_LOG) << "[" << __FILE__ << ":" << __LINE__ << "] " << "fork():" << strerror(errno);
         return -1;
     }
 
@@ -324,7 +324,7 @@ int PtyProcess::exec(const QByteArray &command, const QList<QByteArray> &args)
     } else {
         QString file = QStandardPaths::findExecutable(QFile::decodeName(command));
         if (file.isEmpty()) {
-            qCritical() << "[" << __FILE__ << ":" << __LINE__ << "] " << command << "not found.";
+            qCCritical(KSU_LOG) << "[" << __FILE__ << ":" << __LINE__ << "] " << command << "not found.";
             _exit(1);
         }
         path = QFile::encodeName(file);
@@ -341,7 +341,7 @@ int PtyProcess::exec(const QByteArray &command, const QList<QByteArray> &args)
     argp[i] = nullptr;
 
     execv(path.constData(), const_cast<char **>(argp));
-    qCritical() << "[" << __FILE__ << ":" << __LINE__ << "] " << "execv(" << path << "):" << strerror(errno);
+    qCCritical(KSU_LOG) << "[" << __FILE__ << ":" << __LINE__ << "] " << "execv(" << path << "):" << strerror(errno);
     _exit(1);
     return -1; // Shut up compiler. Never reached.
 }
@@ -360,11 +360,11 @@ int PtyProcess::waitSlave()
     struct termios tio;
     while (1) {
         if (!checkPid(m_pid)) {
-            qCritical() << "process has exited while waiting for password.";
+            qCCritical(KSU_LOG) << "process has exited while waiting for password.";
             return -1;
         }
         if (!d->pty->tcGetAttr(&tio)) {
-            qCritical() << "[" << __FILE__ << ":" << __LINE__ << "] " << "tcgetattr():" << strerror(errno);
+            qCCritical(KSU_LOG) << "[" << __FILE__ << ":" << __LINE__ << "] " << "tcgetattr():" << strerror(errno);
             return -1;
         }
         if (tio.c_lflag & ECHO) {
@@ -418,7 +418,7 @@ int PtyProcess::waitForChild()
         int ret = select(fd() + 1, &fds, nullptr, nullptr, &timeout);
         if (ret == -1) {
             if (errno != EINTR) {
-                qCritical() << "[" << __FILE__ << ":" << __LINE__ << "] " << "select():" << strerror(errno);
+                qCCritical(KSU_LOG) << "[" << __FILE__ << ":" << __LINE__ << "] " << "select():" << strerror(errno);
                 return -1;
             }
             ret = 0;
@@ -507,12 +507,12 @@ int PtyProcess::setupTTY()
     // translated to '\r\n'.
     struct ::termios tio;
     if (tcgetattr(0, &tio) < 0) {
-        qCritical() << "[" << __FILE__ << ":" << __LINE__ << "] " << "tcgetattr():" << strerror(errno);
+        qCCritical(KSU_LOG) << "[" << __FILE__ << ":" << __LINE__ << "] " << "tcgetattr():" << strerror(errno);
         return -1;
     }
     tio.c_oflag &= ~OPOST;
     if (tcsetattr(0, TCSANOW, &tio) < 0) {
-        qCritical() << "[" << __FILE__ << ":" << __LINE__ << "] " << "tcsetattr():" << strerror(errno);
+        qCCritical(KSU_LOG) << "[" << __FILE__ << ":" << __LINE__ << "] " << "tcsetattr():" << strerror(errno);
         return -1;
     }
 

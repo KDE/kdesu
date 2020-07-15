@@ -8,6 +8,7 @@
 
 #include "secure.h"
 
+#include <ksud_debug.h>
 #include <config-kdesud.h>
 
 #include <stdio.h>
@@ -19,8 +20,6 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <sys/socket.h>
-
-#include <QDebug>
 
 // FIXME: This is just here to make it compile (since ksock* was removed from kdelibs).
 // It would be better to fix it more globally. (Caleb Tennis)
@@ -66,7 +65,7 @@ SocketSecurity::SocketSecurity(int sockfd) : pid(-1), gid(-1), uid(-1)
     ucred cred;
     ksocklen_t len = sizeof(struct ucred);
     if (getsockopt(sockfd, SOL_SOCKET, SO_PEERCRED, &cred, &len) < 0) {
-        qCritical() << "getsockopt(SO_PEERCRED) " << strerror(errno);
+        qCCritical(KSUD_LOG) << "getsockopt(SO_PEERCRED) " << strerror(errno);
 	return;
     }
     pid = cred.pid;
@@ -87,8 +86,8 @@ SocketSecurity::SocketSecurity(int sockfd) : pid(-1), gid(-1), uid(-1)
     static bool warned_him = false;
 
     if (!warned_him) {
-        qWarning() << "Using void socket security. Please add support for your" ;
-        qWarning() << "platform to src/kdesud/secure.cpp" ;
+        qCWarning(KSUD_LOG) << "Using void socket security. Please add support for your" ;
+        qCWarning(KSUD_LOG) << "platform to src/kdesud/secure.cpp" ;
         warned_him = true;
     }
 

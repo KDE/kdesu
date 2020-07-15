@@ -7,6 +7,8 @@
 
 #include "handler.h"
 
+#include <ksud_debug.h>
+
 #include <stdlib.h>
 #include <string.h>
 #include <assert.h>
@@ -19,13 +21,10 @@
 
 #include <su.h>
 #include <ssh.h>
-#include <QLoggingCategory>
 
 #include "repo.h"
 #include "lexer.h"
 #include "secure.h"
-
-static QLoggingCategory category("org.kde.kdesud");
 
 using namespace KDESu;
 
@@ -76,7 +75,7 @@ int ConnectionHandler::handle()
     m_Buf.resize(m_Buf.size()+nbytes);
     if (m_Buf.size() == BUF_SIZE - 1)
     {
-        qCWarning(category) << "line too long";
+        qCWarning(KSUD_LOG) << "line too long";
         return -1;
     }
 
@@ -156,8 +155,8 @@ int ConnectionHandler::doCommand(QByteArray buf)
 {
     if ((uid_t) peerUid() != getuid())
     {
-        qCWarning(category) << "Peer uid not equal to me\n";
-        qCWarning(category) << "Peer: " << peerUid() << " Me: " << getuid() ;
+        qCWarning(KSUD_LOG) << "Peer uid not equal to me\n";
+        qCWarning(KSUD_LOG) << "Peer: " << peerUid() << " Me: " << getuid() ;
         return -1;
     }
 
@@ -182,7 +181,7 @@ int ConnectionHandler::doCommand(QByteArray buf)
             goto parse_error;
         if (m_Pass.isNull())
            m_Pass = "";
-        qCDebug(category) << "Password set!\n";
+        qCDebug(KSUD_LOG) << "Password set!\n";
         respond(Res_OK);
         break;
 
@@ -193,7 +192,7 @@ int ConnectionHandler::doCommand(QByteArray buf)
         m_Host = l->lval();
         if (l->lex() != '\n')
             goto parse_error;
-        qCDebug(category) << "Host set to " << m_Host;
+        qCDebug(KSUD_LOG) << "Host set to " << m_Host;
         respond(Res_OK);
         break;
 
@@ -204,7 +203,7 @@ int ConnectionHandler::doCommand(QByteArray buf)
         m_Priority = l->lval().toInt();
         if (l->lex() != '\n')
             goto parse_error;
-        qCDebug(category) << "priority set to " << m_Priority;
+        qCDebug(KSUD_LOG) << "priority set to " << m_Priority;
         respond(Res_OK);
         break;
 
@@ -215,7 +214,7 @@ int ConnectionHandler::doCommand(QByteArray buf)
         m_Scheduler = l->lval().toInt();
         if (l->lex() != '\n')
             goto parse_error;
-        qCDebug(category) << "Scheduler set to " << m_Scheduler;
+        qCDebug(KSUD_LOG) << "Scheduler set to " << m_Scheduler;
         respond(Res_OK);
         break;
 
@@ -281,11 +280,11 @@ int ConnectionHandler::doCommand(QByteArray buf)
         }
 
         // Execute the command asynchronously
-        qCDebug(category) << "Executing command: " << command;
+        qCDebug(KSUD_LOG) << "Executing command: " << command;
         pid_t pid = fork();
         if (pid < 0)
         {
-            qCDebug(category) << "fork(): " << strerror(errno);
+            qCDebug(KSUD_LOG) << "fork(): " << strerror(errno);
             respond(Res_NO);
             break;
         } else if (pid > 0)
@@ -319,7 +318,7 @@ int ConnectionHandler::doCommand(QByteArray buf)
             ret = proc.exec(pass.data());
         }
 
-        qCDebug(category) << "Command completed: " << command;
+        qCDebug(KSUD_LOG) << "Command completed: " << command;
         _exit(ret);
     }
 
@@ -336,11 +335,11 @@ int ConnectionHandler::doCommand(QByteArray buf)
         goto parse_error;
     key = makeKey(0, m_Host, user, command);
     if (repo->remove(key) < 0) {
-        qCDebug(category) << "Unknown command: " << command;
+        qCDebug(KSUD_LOG) << "Unknown command: " << command;
         respond(Res_NO);
     }
     else {
-        qCDebug(category) << "Deleted command: " << command << ", user = "
+        qCDebug(KSUD_LOG) << "Deleted command: " << command << ", user = "
                       << user;
         respond(Res_OK);
     }
@@ -358,11 +357,11 @@ int ConnectionHandler::doCommand(QByteArray buf)
     key = makeKey(1, name);
     if (repo->remove(key) < 0)
     {
-        qCDebug(category) << "Unknown name: " << name;
+        qCDebug(KSUD_LOG) << "Unknown name: " << name;
         respond(Res_NO);
     }
     else {
-        qCDebug(category) << "Deleted name: " << name;
+        qCDebug(KSUD_LOG) << "Deleted name: " << name;
         respond(Res_OK);
     }
     break;
@@ -375,12 +374,12 @@ int ConnectionHandler::doCommand(QByteArray buf)
     name = l->lval();
     if (repo->removeGroup(name) < 0)
     {
-        qCDebug(category) << "No keys found under group: " << name;
+        qCDebug(KSUD_LOG) << "No keys found under group: " << name;
         respond(Res_NO);
     }
     else
     {
-        qCDebug(category) << "Removed all keys under group: " << name;
+        qCDebug(KSUD_LOG) << "Removed all keys under group: " << name;
         respond(Res_OK);
     }
     break;
@@ -417,7 +416,7 @@ int ConnectionHandler::doCommand(QByteArray buf)
         goto parse_error;
     key = makeKey(1, name);
     repo->add(key, data);
-    qCDebug(category) << "Stored key: " << key;
+    qCDebug(KSUD_LOG) << "Stored key: " << key;
     respond(Res_OK);
     break;
 
@@ -429,7 +428,7 @@ int ConnectionHandler::doCommand(QByteArray buf)
     if (l->lex() != '\n')
         goto parse_error;
     key = makeKey(1, name);
-    qCDebug(category) << "Request for key: " << key;
+    qCDebug(KSUD_LOG) << "Request for key: " << key;
     value = repo->find(key);
     if (!value.isEmpty())
         respond(Res_OK, value);
@@ -444,7 +443,7 @@ int ConnectionHandler::doCommand(QByteArray buf)
         name = l->lval();
         if (l->lex() != '\n')
             goto parse_error;
-        qCDebug(category) << "Request for group key: " << name;
+        qCDebug(KSUD_LOG) << "Request for group key: " << name;
         value = repo->findKeys(name);
         if (!value.isEmpty())
             respond(Res_OK, value);
@@ -459,7 +458,7 @@ int ConnectionHandler::doCommand(QByteArray buf)
         name = l->lval();
         if (l->lex() != '\n')
             goto parse_error;
-        qCDebug(category) << "Checking for group key: " << name;
+        qCDebug(KSUD_LOG) << "Checking for group key: " << name;
         if ( repo->hasGroup( name ) < 0 )
             respond(Res_NO);
         else
@@ -486,13 +485,13 @@ int ConnectionHandler::doCommand(QByteArray buf)
         tok = l->lex();
         if (tok != '\n')
             goto parse_error;
-        qCDebug(category) << "Stopping by command";
+        qCDebug(KSUD_LOG) << "Stopping by command";
         respond(Res_OK);
         kdesud_cleanup();
         exit(0);
 
     default:
-        qCWarning(category) << "Unknown command: " << l->lval() ;
+        qCWarning(KSUD_LOG) << "Unknown command: " << l->lval() ;
         respond(Res_NO);
         goto parse_error;
     }
@@ -501,7 +500,7 @@ int ConnectionHandler::doCommand(QByteArray buf)
     return 0;
 
 parse_error:
-    qCWarning(category) << "Parse error" ;
+    qCWarning(KSUD_LOG) << "Parse error" ;
     delete l;
     return -1;
 }

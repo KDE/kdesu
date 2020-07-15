@@ -12,11 +12,11 @@
 #include "stubprocess.h"
 #include "kcookie_p.h"
 
+#include <ksu_debug.h>
 #include <config-kdesu.h>
 
 #include <unistd.h>
 
-#include <QDebug>
 
 extern int kdesuDebugArea();
 
@@ -216,7 +216,7 @@ int StubProcess::converseStub(int check)
         } else if (line == "end") {
             return 0;
         } else {
-            qWarning() << "[" << __FILE__ << ":" << __LINE__ << "] " << "Unknown request:" << line;
+            qCWarning(KSU_LOG) << "[" << __FILE__ << ":" << __LINE__ << "] " << "Unknown request:" << line;
             return 1;
         }
     }

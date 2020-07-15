@@ -12,6 +12,14 @@ set(kdesud_SRCS
    handler.cpp
    secure.cpp )
 
+ecm_qt_declare_logging_category(kdesud_SRCS
+    HEADER ksud_debug.h
+    IDENTIFIER KSUD_LOG
+    CATEGORY_NAME kf.su.kdesud
+    DESCRIPTION "kdesud (KDESu)"
+    EXPORT KSU
+)
+
 add_executable(kdesud ${kdesud_SRCS})
 ecm_mark_nongui_executable(kdesud)
 

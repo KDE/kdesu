@@ -11,10 +11,11 @@
 
 #include "kcookie_p.h"
 
+#include <ksu_debug.h>
+
 #include <QString>
 #include <QStringList>
 #include <Q_PID>
-#include <QDebug>
 
 extern int kdesuDebugArea();
 
@@ -73,7 +74,7 @@ void KCookie::getXCookie()
     d->display = qgetenv("QWS_DISPLAY");
 #endif
     if (d->display.isEmpty()) {
-        qCritical() << "[" << __FILE__ << ":" << __LINE__ << "] " << "$DISPLAY is not set.";
+        qCCritical(KSU_LOG) << "[" << __FILE__ << ":" << __LINE__ << "] " << "$DISPLAY is not set.";
         return;
     }
 #if HAVE_X11 // No need to mess with X Auth stuff
@@ -85,20 +86,20 @@ void KCookie::getXCookie()
     QProcess proc;
     proc.start(QStringLiteral("xauth"), QStringList() << QStringLiteral("list") << QString::fromUtf8(disp));
     if (!proc.waitForStarted()) {
-        qCritical() << "[" << __FILE__ << ":" << __LINE__ << "] " << "Could not run xauth.";
+        qCCritical(KSU_LOG) << "[" << __FILE__ << ":" << __LINE__ << "] " << "Could not run xauth.";
         return;
     }
     proc.waitForReadyRead(100);
 
     QByteArray output = proc.readLine().simplified();
     if (output.isEmpty()) {
-        qWarning() << "No X authentication info set for display" << d->display;
+        qCWarning(KSU_LOG) << "No X authentication info set for display" << d->display;
         return;
     }
 
     QList<QByteArray> lst = output.split(' ');
     if (lst.count() != 3) {
-        qCritical() << "[" << __FILE__ << ":" << __LINE__ << "] " << "parse error.";
+        qCCritical(KSU_LOG) << "[" << __FILE__ << ":" << __LINE__ << "] " << "parse error.";
         return;
     }
     d->displayAuth = (lst[1] + ' ' + lst[2]);

@@ -25,6 +25,13 @@ set(kdesu_LIB_SRCS
   stubprocess.cpp
 )
 
+ecm_qt_declare_logging_category(kdesu_LIB_SRCS
+    HEADER ksu_debug.h
+    IDENTIFIER KSU_LOG
+    CATEGORY_NAME kf.su
+    DESCRIPTION "KSu (KDESu)"
+    EXPORT KSU
+)
 
 add_library(KF5Su ${kdesu_LIB_SRCS})
 add_library(KF5::Su ALIAS KF5Su)
@@ -134,3 +141,9 @@ endif()
 include(ECMGeneratePriFile)
 ecm_generate_pri_file(BASE_NAME KDESu LIB_NAME KF5Su DEPS "KPty" FILENAME_VAR PRI_FILENAME INCLUDE_INSTALL_DIR ${KDE_INSTALL_INCLUDEDIR_KF5}/KDESu)
 install(FILES ${PRI_FILENAME} DESTINATION ${ECM_MKSPECS_INSTALL_DIR})
+
+ecm_qt_install_logging_categories(
+    EXPORT KSU
+    FILE ksu.categories
+    DESTINATION "${KDE_INSTALL_LOGGINGCATEGORIESDIR}"
+)

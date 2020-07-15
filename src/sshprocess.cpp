@@ -11,12 +11,11 @@
 
 #include "sshprocess.h"
 #include "kcookie_p.h"
+#include <ksu_debug.h>
 
 #include <unistd.h>
 #include <signal.h>
 #include <time.h>
-
-#include <QDebug>
 
 extern int kdesuDebugArea();
 
@@ -92,7 +91,7 @@ int SshProcess::exec(const char *password, int check)
     int ret = converseSsh(password, check);
     if (ret < 0) {
         if (!check) {
-            qCritical() << "[" << __FILE__ << ":" << __LINE__ << "] " << "Conversation with ssh failed.";
+            qCCritical(KSU_LOG) << "[" << __FILE__ << ":" << __LINE__ << "] " << "Conversation with ssh failed.";
         }
         return ret;
     }
@@ -111,7 +110,7 @@ int SshProcess::exec(const char *password, int check)
     ret = converseStub(check);
     if (ret < 0) {
         if (!check) {
-            qCritical() << "[" << __FILE__ << ":" << __LINE__ << "] " << "Conversation with kdesu_stub failed.";
+            qCCritical(KSU_LOG) << "[" << __FILE__ << ":" << __LINE__ << "] " << "Conversation with kdesu_stub failed.";
         }
         return ret;
     } else if (ret == 1) {
