@@ -1,42 +1,30 @@
 /*
- * kdesu_stub.c: KDE su executes this stub through su or ssh. This stub in turn
- *               executes the target program. Before that, startup parameters
- *               are sent through stdin.
- *
- * This file is part of the KDE project, module kdesu.
- * Copyright (C) 1999,2000 Geert Jansen <jansen@kde.org>
- *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public
- * License as published by the Free Software Foundation; either
- * version 2 of the License, or (at your option) any later version.
- *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public
- * License along with this library; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
- *
- *
- * Available parameters:
- *
- *   Parameter       Description         Format (csl = comma separated list)
- *
- * - kdesu_stub      Header              "ok" | "stop"
- * - display         X11 display         string
- * - display_auth    X11 authentication  "type cookie" pair
- * - command         Command to run      string
- * - path            PATH env. var       string
- * - build_sycoca    Rebuild sycoca?     "yes" | "no"
- * - user            Target user         string
- * - priority        Process priority    0 <= int <= 100
- * - scheduler       Process scheduler   "fifo" | "normal"
- * - app_startup_id  DESKTOP_STARTUP_ID  string
- * - environment     Additional envvars  strings, last one is empty
- */
+    kdesu_stub.c: KDE su executes this stub through su or ssh. This stub in turn
+                  executes the target program. Before that, startup parameters
+                  are sent through stdin.
+
+    This file is part of the KDE project, module kdesu.
+    SPDX-FileCopyrightText: 1999, 2000 Geert Jansen <jansen@kde.org>
+
+    SPDX-License-Identifier: LGPL-2.0-or-later
+
+
+    Available parameters:
+
+      Parameter       Description         Format (csl = comma separated list)
+
+    - kdesu_stub      Header              "ok" | "stop"
+    - display         X11 display         string
+    - display_auth    X11 authentication  "type cookie" pair
+    - command         Command to run      string
+    - path            PATH env. var       string
+    - build_sycoca    Rebuild sycoca?     "yes" | "no"
+    - user            Target user         string
+    - priority        Process priority    0 <= int <= 100
+    - scheduler       Process scheduler   "fifo" | "normal"
+    - app_startup_id  DESKTOP_STARTUP_ID  string
+    - environment     Additional envvars  strings, last one is empty
+*/
 
 #include <config-kdesu.h>
 

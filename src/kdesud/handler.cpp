@@ -1,9 +1,9 @@
 /*
- * This file is part of the KDE project, module kdesu.
- * Copyright (C) 1999,2000 Geert Jansen <jansen@kde.org>
- *
- * handler.cpp: A connection handler for kdesud.
- */
+    This file is part of the KDE project, module kdesu.
+    SPDX-FileCopyrightText: 1999, 2000 Geert Jansen <jansen@kde.org>
+
+    handler.cpp: A connection handler for kdesud.
+*/
 
 #include "handler.h"
 

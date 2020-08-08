@@ -1,17 +1,14 @@
 /*
- * This file is part of the KDE project, module kdesu.
- * Copyright (C) 1999,2000 Geert Jansen <jansen@kde.org>
- *
- * This file contains code from TEShell.C of the KDE konsole.
- * Copyright (c) 1997,1998 by Lars Doelle <lars.doelle@on-line.de>
- *
- * This is free software; you can use this library under the GNU Library
- * General Public License, version 2. See the file "COPYING.LIB" for the
- * exact licensing terms.
- *
- * process.cpp: Functionality to build a front end to password asking
- *  terminal programs.
- */
+    This file is part of the KDE project, module kdesu.
+    SPDX-FileCopyrightText: 1999, 2000 Geert Jansen <jansen@kde.org>
+
+    This file contains code from TEShell.C of the KDE konsole.
+    SPDX-FileCopyrightText: 1997, 1998 Lars Doelle <lars.doelle@on-line.de>
+
+    SPDX-License-Identifier: GPL-2.0-only
+
+    process.cpp: Functionality to build a front end to password asking terminal programs.
+*/
 
 #include "ptyprocess.h"
 #include "kcookie_p.h"

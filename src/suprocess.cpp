@@ -1,16 +1,14 @@
 /*
- * This file is part of the KDE project, module kdesu.
- * Copyright (C) 1999,2000 Geert Jansen <jansen@kde.org>
- *
- * Sudo support added by Jonathan Riddell <jriddell@ ubuntu.com>
- * Copyright (C) 2005 Canonical Ltd  // krazy:exclude=copyright (no email)
- *
- * This is free software; you can use this library under the GNU Library
- * General Public License, version 2. See the file "COPYING.LIB" for the
- * exact licensing terms.
- *
- * su.cpp: Execute a program as another user with "class SuProcess".
- */
+    This file is part of the KDE project, module kdesu.
+    SPDX-FileCopyrightText: 1999, 2000 Geert Jansen <jansen@kde.org>
+
+    Sudo support added by Jonathan Riddell <jriddell@ ubuntu.com>
+    SPDX-FileCopyrightText: 2005 Canonical Ltd // krazy:exclude=copyright (no email)
+
+    SPDX-License-Identifier: GPL-2.0-only
+
+    su.cpp: Execute a program as another user with "class SuProcess".
+*/
 
 #include "suprocess.h"
 #include "kcookie_p.h"

@@ -1,37 +1,36 @@
 /* vi: ts=8 sts=4 sw=4
- *
- * This file is part of the KDE project, module kdesu.
- * Copyright (C) 1999,2000 Geert Jansen <jansen@kde.org>
- *
- *
- * kdesud.cpp: KDE su daemon. Offers "keep password" functionality to kde su.
- *
- * The socket $KDEHOME/socket-$(HOSTNAME)/kdesud_$(display) is used for communication with
- * client programs.
- *
- * The protocol: Client initiates the connection. All commands and responses
- * are terminated by a newline.
- *
- *   Client                     Server     Description
- *   ------                     ------     -----------
- *
- *   PASS <pass> <timeout>      OK         Set password for commands in
- *                                         this session. Password is
- *                                         valid for <timeout> seconds.
- *
- *   USER <user>                OK         Set the target user [required]
- *
- *   EXEC <command>             OK         Execute command <command>. If
- *                              NO         <command> has been executed
- *                                         before (< timeout) no PASS
- *                                         command is needed.
- *
- *   DEL <command>              OK         Delete password for command
- *                              NO         <command>.
- *
- *   PING                       OK         Ping the server (diagnostics).
- */
 
+    This file is part of the KDE project, module kdesu.
+    SPDX-FileCopyrightText: 1999, 2000 Geert Jansen <jansen@kde.org>
+
+
+    kdesud.cpp: KDE su daemon. Offers "keep password" functionality to kde su.
+
+    The socket $KDEHOME/socket-$(HOSTNAME)/kdesud_$(display) is used for communication with
+    client programs.
+
+    The protocol: Client initiates the connection. All commands and responses
+    are terminated by a newline.
+
+    Client                     Server     Description
+    ------                     ------     -----------
+
+    PASS <pass> <timeout>      OK         Set password for commands in
+                                          this session. Password is
+                                          valid for <timeout> seconds.
+
+    USER <user>                OK         Set the target user [required]
+
+    EXEC <command>             OK         Execute command <command>. If
+                               NO         <command> has been executed
+                                          before (< timeout) no PASS
+                                          command is needed.
+
+    DEL <command>              OK         Delete password for command
+                               NO         <command>.
+
+    PING                       OK         Ping the server (diagnostics).
+*/
 
 #include <ksud_debug.h>
 #include <config-kdesu.h>

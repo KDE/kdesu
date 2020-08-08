@@ -1,13 +1,11 @@
 /*
- * This file is part of the KDE project, module kdesu.
- * Copyright (C) 2000 Geert Jansen <jansen@kde.org>
- *
- * This is free software; you can use this library under the GNU Library
- * General Public License, version 2. See the file "COPYING.LIB" for the
- * exact licensing terms.
- *
- * ssh.cpp: Execute a program on a remote machine using ssh.
- */
+    This file is part of the KDE project, module kdesu.
+    SPDX-FileCopyrightText: 2000 Geert Jansen <jansen@kde.org>
+
+    SPDX-License-Identifier: GPL-2.0-only
+
+    ssh.cpp: Execute a program on a remote machine using ssh.
+*/
 
 #include "sshprocess.h"
 #include "kcookie_p.h"

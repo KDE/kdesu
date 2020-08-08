@@ -1,8 +1,8 @@
 /* vi: ts=8 sts=4 sw=4
- *
- * This file is part of the KDE project, module kdesu.
- * Copyright (C) 1999,2000 Geert Jansen <g.t.jansen@stud.tue.nl>
- */
+
+    This file is part of the KDE project, module kdesu.
+    SPDX-FileCopyrightText: 1999, 2000 Geert Jansen <g.t.jansen@stud.tue.nl>
+*/
 
 #include "repo.h"
 
