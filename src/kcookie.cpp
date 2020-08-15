@@ -11,6 +11,7 @@
 
 #include <ksu_debug.h>
 
+#include <QStandardPaths>
 #include <QString>
 #include <QStringList>
 #include <Q_PID>
@@ -84,7 +85,12 @@ void KCookie::getXCookie()
     QProcess proc;
     proc.start(QStringLiteral("xauth"), QStringList() << QStringLiteral("list") << QString::fromUtf8(disp));
     if (!proc.waitForStarted()) {
-        qCCritical(KSU_LOG) << "[" << __FILE__ << ":" << __LINE__ << "] " << "Could not run xauth.";
+        const QString xauth = QStandardPaths::findExecutable(QStringLiteral("xauth"));
+        if (xauth.isEmpty()) {
+            qCCritical(KSU_LOG) << "[" << __FILE__ << ":" << __LINE__ << "] " << "Could not run xauth, not found in path";
+        } else {
+            qCCritical(KSU_LOG) << "[" << __FILE__ << ":" << __LINE__ << "] " << "Could not run xauth. Found in path:" << xauth;
+        }
         return;
     }
     proc.waitForReadyRead(100);
