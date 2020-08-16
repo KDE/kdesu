@@ -207,14 +207,8 @@ int SuProcess::converseSU(const char *password)
     QByteArray line;
     while (true) {
         line = readLine();
-#ifdef Q_OS_FREEBSD
-        qDebug() << int(state) << QString::fromLatin1(line);
-#endif
         // return if problem. sudo checks for a second prompt || su gets a blank line
         if ((line.contains(':') && state != WaitForPrompt) || line.isNull()) {
-#ifdef Q_OS_FREEBSD
-            qDebug() << (state == HandleStub ? "notauthorized" : "error");
-#endif
             return (state == HandleStub ? notauthorized : error);
         }
 
@@ -251,9 +245,6 @@ int SuProcess::converseSU(const char *password)
                 if (waitSlave()) {
                     return error;
                 }
-#ifdef Q_OS_FREEBSD
-                qDebug() << "Writing password";
-#endif
                 write(fd(), password, strlen(password));
                 write(fd(), "\n", 1);
                 state = CheckStar;
@@ -270,9 +261,6 @@ int SuProcess::converseSU(const char *password)
             const uint len = line.length();
             for (i = 0; i < len; ++i) {
                 if (s[i] != '*') {
-#ifdef Q_OS_FREEBSD
-                    qDebug() << "Didn't get a star";
-#endif
                     return error;
                 }
             }
