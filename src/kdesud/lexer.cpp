@@ -75,7 +75,7 @@ int Lexer::lex()
 		// handle escaped characters
 		if (c == '\\') {
 		    c = m_Input[in++];
-		    if ((c == '"') || iscntrl(c))
+		    if (iscntrl(c))
 		        return Tok_none;
 		    if (c == '^') {
 		        c = m_Input[in++];

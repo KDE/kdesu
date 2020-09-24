@@ -33,6 +33,10 @@ if(KDE4_ENABLE_FPIE)
     macro_add_link_flags(kdesud ${KDE4_PIE_LDFLAGS})
 endif()
 
+if(BUILD_TESTING)
+  add_subdirectory(autotests)
+endif()
+
 ########### install files ###############
 
 install(TARGETS kdesud DESTINATION ${KDE_INSTALL_LIBEXECDIR_KF5})
