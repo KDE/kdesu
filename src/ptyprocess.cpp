@@ -23,7 +23,6 @@
 #include <errno.h>
 #include <termios.h>
 
-#include <sys/types.h>
 #include <sys/wait.h>
 #include <sys/stat.h>
 #include <sys/time.h>

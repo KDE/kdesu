@@ -17,9 +17,7 @@
 #include <string.h>
 #include <errno.h>
 
-#include <sys/types.h>
 #include <sys/stat.h>
-#include <sys/socket.h>
 
 // FIXME: This is just here to make it compile (since ksock* was removed from kdelibs).
 // It would be better to fix it more globally. (Caleb Tennis)

@@ -16,7 +16,6 @@
 #include <signal.h>
 #include <errno.h>
 
-#include <sys/types.h>
 #include <sys/socket.h>
 
 #include <su.h>
@@ -24,7 +23,6 @@
 
 #include "repo.h"
 #include "lexer.h"
-#include "secure.h"
 
 using namespace KDESu;
 
