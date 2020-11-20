@@ -37,6 +37,18 @@ include(ECMAddQch)
 
 set(EXCLUDE_DEPRECATED_BEFORE_AND_AT 0 CACHE STRING "Control the range of deprecated API excluded from the build [default=0].")
 
+option(KDESU_USE_SUDO_DEFAULT "Set On to use sudo instead of su [default=Off]" Off)
+option(KDESU_USE_DOAS_DEFAULT "Set On to use doas instead of su and sudo [default=Off]" Off)
+if(KDESU_USE_SUDO_DEFAULT AND KDESU_USE_DOAS_DEFAULT)
+   message(FATAL_ERROR "Choose between sudo(1) or doas(1)")
+elseif(KDESU_USE_SUDO_DEFAULT)
+  message("Using sudo as default")
+elseif(KDESU_USE_DOAS_DEFAULT)
+  message("Using doas as default")
+else()
+  message("Using su as default (set KDESU_USE_SUDO_DEFAULT=On to use sudo)")
+endif()
+
 option(BUILD_QCH "Build API documentation in QCH format (for e.g. Qt Assistant, Qt Creator & KDevelop)" OFF)
 add_feature_info(QCH ${BUILD_QCH} "API documentation in QCH format (for e.g. Qt Assistant, Qt Creator & KDevelop)")
 

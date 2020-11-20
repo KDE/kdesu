@@ -58,6 +58,26 @@ private Q_SLOTS:
         QVERIFY(result2 == KDESu::SuProcess::SuIncorrectPassword);
     }
 
+    void doasBadPassword() {
+        editConfig(QString::fromLocal8Bit("doas"), QString::fromLocal8Bit(CMAKE_HOME_DIRECTORY) + QString::fromLocal8Bit("/autotests/sudo"));
+
+        KDESu::SuProcess *suProcess = new KDESu::SuProcess("root", "ls");
+        QString suapp = suProcess->superUserCommand();
+        QVERIFY(suapp==QLatin1String("doas"));
+        int result2 = suProcess->exec("broken", 0);
+        QVERIFY(result2 == KDESu::SuProcess::SuIncorrectPassword);
+    }
+
+    void doasGoodPassword() {
+        editConfig(QString::fromLocal8Bit("doas"), QString::fromLocal8Bit(CMAKE_HOME_DIRECTORY) + QString::fromLocal8Bit("/autotests/sudo"));
+
+        KDESu::SuProcess *suProcess = new KDESu::SuProcess("root", "ls");
+        QString suapp = suProcess->superUserCommand();
+        QVERIFY(suapp==QLatin1String("doas"));
+        int result = suProcess->exec(MYPASSWORD, 0);
+        QVERIFY(result == 0);
+    }
+
     void suGoodPassword() {
         editConfig(QString::fromLocal8Bit("su"), QString::fromLocal8Bit(CMAKE_HOME_DIRECTORY) + QString::fromLocal8Bit("/autotests/su"));
 

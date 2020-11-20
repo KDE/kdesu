@@ -23,8 +23,10 @@
 #include <KSharedConfig>
 #include <kuser.h>
 
-#ifdef KDESU_USE_SUDO_DEFAULT
+#if defined(KDESU_USE_SUDO_DEFAULT)
 #  define DEFAULT_SUPER_USER_COMMAND QStringLiteral("sudo")
+#elif defined(KDESU_USE_DOAS_DEFAULT)
+#  define DEFAULT_SUPER_USER_COMMAND QStringLiteral("doas")
 #else
 #  define DEFAULT_SUPER_USER_COMMAND QStringLiteral("su")
 #endif
@@ -36,8 +38,16 @@ using namespace KDESuPrivate;
 class Q_DECL_HIDDEN SuProcess::SuProcessPrivate
 {
 public:
+    bool isPrivilegeEscalation() const;
     QString superUserCommand;
 };
+
+bool SuProcess::SuProcessPrivate::isPrivilegeEscalation() const
+{
+    return (superUserCommand == QLatin1String("sudo")
+            || superUserCommand == QLatin1String("doas"));
+}
+
 
 SuProcess::SuProcess(const QByteArray &user, const QByteArray &command)
     : d(new SuProcessPrivate)
@@ -49,7 +59,7 @@ SuProcess::SuProcess(const QByteArray &user, const QByteArray &command)
     KConfigGroup group(config, "super-user-command");
     d->superUserCommand = group.readEntry("super-user-command", DEFAULT_SUPER_USER_COMMAND);
 
-    if (d->superUserCommand != QLatin1String("sudo") && d->superUserCommand != QLatin1String("su")) {
+    if (!d->isPrivilegeEscalation() && d->superUserCommand != QLatin1String("su")) {
         qCWarning(KSU_LOG) << "unknown super user command.";
         d->superUserCommand = DEFAULT_SUPER_USER_COMMAND;
     }
@@ -67,7 +77,7 @@ QString SuProcess::superUserCommand()
 
 bool SuProcess::useUsersOwnPassword()
 {
-    if (superUserCommand() == QLatin1String("sudo") && m_user == "root") {
+    if (d->isPrivilegeEscalation() && m_user == "root") {
         return true;
     }
 
@@ -101,7 +111,7 @@ int SuProcess::exec(const char *password, int check)
     }
 
     QList<QByteArray> args;
-    if (d->superUserCommand == QLatin1String("sudo")) {
+    if (d->isPrivilegeEscalation()) {
         args += "-u";
     }
 
@@ -142,7 +152,7 @@ int SuProcess::exec(const char *password, int check)
     }
     if (check == NeedPassword) {
         if (ret == killme) {
-            if (d->superUserCommand == QLatin1String("sudo")) {
+            if (d->isPrivilegeEscalation()) {
                 // sudo can not be killed, just return
                 return ret;
             }
@@ -167,7 +177,7 @@ int SuProcess::exec(const char *password, int check)
 
     if (ret != ok) {
         kill(m_pid, SIGKILL);
-        if (d->superUserCommand != QLatin1String("sudo")) {
+        if (d->isPrivilegeEscalation()) {
             waitForChild();
         }
         return SuIncorrectPassword;

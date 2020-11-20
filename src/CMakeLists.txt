@@ -44,13 +44,13 @@ ecm_generate_export_header(KF5Su
     DEPRECATION_VERSIONS 5.0
     EXCLUDE_DEPRECATED_BEFORE_AND_AT ${EXCLUDE_DEPRECATED_BEFORE_AND_AT}
 )
-option(KDESU_USE_SUDO_DEFAULT "Set On to use sudo instead of su [default=Off]" Off)
+
 if(KDESU_USE_SUDO_DEFAULT)
-  message("Using sudo as default")
   target_compile_definitions(KF5Su PRIVATE -DKDESU_USE_SUDO_DEFAULT="true")
-else()
-  message("Using su as default (set KDESU_USE_SUDO_DEFAULT=On to use sudo)")
+elseif(KDESU_USE_DOAS_DEFAULT)
+  target_compile_definitions(KF5Su PRIVATE -DKDESU_USE_DOAS_DEFAULT="true")
 endif()
+
 target_include_directories(KF5Su PRIVATE ${CMAKE_CURRENT_BINARY_DIR}/..)
 
 # Apps must include <KDESu/File> or <kdesu/file.h>
@@ -63,11 +63,6 @@ target_link_libraries(KF5Su
     KF5::CoreAddons # KUser::loginName
     KF5::Service # KToolInvocation::kdeinitExecWait
 )
-
-if(KDESU_USE_SUDO_DEFAULT)
-   set_source_files_properties(suprocess.cpp PROPERTIES 
-                               COMPILE_FLAGS -DKDESU_USE_SUDO_DEFAULT)
-endif()
 
 set_target_properties(KF5Su PROPERTIES
   VERSION ${KDESU_VERSION_STRING}
