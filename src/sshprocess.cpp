@@ -8,6 +8,8 @@
 */
 
 #include "sshprocess.h"
+
+#include "stubprocess_p.h"
 #include "kcookie_p.h"
 #include <ksu_debug.h>
 
@@ -22,7 +24,7 @@ namespace KDESu
 
 using namespace KDESuPrivate;
 
-class Q_DECL_HIDDEN SshProcess::SshProcessPrivate
+class SshProcessPrivate : public StubProcessPrivate
 {
 public:
     SshProcessPrivate(const QByteArray &host)
@@ -36,25 +38,26 @@ public:
 };
 
 SshProcess::SshProcess(const QByteArray &host, const QByteArray &user, const QByteArray &command)
-    : d(new SshProcessPrivate(host))
+    : StubProcess(*new SshProcessPrivate(host))
 {
     m_user = user;
     m_command = command;
     srand(time(nullptr));
 }
 
-SshProcess::~SshProcess()
-{
-    delete d;
-}
+SshProcess::~SshProcess() = default;
 
 void SshProcess::setHost(const QByteArray &host)
 {
+    Q_D(SshProcess);
+
     d->host = host;
 }
 
 void SshProcess::setStub(const QByteArray &stub)
 {
+    Q_D(SshProcess);
+
     d->stub = stub;
 }
 
@@ -70,6 +73,8 @@ int SshProcess::checkNeedPassword()
 
 int SshProcess::exec(const char *password, int check)
 {
+    Q_D(SshProcess);
+
     if (check) {
         setTerminal(true);
     }
@@ -129,11 +134,15 @@ int SshProcess::exec(const char *password, int check)
 
 QByteArray SshProcess::prompt() const
 {
+    Q_D(const SshProcess);
+
     return d->prompt;
 }
 
 QByteArray SshProcess::error() const
 {
+    Q_D(const SshProcess);
+
     return d->error;
 }
 
@@ -151,6 +160,8 @@ QByteArray SshProcess::error() const
 */
 int SshProcess::converseSsh(const char *password, int check)
 {
+    Q_D(SshProcess);
+
     unsigned i, j, colon;
 
     QByteArray line;

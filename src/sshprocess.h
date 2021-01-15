@@ -15,6 +15,8 @@
 namespace KDESu
 {
 
+class SshProcessPrivate;
+
 /** \class SshProcess sshprocess.h KDESu/SshProcess
  * Executes a remote command, using ssh.
  */
@@ -74,8 +76,12 @@ protected:
 private:
     int converseSsh(const char *password, int check);
 
-    class SshProcessPrivate;
-    SshProcessPrivate *const d;
+private:
+    Q_DECLARE_PRIVATE_D(PtyProcess::d, SshProcess)
+#if KDESU_BUILD_DEPRECATED_SINCE(5, 79)
+    // Unused, kept for ABI compatibility
+    const void * __kdesu_d_do_not_use;
+#endif
 };
 
 }

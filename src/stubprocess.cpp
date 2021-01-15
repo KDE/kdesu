@@ -8,6 +8,7 @@
 */
 
 #include "stubprocess.h"
+#include "stubprocess_p.h"
 #include "kcookie_p.h"
 
 #include <ksu_debug.h>
@@ -24,7 +25,12 @@ namespace KDESu
 using namespace KDESuPrivate;
 
 StubProcess::StubProcess()
-    : d(nullptr)
+    : StubProcess(*new StubProcessPrivate)
+{
+}
+
+StubProcess::StubProcess(StubProcessPrivate &dd)
+    : PtyProcess(dd)
 {
     m_user = "root";
     m_scheduler = SchedNormal;

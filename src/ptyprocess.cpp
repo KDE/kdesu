@@ -11,6 +11,7 @@
 */
 
 #include "ptyprocess.h"
+#include "ptyprocess_p.h"
 #include "kcookie_p.h"
 
 #include <ksu_debug.h>
@@ -110,30 +111,21 @@ int PtyProcess::checkPidExited(pid_t pid)
     return NotExited;
 }
 
-class Q_DECL_HIDDEN PtyProcess::PtyProcessPrivate
-{
-public:
-    PtyProcessPrivate() : pty(nullptr) {}
-    ~PtyProcessPrivate()
-    {
-        delete pty;
-    }
-    QList<QByteArray> env;
-    KPty *pty;
-    QByteArray inputBuffer;
-};
 
 PtyProcess::PtyProcess()
-    : d(new PtyProcessPrivate)
+    : PtyProcess(*new PtyProcessPrivate)
+{
+}
+
+
+PtyProcess::PtyProcess(PtyProcessPrivate &dd)
+    : d(&dd)
 {
     m_terminal = false;
     m_erase = false;
 }
 
-PtyProcess::~PtyProcess()
-{
-    delete d;
-}
+PtyProcess::~PtyProcess() = default;
 
 int PtyProcess::init()
 {

@@ -22,6 +22,7 @@ namespace KDESuPrivate
 {
 class KCookie;
 }
+class StubProcessPrivate;
 
 /** \class StubProcess stubprocess.h KDESu/StubProcess
  * Chat with kdesu_stub.
@@ -90,6 +91,7 @@ protected:
      */
     virtual QByteArray displayAuth();
 
+    // KF6 TODO: move to StubProcessPrivate
     bool m_XOnly;
     int m_priority;
     int m_scheduler;
@@ -101,8 +103,15 @@ private:
     QByteArray commaSeparatedList(const QList<QByteArray> &lst);
     void writeString(const QByteArray &str);
 
-    class StubProcessPrivate;
-    StubProcessPrivate *const d;
+protected:
+    explicit StubProcess(StubProcessPrivate &dd);
+
+private:
+    Q_DECLARE_PRIVATE_D(PtyProcess::d, StubProcess)
+#if KDESU_BUILD_DEPRECATED_SINCE(5, 79)
+    // Unused, kept for ABI compatibility
+    const void * __kdesu_d_do_not_use;
+#endif
 };
 
 }

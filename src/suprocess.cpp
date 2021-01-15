@@ -11,6 +11,8 @@
 */
 
 #include "suprocess.h"
+
+#include "stubprocess_p.h"
 #include "kcookie_p.h"
 #include <ksu_debug.h>
 
@@ -35,14 +37,14 @@ namespace KDESu
 {
 using namespace KDESuPrivate;
 
-class Q_DECL_HIDDEN SuProcess::SuProcessPrivate
+class SuProcessPrivate : public StubProcessPrivate
 {
 public:
     bool isPrivilegeEscalation() const;
     QString superUserCommand;
 };
 
-bool SuProcess::SuProcessPrivate::isPrivilegeEscalation() const
+bool SuProcessPrivate::isPrivilegeEscalation() const
 {
     return (superUserCommand == QLatin1String("sudo")
             || superUserCommand == QLatin1String("doas"));
@@ -50,8 +52,10 @@ bool SuProcess::SuProcessPrivate::isPrivilegeEscalation() const
 
 
 SuProcess::SuProcess(const QByteArray &user, const QByteArray &command)
-    : d(new SuProcessPrivate)
+    : StubProcess(*new SuProcessPrivate)
 {
+    Q_D(SuProcess);
+
     m_user = user;
     m_command = command;
 
@@ -65,18 +69,19 @@ SuProcess::SuProcess(const QByteArray &user, const QByteArray &command)
     }
 }
 
-SuProcess::~SuProcess()
-{
-    delete d;
-}
+SuProcess::~SuProcess() = default;
 
 QString SuProcess::superUserCommand()
 {
+    Q_D(SuProcess);
+
     return d->superUserCommand;
 }
 
 bool SuProcess::useUsersOwnPassword()
 {
+    Q_D(SuProcess);
+
     if (d->isPrivilegeEscalation() && m_user == "root") {
         return true;
     }
@@ -100,6 +105,8 @@ int SuProcess::checkNeedPassword()
 */
 int SuProcess::exec(const char *password, int check)
 {
+    Q_D(SuProcess);
+
     if (check) {
         setTerminal(true);
     }

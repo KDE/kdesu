@@ -9,6 +9,7 @@
 #define KDESUPTYPROCESS_H
 
 #include <sys/types.h>
+#include <memory>
 
 #include <QByteRef>
 #include <QString>
@@ -21,6 +22,8 @@
 
 namespace KDESu
 {
+
+class PtyProcessPrivate;
 
 /** \class PtyProcess ptyprocess.h KDESu/PtyProcess
  * Synchronous communication with tty programs.
@@ -178,10 +181,13 @@ public:
     static int checkPidExited(pid_t pid);
 
 protected:
+    explicit PtyProcess(PtyProcessPrivate &dd);
+
     /** Standard hack to add virtual methods in a BC way. Unused. */
     virtual void virtual_hook(int id, void *data);
     QList<QByteArray> environment() const;
 
+    // KF6 TODO: move to PtyProcessPrivate
     bool m_erase;           /**< @see setErase() */
     bool m_terminal;        /**< Indicates running in a terminal, causes additional
                                   newlines to be printed after output. Set to @c false
@@ -194,8 +200,12 @@ private:
     int init();
     int setupTTY();
 
-    class PtyProcessPrivate;
-    PtyProcessPrivate *const d;
+private:
+    friend class StubProcess;
+    friend class SshProcess;
+    friend class SuProcess;
+    std::unique_ptr<PtyProcessPrivate> const d;
+    // KF6 TODO: change private d to protected d_ptr, use normal Q_DECLARE_PRIVATE, remove friend
 };
 
 }
