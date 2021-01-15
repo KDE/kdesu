@@ -5,8 +5,8 @@
     SPDX-License-Identifier: GPL-2.0-only
 */
 
-#ifndef KDESUSSH_H
-#define KDESUSSH_H
+#ifndef KDESUSSHPROCESS_H
+#define KDESUSSHPROCESS_H
 
 #include "stubprocess.h"
 
@@ -80,4 +80,4 @@ private:
 
 }
 
-#endif //KDESUSSH_H
+#endif //KDESUSSHPROCESS_H

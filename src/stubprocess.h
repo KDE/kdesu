@@ -5,8 +5,8 @@
     SPDX-License-Identifier: GPL-2.0-only
 */
 
-#ifndef KDESUSTUB_H
-#define KDESUSTUB_H
+#ifndef KDESUSTUBPROCESS_H
+#define KDESUSTUBPROCESS_H
 
 #include "ptyprocess.h"
 
@@ -107,4 +107,4 @@ private:
 
 }
 
-#endif // KDESUSTUB_H
+#endif // KDESUSTUBPROCESS_H

@@ -5,8 +5,8 @@
     SPDX-License-Identifier: GPL-2.0-only
 */
 
-#ifndef KDESUSU_H
-#define KDESUSU_H
+#ifndef KDESUSUPROCESS_H
+#define KDESUSUPROCESS_H
 
 #include <kdesu/kdesu_export.h>
 
@@ -85,4 +85,4 @@ private:
 
 }
 
-#endif //KDESUSU_H
+#endif //KDESUSUPROCESS_H

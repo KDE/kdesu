@@ -5,8 +5,8 @@
     SPDX-License-Identifier: GPL-2.0-only
 */
 
-#ifndef KDESUPROCESS_H
-#define KDESUPROCESS_H
+#ifndef KDESUPTYPROCESS_H
+#define KDESUPTYPROCESS_H
 
 #include <sys/types.h>
 
@@ -200,4 +200,4 @@ private:
 
 }
 
-#endif //KDESUPROCESS_H
+#endif //KDESUPTYPROCESS_H
