@@ -28,7 +28,7 @@ extern int kdesuDebugArea();
 namespace KDESu
 {
 
-class Q_DECL_HIDDEN KDEsuClient::KDEsuClientPrivate
+class KDEsuClientPrivate
 {
 public:
     KDEsuClientPrivate() : sockfd(-1) {}
@@ -73,7 +73,6 @@ KDEsuClient::~KDEsuClient()
     if (d->sockfd >= 0) {
         close(d->sockfd);
     }
-    delete d;
 }
 
 int KDEsuClient::connect()

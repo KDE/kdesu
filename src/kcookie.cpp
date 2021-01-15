@@ -23,7 +23,7 @@ namespace KDESu
 namespace KDESuPrivate
 {
 
-class KCookie::KCookiePrivate
+class KCookiePrivate
 {
 public:
     QByteArray display;
@@ -40,10 +40,7 @@ KCookie::KCookie()
 #endif
 }
 
-KCookie::~KCookie()
-{
-    delete d;
-}
+KCookie::~KCookie() = default;
 
 QByteArray KCookie::display() const
 {

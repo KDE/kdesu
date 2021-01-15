@@ -12,6 +12,8 @@
 
 #include <config-kdesu.h>
 
+#include <memory>
+
 namespace KDESu
 {
 
@@ -48,8 +50,8 @@ public:
 private:
     void getXCookie();
 
-    class KCookiePrivate;
-    KCookiePrivate *const d;
+private:
+    std::unique_ptr<class KCookiePrivate> const d;
 };
 
 }

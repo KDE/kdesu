@@ -14,6 +14,7 @@
 
 #include <QList>
 #include <QByteArray>
+#include <memory>
 
 #ifdef Q_OS_UNIX
 
@@ -193,8 +194,8 @@ private:
     int command(const QByteArray &cmd, QByteArray *result = nullptr);
     QByteArray escape(const QByteArray &str);
 
-    class KDEsuClientPrivate;
-    KDEsuClientPrivate *const d;
+private:
+    std::unique_ptr<class KDEsuClientPrivate> const d;
 };
 
 } //END namespace KDESu
