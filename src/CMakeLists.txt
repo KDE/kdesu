@@ -39,7 +39,7 @@ ecm_generate_export_header(KF5Su
     EXPORT_FILE_NAME kdesu/kdesu_export.h
     BASE_NAME KDESu
     GROUP_BASE_NAME KF
-    VERSION ${KF5_VERSION}
+    VERSION ${KF_VERSION}
     DEPRECATED_BASE_VERSION 0
     DEPRECATION_VERSIONS 5.0
     EXCLUDE_DEPRECATED_BEFORE_AND_AT ${EXCLUDE_DEPRECATED_BEFORE_AND_AT}
@@ -113,7 +113,7 @@ if(BUILD_QCH)
         KF5Su_QCH
         NAME KDESu
         BASE_NAME KF5Su
-        VERSION ${KF5_VERSION}
+        VERSION ${KF_VERSION}
         ORG_DOMAIN org.kde
         SOURCES # using only public headers, to cover only public API
             ${KDESu_HEADERS}
