@@ -134,7 +134,7 @@ int SuProcess::exec(const char *password, int check)
     // Get the kdesu_stub and su command from a config file if set, used in test
     KSharedConfig::Ptr config = KSharedConfig::openConfig();
     KConfigGroup group(config, "super-user-command");
-    const QString defaultPath = QStringLiteral(CMAKE_INSTALL_FULL_LIBEXECDIR_KF5) + QStringLiteral("/kdesu_stub");
+    const QString defaultPath = QStringLiteral(KDE_INSTALL_FULL_LIBEXECDIR_KF5) + QStringLiteral("/kdesu_stub");
     const QString kdesuStubPath = group.readEntry("kdesu_stub_path", defaultPath);
     args += kdesuStubPath.toLocal8Bit();
     args += "-"; // krazy:exclude=doublequote_chars (QList, not QString)

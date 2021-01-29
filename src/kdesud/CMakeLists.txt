@@ -41,7 +41,7 @@ endif()
 
 install(TARGETS kdesud DESTINATION ${KDE_INSTALL_LIBEXECDIR_KF5})
 install(CODE "
-    set(KDESUD_PATH \"\$ENV{DESTDIR}${CMAKE_INSTALL_FULL_LIBEXECDIR_KF5}/kdesud\")
+    set(KDESUD_PATH \"\$ENV{DESTDIR}${KDE_INSTALL_FULL_LIBEXECDIR_KF5}/kdesud\")
     execute_process(COMMAND sh -c \"chgrp nogroup '\${KDESUD_PATH}' && chmod g+s '\${KDESUD_PATH}'\")
 ")
 
