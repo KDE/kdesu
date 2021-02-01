@@ -413,7 +413,7 @@ int PtyProcess::waitForChild()
         }
 
         if (ret) {
-            forever {
+            for (;;) {
             QByteArray output = readAll(false);
                 if (output.isEmpty())
                 {
