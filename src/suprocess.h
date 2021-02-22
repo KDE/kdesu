@@ -63,7 +63,12 @@ protected:
     void virtual_hook(int id, void *data) override;
 
 private:
-    enum SuErrors { error = -1, ok = 0, killme = 1, notauthorized = 2 };
+    enum SuErrors {
+        error = -1,
+        ok = 0,
+        killme = 1,
+        notauthorized = 2,
+    };
 
     int converseSU(const char *password);
 

@@ -39,7 +39,7 @@ public:
     enum checkPidStatus {
         Error = -1, /**< No child */
         NotExited = -2, /**< Child hasn't exited */
-        Killed = -3 /**< Child terminated by signal */
+        Killed = -3, /**< Child terminated by signal */
     };
 
     PtyProcess();
