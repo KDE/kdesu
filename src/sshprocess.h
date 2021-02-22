@@ -14,25 +14,18 @@
 
 namespace KDESu
 {
-
 class SshProcessPrivate;
 
 /** \class SshProcess sshprocess.h KDESu/SshProcess
  * Executes a remote command, using ssh.
  */
 
-class KDESU_EXPORT SshProcess: public StubProcess
+class KDESU_EXPORT SshProcess : public StubProcess
 {
 public:
-    enum Errors {
-        SshNotFound = 1,
-        SshNeedsPassword,
-        SshIncorrectPassword
-    };
+    enum Errors { SshNotFound = 1, SshNeedsPassword, SshIncorrectPassword };
 
-    explicit SshProcess(const QByteArray &host = QByteArray(),
-                        const QByteArray &user = QByteArray(),
-                        const QByteArray &command = QByteArray());
+    explicit SshProcess(const QByteArray &host = QByteArray(), const QByteArray &user = QByteArray(), const QByteArray &command = QByteArray());
     ~SshProcess() override;
 
     /**
@@ -80,10 +73,10 @@ private:
     Q_DECLARE_PRIVATE_D(PtyProcess::d, SshProcess)
 #if KDESU_BUILD_DEPRECATED_SINCE(5, 79)
     // Unused, kept for ABI compatibility
-    const void * __kdesu_d_do_not_use;
+    const void *__kdesu_d_do_not_use;
 #endif
 };
 
 }
 
-#endif //KDESUSSHPROCESS_H
+#endif // KDESUSSHPROCESS_H

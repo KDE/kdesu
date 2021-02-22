@@ -14,7 +14,6 @@
 
 namespace KDESu
 {
-
 class SuProcessPrivate;
 
 /** \class SuProcess suprocess.h KDESu/SuProcess
@@ -24,20 +23,12 @@ class SuProcessPrivate;
 class KDESU_EXPORT SuProcess : public StubProcess
 {
 public:
-    enum Errors {
-        SuNotFound = 1,
-        SuNotAllowed,
-        SuIncorrectPassword
-    };
+    enum Errors { SuNotFound = 1, SuNotAllowed, SuIncorrectPassword };
 
     /**
      * Executes the command. This will wait for the command to finish.
      */
-    enum checkMode {
-        NoCheck = 0,
-        Install = 1,
-        NeedPassword = 2
-    };
+    enum checkMode { NoCheck = 0, Install = 1, NeedPassword = 2 };
 
     explicit SuProcess(const QByteArray &user = nullptr, const QByteArray &command = nullptr);
     ~SuProcess();
@@ -72,12 +63,7 @@ protected:
     void virtual_hook(int id, void *data) override;
 
 private:
-    enum SuErrors {
-        error = -1,
-        ok = 0,
-        killme = 1,
-        notauthorized = 2
-    };
+    enum SuErrors { error = -1, ok = 0, killme = 1, notauthorized = 2 };
 
     int converseSU(const char *password);
 
@@ -85,10 +71,10 @@ private:
     Q_DECLARE_PRIVATE_D(PtyProcess::d, SuProcess)
 #if KDESU_BUILD_DEPRECATED_SINCE(5, 79)
     // Unused, kept for ABI compatibility
-    const void * __kdesu_d_do_not_use;
+    const void *__kdesu_d_do_not_use;
 #endif
 };
 
 }
 
-#endif //KDESUSUPROCESS_H
+#endif // KDESUSUPROCESS_H

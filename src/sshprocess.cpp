@@ -9,19 +9,18 @@
 
 #include "sshprocess.h"
 
-#include "stubprocess_p.h"
 #include "kcookie_p.h"
+#include "stubprocess_p.h"
 #include <ksu_debug.h>
 
-#include <unistd.h>
 #include <signal.h>
 #include <time.h>
+#include <unistd.h>
 
 extern int kdesuDebugArea();
 
 namespace KDESu
 {
-
 using namespace KDESuPrivate;
 
 class SshProcessPrivate : public StubProcessPrivate
@@ -30,7 +29,8 @@ public:
     SshProcessPrivate(const QByteArray &host)
         : host(host)
         , stub("kdesu_stub")
-    {}
+    {
+    }
     QByteArray prompt;
     QByteArray host;
     QByteArray error;
@@ -94,7 +94,8 @@ int SshProcess::exec(const char *password, int check)
     int ret = converseSsh(password, check);
     if (ret < 0) {
         if (!check) {
-            qCCritical(KSU_LOG) << "[" << __FILE__ << ":" << __LINE__ << "] " << "Conversation with ssh failed.";
+            qCCritical(KSU_LOG) << "[" << __FILE__ << ":" << __LINE__ << "] "
+                                << "Conversation with ssh failed.";
         }
         return ret;
     }
@@ -113,7 +114,8 @@ int SshProcess::exec(const char *password, int check)
     ret = converseStub(check);
     if (ret < 0) {
         if (!check) {
-            qCCritical(KSU_LOG) << "[" << __FILE__ << ":" << __LINE__ << "] " << "Conversation with kdesu_stub failed.";
+            qCCritical(KSU_LOG) << "[" << __FILE__ << ":" << __LINE__ << "] "
+                                << "Conversation with kdesu_stub failed.";
         }
         return ret;
     } else if (ret == 1) {
@@ -147,17 +149,17 @@ QByteArray SshProcess::error() const
 }
 
 /*
-* Conversation with ssh.
-* If check is 0, this waits for either a "Password: " prompt,
-* or the header of the stub. If a prompt is received, the password is
-* written back. Used for running a command.
-* If check is 1, operation is the same as 0 except that if a stub header is
-* received, the stub is stopped with the "stop" command. This is used for
-* checking a password.
-* If check is 2, operation is the same as 1, except that no password is
-* written. The prompt is saved to prompt. Used for checking the need for
-* a password.
-*/
+ * Conversation with ssh.
+ * If check is 0, this waits for either a "Password: " prompt,
+ * or the header of the stub. If a prompt is received, the password is
+ * written back. Used for running a command.
+ * If check is 1, operation is the same as 0 except that if a stub header is
+ * received, the stub is stopped with the "stop" command. This is used for
+ * checking a password.
+ * If check is 2, operation is the same as 1, except that no password is
+ * written. The prompt is saved to prompt. Used for checking the need for
+ * a password.
+ */
 int SshProcess::converseSsh(const char *password, int check)
 {
     Q_D(SshProcess);

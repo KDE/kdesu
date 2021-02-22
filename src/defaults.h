@@ -10,7 +10,6 @@
 
 namespace KDESu
 {
-
 const int defTimeout = 120 * 60;
 const int defEchoMode = 0;
 const bool defKeep = false;

@@ -13,16 +13,17 @@
 
 namespace KDESu
 {
-
-class KdeSudTest: public QObject
+class KdeSudTest : public QObject
 {
     Q_OBJECT
 private Q_SLOTS:
-    void initTestCase() {
+    void initTestCase()
+    {
     }
 
     // copy of KDEsuClient::escape
-    QByteArray escape(const QByteArray &str) {
+    QByteArray escape(const QByteArray &str)
+    {
         QByteArray copy;
         copy.reserve(str.size() + 4);
         copy.append('"');
@@ -43,7 +44,8 @@ private Q_SLOTS:
         return copy;
     }
 
-    void commandWithDoubleQuotes() {
+    void commandWithDoubleQuotes()
+    {
         // Process command like in KDEsuClient::exec
         QByteArray cmd;
         cmd = "EXEC ";

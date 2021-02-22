@@ -8,13 +8,13 @@
 #ifndef KDESUPTYPROCESS_H
 #define KDESUPTYPROCESS_H
 
-#include <sys/types.h>
 #include <memory>
+#include <sys/types.h>
 
 #include <QByteRef>
+#include <QList>
 #include <QString>
 #include <QStringList>
-#include <QList>
 
 #include <kdesu/kdesu_export.h>
 
@@ -22,7 +22,6 @@
 
 namespace KDESu
 {
-
 class PtyProcessPrivate;
 
 /** \class PtyProcess ptyprocess.h KDESu/PtyProcess
@@ -36,12 +35,11 @@ class PtyProcessPrivate;
 class KDESU_EXPORT PtyProcess
 {
 public:
-
     /** Error return values for checkPidExited() */
     enum checkPidStatus {
-        Error = -1,     /**< No child */
+        Error = -1, /**< No child */
         NotExited = -2, /**< Child hasn't exited */
-        Killed = -3     /**< Child terminated by signal */
+        Killed = -3 /**< Child terminated by signal */
     };
 
     PtyProcess();
@@ -112,7 +110,10 @@ public:
      * @deprecated since 5.0, use waitSlave()
      */
     KDESU_DEPRECATED_VERSION(5, 0, "Use PtyProcess::waitSlave()")
-    int WaitSlave() { return waitSlave(); }
+    int WaitSlave()
+    {
+        return waitSlave();
+    }
 #endif
 
     /**
@@ -188,12 +189,12 @@ protected:
     QList<QByteArray> environment() const;
 
     // KF6 TODO: move to PtyProcessPrivate
-    bool m_erase;           /**< @see setErase() */
-    bool m_terminal;        /**< Indicates running in a terminal, causes additional
-                                  newlines to be printed after output. Set to @c false
-                                  in constructor. @see setTerminal()  */
-    int m_pid;               /**< PID of child process */
-    QByteArray m_command;    /**< Unused */
+    bool m_erase; /**< @see setErase() */
+    bool m_terminal; /**< Indicates running in a terminal, causes additional
+                           newlines to be printed after output. Set to @c false
+                           in constructor. @see setTerminal()  */
+    int m_pid; /**< PID of child process */
+    QByteArray m_command; /**< Unused */
     QByteArray m_exitString; /**< String to scan for in output that indicates child has exited. */
 
 private:
@@ -210,4 +211,4 @@ private:
 
 }
 
-#endif //KDESUPTYPROCESS_H
+#endif // KDESUPTYPROCESS_H

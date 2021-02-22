@@ -9,20 +9,20 @@
 
 #include <ksud_debug.h>
 
+#include <assert.h>
+#include <errno.h>
+#include <signal.h>
 #include <stdlib.h>
 #include <string.h>
-#include <assert.h>
 #include <unistd.h>
-#include <signal.h>
-#include <errno.h>
 
 #include <sys/socket.h>
 
-#include <su.h>
 #include <ssh.h>
+#include <su.h>
 
-#include "repo.h"
 #include "lexer.h"
+#include "repo.h"
 
 using namespace KDESu;
 
@@ -33,7 +33,11 @@ extern Repository *repo;
 void kdesud_cleanup();
 
 ConnectionHandler::ConnectionHandler(int fd)
-        : SocketSecurity(fd), m_exitCode(0), m_hasExitCode(false), m_needExitCode(false), m_pid(0)
+    : SocketSecurity(fd)
+    , m_exitCode(0)
+    , m_hasExitCode(false)
+    , m_needExitCode(false)
+    , m_pid(0)
 {
     m_Fd = fd;
     m_Priority = 50;
@@ -58,29 +62,25 @@ int ConnectionHandler::handle()
     m_Buf.reserve(BUF_SIZE);
     nbytes = recv(m_Fd, m_Buf.data() + m_Buf.size(), BUF_SIZE - 1 - m_Buf.size(), 0);
 
-    if (nbytes < 0)
-    {
+    if (nbytes < 0) {
         if (errno == EINTR)
             return 0;
         // read error
         return -1;
-    } else if (nbytes == 0)
-    {
+    } else if (nbytes == 0) {
         // eof
         return -1;
     }
 
-    m_Buf.resize(m_Buf.size()+nbytes);
-    if (m_Buf.size() == BUF_SIZE - 1)
-    {
+    m_Buf.resize(m_Buf.size() + nbytes);
+    if (m_Buf.size() == BUF_SIZE - 1) {
         qCWarning(KSUD_LOG) << "line too long";
         return -1;
     }
 
     // Do we have a complete command yet?
     int n;
-    while ((n = m_Buf.indexOf('\n')) != -1)
-    {
+    while ((n = m_Buf.indexOf('\n')) != -1) {
         n++;
         QByteArray newbuf = QByteArray(m_Buf.data(), n); // ensure new detached buffer for simplicity
         int nsize = m_Buf.size() - n;
@@ -97,8 +97,7 @@ int ConnectionHandler::handle()
     return 0;
 }
 
-QByteArray ConnectionHandler::makeKey(int _namespace, const QByteArray &s1,
-                                      const QByteArray &s2, const QByteArray &s3) const
+QByteArray ConnectionHandler::makeKey(int _namespace, const QByteArray &s1, const QByteArray &s2, const QByteArray &s3) const
 {
     QByteArray res;
     res.setNum(_namespace);
@@ -110,7 +109,7 @@ QByteArray ConnectionHandler::makeKey(int _namespace, const QByteArray &s1,
 void ConnectionHandler::sendExitCode()
 {
     if (!m_needExitCode)
-       return;
+        return;
     QByteArray buf;
     buf.setNum(m_exitCode);
     buf.prepend("OK ");
@@ -133,8 +132,7 @@ void ConnectionHandler::respond(int ok, const QByteArray &s)
         break;
     }
 
-    if (!s.isEmpty())
-    {
+    if (!s.isEmpty()) {
         buf += ' ';
         buf += s;
     }
@@ -151,10 +149,9 @@ void ConnectionHandler::respond(int ok, const QByteArray &s)
 
 int ConnectionHandler::doCommand(QByteArray buf)
 {
-    if ((uid_t) peerUid() != getuid())
-    {
+    if ((uid_t)peerUid() != getuid()) {
         qCWarning(KSUD_LOG) << "Peer uid not equal to me\n";
-        qCWarning(KSUD_LOG) << "Peer: " << peerUid() << " Me: " << getuid() ;
+        qCWarning(KSUD_LOG) << "Peer: " << peerUid() << " Me: " << getuid();
         return -1;
     }
 
@@ -163,9 +160,8 @@ int ConnectionHandler::doCommand(QByteArray buf)
 
     Lexer *l = new Lexer(buf);
     int tok = l->lex();
-    switch (tok)
-    {
-    case Lexer::Tok_pass:  // "PASS password:string timeout:int\n"
+    switch (tok) {
+    case Lexer::Tok_pass: // "PASS password:string timeout:int\n"
         tok = l->lex();
         if (tok != Lexer::Tok_str)
             goto parse_error;
@@ -178,12 +174,12 @@ int ConnectionHandler::doCommand(QByteArray buf)
         if (l->lex() != '\n')
             goto parse_error;
         if (m_Pass.isNull())
-           m_Pass = "";
+            m_Pass = "";
         qCDebug(KSUD_LOG) << "Password set!\n";
         respond(Res_OK);
         break;
 
-    case Lexer::Tok_host:  // "HOST host:string\n"
+    case Lexer::Tok_host: // "HOST host:string\n"
         tok = l->lex();
         if (tok != Lexer::Tok_str)
             goto parse_error;
@@ -194,7 +190,7 @@ int ConnectionHandler::doCommand(QByteArray buf)
         respond(Res_OK);
         break;
 
-    case Lexer::Tok_prio:  // "PRIO priority:int\n"
+    case Lexer::Tok_prio: // "PRIO priority:int\n"
         tok = l->lex();
         if (tok != Lexer::Tok_num)
             goto parse_error;
@@ -205,7 +201,7 @@ int ConnectionHandler::doCommand(QByteArray buf)
         respond(Res_OK);
         break;
 
-    case Lexer::Tok_sched:  // "SCHD scheduler:int\n"
+    case Lexer::Tok_sched: // "SCHD scheduler:int\n"
         tok = l->lex();
         if (tok != Lexer::Tok_num)
             goto parse_error;
@@ -216,7 +212,7 @@ int ConnectionHandler::doCommand(QByteArray buf)
         respond(Res_OK);
         break;
 
-    case Lexer::Tok_exec:  // "EXEC command:string user:string [options:string (env:string)*]\n"
+    case Lexer::Tok_exec: // "EXEC command:string user:string [options:string (env:string)*]\n"
     {
         QByteArray options;
         QList<QByteArray> env;
@@ -229,21 +225,19 @@ int ConnectionHandler::doCommand(QByteArray buf)
             goto parse_error;
         user = l->lval();
         tok = l->lex();
-        if (tok != '\n')
-        {
+        if (tok != '\n') {
             if (tok != Lexer::Tok_str)
                 goto parse_error;
             options = l->lval();
             tok = l->lex();
-            while (tok != '\n')
-            {
-               if (tok != Lexer::Tok_str)
-                   goto parse_error;
-               QByteArray env_str = l->lval();
-               env.append(env_str);
-               if (strncmp(env_str.constData(), "DESKTOP_STARTUP_ID=", strlen("DESKTOP_STARTUP_ID=")) != 0)
-                   env_check += '*'+env_str;
-               tok = l->lex();
+            while (tok != '\n') {
+                if (tok != Lexer::Tok_str)
+                    goto parse_error;
+                QByteArray env_str = l->lval();
+                env.append(env_str);
+                if (strncmp(env_str.constData(), "DESKTOP_STARTUP_ID=", strlen("DESKTOP_STARTUP_ID=")) != 0)
+                    env_check += '*' + env_str;
+                tok = l->lex();
             }
         }
 
@@ -254,15 +248,13 @@ int ConnectionHandler::doCommand(QByteArray buf)
             auth_user = user;
         key = makeKey(2, m_Host, auth_user, command);
         // We only use the command if the environment is the same.
-        if (repo->find(key) == env_check)
-        {
-           key = makeKey(0, m_Host, auth_user, command);
-           pass = repo->find(key);
+        if (repo->find(key) == env_check) {
+            key = makeKey(0, m_Host, auth_user, command);
+            pass = repo->find(key);
         }
         if (pass.isNull()) // isNull() means no password, isEmpty() can mean empty password
         {
-            if (m_Pass.isNull())
-            {
+            if (m_Pass.isNull()) {
                 respond(Res_NO);
                 break;
             }
@@ -280,13 +272,11 @@ int ConnectionHandler::doCommand(QByteArray buf)
         // Execute the command asynchronously
         qCDebug(KSUD_LOG) << "Executing command: " << command;
         pid_t pid = fork();
-        if (pid < 0)
-        {
+        if (pid < 0) {
             qCDebug(KSUD_LOG) << "fork(): " << strerror(errno);
             respond(Res_NO);
             break;
-        } else if (pid > 0)
-        {
+        } else if (pid > 0) {
             m_pid = pid;
             respond(Res_OK);
             break;
@@ -296,19 +286,17 @@ int ConnectionHandler::doCommand(QByteArray buf)
         signal(SIGCHLD, SIG_DFL);
 
         int ret;
-        if (m_Host.isEmpty())
-        {
+        if (m_Host.isEmpty()) {
             SuProcess proc;
             proc.setCommand(command);
             proc.setUser(user);
             if (options.contains('x'))
-               proc.setXOnly(true);
+                proc.setXOnly(true);
             proc.setPriority(m_Priority);
             proc.setScheduler(m_Scheduler);
             proc.setEnvironment(env);
             ret = proc.exec(pass.data());
-        } else
-        {
+        } else {
             SshProcess proc;
             proc.setCommand(command);
             proc.setUser(user);
@@ -320,121 +308,114 @@ int ConnectionHandler::doCommand(QByteArray buf)
         _exit(ret);
     }
 
-    case Lexer::Tok_delCmd:  // "DEL command:string user:string\n"
-    tok = l->lex();
-    if (tok != Lexer::Tok_str)
-        goto parse_error;
-    command = l->lval();
-    tok = l->lex();
-    if (tok != Lexer::Tok_str)
-        goto parse_error;
-    user = l->lval();
-    if (l->lex() != '\n')
-        goto parse_error;
-    key = makeKey(0, m_Host, user, command);
-    if (repo->remove(key) < 0) {
-        qCDebug(KSUD_LOG) << "Unknown command: " << command;
-        respond(Res_NO);
-    }
-    else {
-        qCDebug(KSUD_LOG) << "Deleted command: " << command << ", user = "
-                      << user;
-        respond(Res_OK);
-    }
-    break;
+    case Lexer::Tok_delCmd: // "DEL command:string user:string\n"
+        tok = l->lex();
+        if (tok != Lexer::Tok_str)
+            goto parse_error;
+        command = l->lval();
+        tok = l->lex();
+        if (tok != Lexer::Tok_str)
+            goto parse_error;
+        user = l->lval();
+        if (l->lex() != '\n')
+            goto parse_error;
+        key = makeKey(0, m_Host, user, command);
+        if (repo->remove(key) < 0) {
+            qCDebug(KSUD_LOG) << "Unknown command: " << command;
+            respond(Res_NO);
+        } else {
+            qCDebug(KSUD_LOG) << "Deleted command: " << command << ", user = " << user;
+            respond(Res_OK);
+        }
+        break;
 
-    case Lexer::Tok_delVar:  // "DELV name:string \n"
+    case Lexer::Tok_delVar: // "DELV name:string \n"
     {
-    tok = l->lex();
-    if (tok != Lexer::Tok_str)
-        goto parse_error;
-    name = l->lval();
-    tok = l->lex();
-    if (tok != '\n')
-        goto parse_error;
-    key = makeKey(1, name);
-    if (repo->remove(key) < 0)
-    {
-        qCDebug(KSUD_LOG) << "Unknown name: " << name;
-        respond(Res_NO);
+        tok = l->lex();
+        if (tok != Lexer::Tok_str)
+            goto parse_error;
+        name = l->lval();
+        tok = l->lex();
+        if (tok != '\n')
+            goto parse_error;
+        key = makeKey(1, name);
+        if (repo->remove(key) < 0) {
+            qCDebug(KSUD_LOG) << "Unknown name: " << name;
+            respond(Res_NO);
+        } else {
+            qCDebug(KSUD_LOG) << "Deleted name: " << name;
+            respond(Res_OK);
+        }
+        break;
     }
-    else {
-        qCDebug(KSUD_LOG) << "Deleted name: " << name;
+
+    case Lexer::Tok_delGroup: // "DELG group:string\n"
+        tok = l->lex();
+        if (tok != Lexer::Tok_str)
+            goto parse_error;
+        name = l->lval();
+        if (repo->removeGroup(name) < 0) {
+            qCDebug(KSUD_LOG) << "No keys found under group: " << name;
+            respond(Res_NO);
+        } else {
+            qCDebug(KSUD_LOG) << "Removed all keys under group: " << name;
+            respond(Res_OK);
+        }
+        break;
+
+    case Lexer::Tok_delSpecialKey: // "DELS special_key:string\n"
+        tok = l->lex();
+        if (tok != Lexer::Tok_str)
+            goto parse_error;
+        name = l->lval();
+        if (repo->removeSpecialKey(name) < 0)
+            respond(Res_NO);
+        else
+            respond(Res_OK);
+        break;
+
+    case Lexer::Tok_set: // "SET name:string value:string group:string timeout:int\n"
+        tok = l->lex();
+        if (tok != Lexer::Tok_str)
+            goto parse_error;
+        name = l->lval();
+        tok = l->lex();
+        if (tok != Lexer::Tok_str)
+            goto parse_error;
+        data.value = l->lval();
+        tok = l->lex();
+        if (tok != Lexer::Tok_str)
+            goto parse_error;
+        data.group = l->lval();
+        tok = l->lex();
+        if (tok != Lexer::Tok_num)
+            goto parse_error;
+        data.timeout = l->lval().toInt();
+        if (l->lex() != '\n')
+            goto parse_error;
+        key = makeKey(1, name);
+        repo->add(key, data);
+        qCDebug(KSUD_LOG) << "Stored key: " << key;
         respond(Res_OK);
-    }
-    break;
-    }
+        break;
 
-    case Lexer::Tok_delGroup:  // "DELG group:string\n"
-    tok = l->lex();
-    if (tok != Lexer::Tok_str)
-        goto parse_error;
-    name = l->lval();
-    if (repo->removeGroup(name) < 0)
-    {
-        qCDebug(KSUD_LOG) << "No keys found under group: " << name;
-        respond(Res_NO);
-    }
-    else
-    {
-        qCDebug(KSUD_LOG) << "Removed all keys under group: " << name;
-        respond(Res_OK);
-    }
-    break;
+    case Lexer::Tok_get: // "GET name:string\n"
+        tok = l->lex();
+        if (tok != Lexer::Tok_str)
+            goto parse_error;
+        name = l->lval();
+        if (l->lex() != '\n')
+            goto parse_error;
+        key = makeKey(1, name);
+        qCDebug(KSUD_LOG) << "Request for key: " << key;
+        value = repo->find(key);
+        if (!value.isEmpty())
+            respond(Res_OK, value);
+        else
+            respond(Res_NO);
+        break;
 
-    case Lexer::Tok_delSpecialKey:  // "DELS special_key:string\n"
-    tok = l->lex();
-    if (tok != Lexer::Tok_str)
-        goto parse_error;
-    name = l->lval();
-    if (repo->removeSpecialKey(name) < 0)
-        respond(Res_NO);
-    else
-        respond(Res_OK);
-    break;
-
-    case Lexer::Tok_set:  // "SET name:string value:string group:string timeout:int\n"
-    tok = l->lex();
-    if (tok != Lexer::Tok_str)
-        goto parse_error;
-    name = l->lval();
-    tok = l->lex();
-    if (tok != Lexer::Tok_str)
-        goto parse_error;
-    data.value = l->lval();
-    tok = l->lex();
-    if (tok != Lexer::Tok_str)
-        goto parse_error;
-    data.group = l->lval();
-    tok = l->lex();
-    if (tok != Lexer::Tok_num)
-        goto parse_error;
-    data.timeout = l->lval().toInt();
-    if (l->lex() != '\n')
-        goto parse_error;
-    key = makeKey(1, name);
-    repo->add(key, data);
-    qCDebug(KSUD_LOG) << "Stored key: " << key;
-    respond(Res_OK);
-    break;
-
-    case Lexer::Tok_get:  // "GET name:string\n"
-    tok = l->lex();
-    if (tok != Lexer::Tok_str)
-        goto parse_error;
-    name = l->lval();
-    if (l->lex() != '\n')
-        goto parse_error;
-    key = makeKey(1, name);
-    qCDebug(KSUD_LOG) << "Request for key: " << key;
-    value = repo->find(key);
-    if (!value.isEmpty())
-        respond(Res_OK, value);
-    else
-        respond(Res_NO);
-    break;
-
-    case Lexer::Tok_getKeys:  // "GETK groupname:string\n"
+    case Lexer::Tok_getKeys: // "GETK groupname:string\n"
         tok = l->lex();
         if (tok != Lexer::Tok_str)
             goto parse_error;
@@ -449,7 +430,7 @@ int ConnectionHandler::doCommand(QByteArray buf)
             respond(Res_NO);
         break;
 
-    case Lexer::Tok_chkGroup:  // "CHKG groupname:string\n"
+    case Lexer::Tok_chkGroup: // "CHKG groupname:string\n"
         tok = l->lex();
         if (tok != Lexer::Tok_str)
             goto parse_error;
@@ -457,29 +438,29 @@ int ConnectionHandler::doCommand(QByteArray buf)
         if (l->lex() != '\n')
             goto parse_error;
         qCDebug(KSUD_LOG) << "Checking for group key: " << name;
-        if ( repo->hasGroup( name ) < 0 )
+        if (repo->hasGroup(name) < 0)
             respond(Res_NO);
         else
             respond(Res_OK);
         break;
 
-    case Lexer::Tok_ping:  // "PING\n"
+    case Lexer::Tok_ping: // "PING\n"
         tok = l->lex();
         if (tok != '\n')
             goto parse_error;
         respond(Res_OK);
         break;
 
-    case Lexer::Tok_exit:  // "EXIT\n"
+    case Lexer::Tok_exit: // "EXIT\n"
         tok = l->lex();
         if (tok != '\n')
             goto parse_error;
         m_needExitCode = true;
         if (m_hasExitCode)
-           sendExitCode();
+            sendExitCode();
         break;
 
-    case Lexer::Tok_stop:  // "STOP\n"
+    case Lexer::Tok_stop: // "STOP\n"
         tok = l->lex();
         if (tok != '\n')
             goto parse_error;
@@ -489,7 +470,7 @@ int ConnectionHandler::doCommand(QByteArray buf)
         exit(0);
 
     default:
-        qCWarning(KSUD_LOG) << "Unknown command: " << l->lval() ;
+        qCWarning(KSUD_LOG) << "Unknown command: " << l->lval();
         respond(Res_NO);
         goto parse_error;
     }
@@ -498,10 +479,7 @@ int ConnectionHandler::doCommand(QByteArray buf)
     return 0;
 
 parse_error:
-    qCWarning(KSUD_LOG) << "Parse error" ;
+    qCWarning(KSUD_LOG) << "Parse error";
     delete l;
     return -1;
 }
-
-
-

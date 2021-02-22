@@ -11,39 +11,38 @@
 */
 
 #include "ptyprocess.h"
-#include "ptyprocess_p.h"
 #include "kcookie_p.h"
+#include "ptyprocess_p.h"
 
-#include <ksu_debug.h>
 #include <config-kdesu.h>
+#include <ksu_debug.h>
 
-#include <stdlib.h>
-#include <unistd.h>
+#include <errno.h>
 #include <fcntl.h>
 #include <signal.h>
-#include <errno.h>
+#include <stdlib.h>
 #include <termios.h>
+#include <unistd.h>
 
-#include <sys/wait.h>
+#include <sys/resource.h>
 #include <sys/stat.h>
 #include <sys/time.h>
-#include <sys/resource.h>
+#include <sys/wait.h>
 
 #if HAVE_SYS_SELECT_H
-#include <sys/select.h>                // Needed on some systems.
+#include <sys/select.h> // Needed on some systems.
 #endif
 
 #include <QFile>
 #include <QStandardPaths>
 
-#include <KSharedConfig>
 #include <KConfigGroup>
+#include <KSharedConfig>
 
 extern int kdesuDebugArea();
 
 namespace KDESu
 {
-
 using namespace KDESuPrivate;
 
 /*
@@ -76,7 +75,7 @@ bool PtyProcess::checkPid(pid_t pid)
     KSharedConfig::Ptr config = KSharedConfig::openConfig();
     KConfigGroup cg(config, "super-user-command");
     QString superUserCommand = cg.readEntry("super-user-command", "sudo");
-    //sudo does not accept signals from user so we except it
+    // sudo does not accept signals from user so we except it
     if (superUserCommand == QLatin1String("sudo")) {
         return true;
     } else {
@@ -97,7 +96,8 @@ int PtyProcess::checkPidExited(pid_t pid)
     ret = waitpid(pid, &state, WNOHANG);
 
     if (ret < 0) {
-        qCCritical(KSU_LOG) << "[" << __FILE__ << ":" << __LINE__ << "] " << "waitpid():" << strerror(errno);
+        qCCritical(KSU_LOG) << "[" << __FILE__ << ":" << __LINE__ << "] "
+                            << "waitpid():" << strerror(errno);
         return Error;
     }
     if (ret == pid) {
@@ -111,12 +111,10 @@ int PtyProcess::checkPidExited(pid_t pid)
     return NotExited;
 }
 
-
 PtyProcess::PtyProcess()
     : PtyProcess(*new PtyProcessPrivate)
 {
 }
-
 
 PtyProcess::PtyProcess(PtyProcessPrivate &dd)
     : d(&dd)
@@ -132,7 +130,8 @@ int PtyProcess::init()
     delete d->pty;
     d->pty = new KPty();
     if (!d->pty->open()) {
-        qCCritical(KSU_LOG) << "[" << __FILE__ << ":" << __LINE__ << "] " << "Failed to open PTY.";
+        qCCritical(KSU_LOG) << "[" << __FILE__ << ":" << __LINE__ << "] "
+                            << "Failed to open PTY.";
         return -1;
     }
     d->inputBuffer.resize(0);
@@ -174,7 +173,8 @@ QByteArray PtyProcess::readAll(bool block)
 
     int flags = fcntl(fd(), F_GETFL);
     if (flags < 0) {
-        qCCritical(KSU_LOG) << "[" << __FILE__ << ":" << __LINE__ << "] " << "fcntl(F_GETFL):" << strerror(errno);
+        qCCritical(KSU_LOG) << "[" << __FILE__ << ":" << __LINE__ << "] "
+                            << "fcntl(F_GETFL):" << strerror(errno);
         return ret;
     }
     int oflags = flags;
@@ -270,7 +270,8 @@ int PtyProcess::exec(const QByteArray &command, const QList<QByteArray> &args)
     }
 
     if ((m_pid = fork()) == -1) {
-        qCCritical(KSU_LOG) << "[" << __FILE__ << ":" << __LINE__ << "] " << "fork():" << strerror(errno);
+        qCCritical(KSU_LOG) << "[" << __FILE__ << ":" << __LINE__ << "] "
+                            << "fork():" << strerror(errno);
         return -1;
     }
 
@@ -329,7 +330,8 @@ int PtyProcess::exec(const QByteArray &command, const QList<QByteArray> &args)
     argp[i] = nullptr;
 
     execv(path.constData(), const_cast<char **>(argp));
-    qCCritical(KSU_LOG) << "[" << __FILE__ << ":" << __LINE__ << "] " << "execv(" << path << "):" << strerror(errno);
+    qCCritical(KSU_LOG) << "[" << __FILE__ << ":" << __LINE__ << "] "
+                        << "execv(" << path << "):" << strerror(errno);
     _exit(1);
     return -1; // Shut up compiler. Never reached.
 }
@@ -352,7 +354,8 @@ int PtyProcess::waitSlave()
             return -1;
         }
         if (!d->pty->tcGetAttr(&tio)) {
-            qCCritical(KSU_LOG) << "[" << __FILE__ << ":" << __LINE__ << "] " << "tcgetattr():" << strerror(errno);
+            qCCritical(KSU_LOG) << "[" << __FILE__ << ":" << __LINE__ << "] "
+                                << "tcgetattr():" << strerror(errno);
             return -1;
         }
         if (tio.c_lflag & ECHO) {
@@ -406,7 +409,8 @@ int PtyProcess::waitForChild()
         int ret = select(fd() + 1, &fds, nullptr, nullptr, &timeout);
         if (ret == -1) {
             if (errno != EINTR) {
-                qCCritical(KSU_LOG) << "[" << __FILE__ << ":" << __LINE__ << "] " << "select():" << strerror(errno);
+                qCCritical(KSU_LOG) << "[" << __FILE__ << ":" << __LINE__ << "] "
+                                    << "select():" << strerror(errno);
                 return -1;
             }
             ret = 0;
@@ -414,18 +418,15 @@ int PtyProcess::waitForChild()
 
         if (ret) {
             for (;;) {
-            QByteArray output = readAll(false);
-                if (output.isEmpty())
-                {
+                QByteArray output = readAll(false);
+                if (output.isEmpty()) {
                     break;
                 }
-                if (m_terminal)
-                {
+                if (m_terminal) {
                     fwrite(output.constData(), output.size(), 1, stdout);
                     fflush(stdout);
                 }
-                if (!m_exitString.isEmpty())
-                {
+                if (!m_exitString.isEmpty()) {
                     // match exit string only at line starts
                     remainder += output;
                     while (remainder.length() >= m_exitString.length()) {
@@ -495,12 +496,14 @@ int PtyProcess::setupTTY()
     // translated to '\r\n'.
     struct ::termios tio;
     if (tcgetattr(0, &tio) < 0) {
-        qCCritical(KSU_LOG) << "[" << __FILE__ << ":" << __LINE__ << "] " << "tcgetattr():" << strerror(errno);
+        qCCritical(KSU_LOG) << "[" << __FILE__ << ":" << __LINE__ << "] "
+                            << "tcgetattr():" << strerror(errno);
         return -1;
     }
     tio.c_oflag &= ~OPOST;
     if (tcsetattr(0, TCSANOW, &tio) < 0) {
-        qCCritical(KSU_LOG) << "[" << __FILE__ << ":" << __LINE__ << "] " << "tcsetattr():" << strerror(errno);
+        qCCritical(KSU_LOG) << "[" << __FILE__ << ":" << __LINE__ << "] "
+                            << "tcsetattr():" << strerror(errno);
         return -1;
     }
 

@@ -9,8 +9,8 @@
 #include "config-kdesutest.h"
 
 #include <QObject>
-#include <QTest>
 #include <QString>
+#include <QTest>
 
 #include <KConfig>
 #include <KConfigGroup>
@@ -20,16 +20,17 @@
 
 namespace KDESu
 {
-
-class KdeSuTest: public QObject
+class KdeSuTest : public QObject
 {
     Q_OBJECT
 private Q_SLOTS:
-    void initTestCase() {
+    void initTestCase()
+    {
         QStandardPaths::setTestModeEnabled(true);
     }
 
-    void editConfig(QString command, QString commandPath) {
+    void editConfig(QString command, QString commandPath)
+    {
         KSharedConfig::Ptr config = KSharedConfig::openConfig();
         KConfigGroup group(config, "super-user-command");
         group.writeEntry("super-user-command", command);
@@ -38,62 +39,68 @@ private Q_SLOTS:
         group.writeEntry("command", commandPath);
     }
 
-    void sudoGoodPassword() {
+    void sudoGoodPassword()
+    {
         editConfig(QString::fromLocal8Bit("sudo"), QString::fromLocal8Bit(CMAKE_HOME_DIRECTORY) + QString::fromLocal8Bit("/autotests/sudo"));
 
         KDESu::SuProcess *suProcess = new KDESu::SuProcess("root", "ls");
         QString suapp = suProcess->superUserCommand();
-        QVERIFY(suapp==QLatin1String("sudo"));
+        QVERIFY(suapp == QLatin1String("sudo"));
         int result = suProcess->exec(MYPASSWORD, 0);
         QVERIFY(result == 0);
     }
 
-    void sudoBadPassword() {
+    void sudoBadPassword()
+    {
         editConfig(QString::fromLocal8Bit("sudo"), QString::fromLocal8Bit(CMAKE_HOME_DIRECTORY) + QString::fromLocal8Bit("/autotests/sudo"));
 
         KDESu::SuProcess *suProcess = new KDESu::SuProcess("root", "ls");
         QString suapp = suProcess->superUserCommand();
-        QVERIFY(suapp==QLatin1String("sudo"));
+        QVERIFY(suapp == QLatin1String("sudo"));
         int result2 = suProcess->exec("broken", 0);
         QVERIFY(result2 == KDESu::SuProcess::SuIncorrectPassword);
     }
 
-    void doasBadPassword() {
+    void doasBadPassword()
+    {
         editConfig(QString::fromLocal8Bit("doas"), QString::fromLocal8Bit(CMAKE_HOME_DIRECTORY) + QString::fromLocal8Bit("/autotests/sudo"));
 
         KDESu::SuProcess *suProcess = new KDESu::SuProcess("root", "ls");
         QString suapp = suProcess->superUserCommand();
-        QVERIFY(suapp==QLatin1String("doas"));
+        QVERIFY(suapp == QLatin1String("doas"));
         int result2 = suProcess->exec("broken", 0);
         QVERIFY(result2 == KDESu::SuProcess::SuIncorrectPassword);
     }
 
-    void doasGoodPassword() {
+    void doasGoodPassword()
+    {
         editConfig(QString::fromLocal8Bit("doas"), QString::fromLocal8Bit(CMAKE_HOME_DIRECTORY) + QString::fromLocal8Bit("/autotests/sudo"));
 
         KDESu::SuProcess *suProcess = new KDESu::SuProcess("root", "ls");
         QString suapp = suProcess->superUserCommand();
-        QVERIFY(suapp==QLatin1String("doas"));
+        QVERIFY(suapp == QLatin1String("doas"));
         int result = suProcess->exec(MYPASSWORD, 0);
         QVERIFY(result == 0);
     }
 
-    void suGoodPassword() {
+    void suGoodPassword()
+    {
         editConfig(QString::fromLocal8Bit("su"), QString::fromLocal8Bit(CMAKE_HOME_DIRECTORY) + QString::fromLocal8Bit("/autotests/su"));
 
         KDESu::SuProcess *suProcess = new KDESu::SuProcess("root", "ls");
         QString suapp = suProcess->superUserCommand();
-        QVERIFY(suapp==QLatin1String("su"));
+        QVERIFY(suapp == QLatin1String("su"));
         int result2 = suProcess->exec(ROOTPASSWORD, 0);
         QVERIFY(result2 == 0);
     }
 
-    void suBadPassword() {
+    void suBadPassword()
+    {
         editConfig(QString::fromLocal8Bit("su"), QString::fromLocal8Bit(CMAKE_HOME_DIRECTORY) + QString::fromLocal8Bit("/autotests/su"));
 
         KDESu::SuProcess *suProcess = new KDESu::SuProcess("root", "ls");
         QString suapp = suProcess->superUserCommand();
-        QVERIFY(suapp==QLatin1String("su"));
+        QVERIFY(suapp == QLatin1String("su"));
         int result2 = suProcess->exec("broken", 0);
         QVERIFY(result2 == KDESu::SuProcess::SuIncorrectPassword);
     }

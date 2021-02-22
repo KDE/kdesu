@@ -17,6 +17,7 @@ find_package(Qt5Core ${REQUIRED_QT_VERSION} REQUIRED NO_MODULE)
 include(KDEInstallDirs)
 include(KDEFrameworkCompilerSettings NO_POLICY_SCOPE)
 include(KDECMakeSettings)
+include(KDEGitCommitHooks)
 
 find_package(KF5CoreAddons ${KF_DEP_VERSION} REQUIRED)
 find_package(KF5I18n ${KF_DEP_VERSION} REQUIRED)
@@ -104,3 +105,9 @@ if(BUILD_TESTING)
 endif()
 
 feature_summary(WHAT ALL   FATAL_ON_MISSING_REQUIRED_PACKAGES)
+
+kde_configure_git_pre_commit_hook(CHECKS CLANG_FORMAT)
+# Remove these 3 lines when the ECM version is bumped to 5.80
+include(KDEClangFormat)
+file(GLOB_RECURSE ALL_CLANG_FORMAT_SOURCE_FILES *.cpp *.h)
+kde_clang_format(${ALL_CLANG_FORMAT_SOURCE_FILES})

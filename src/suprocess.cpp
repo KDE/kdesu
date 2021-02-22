@@ -12,8 +12,8 @@
 
 #include "suprocess.h"
 
-#include "stubprocess_p.h"
 #include "kcookie_p.h"
+#include "stubprocess_p.h"
 #include <ksu_debug.h>
 
 #include <QFile>
@@ -26,11 +26,11 @@
 #include <kuser.h>
 
 #if defined(KDESU_USE_SUDO_DEFAULT)
-#  define DEFAULT_SUPER_USER_COMMAND QStringLiteral("sudo")
+#define DEFAULT_SUPER_USER_COMMAND QStringLiteral("sudo")
 #elif defined(KDESU_USE_DOAS_DEFAULT)
-#  define DEFAULT_SUPER_USER_COMMAND QStringLiteral("doas")
+#define DEFAULT_SUPER_USER_COMMAND QStringLiteral("doas")
 #else
-#  define DEFAULT_SUPER_USER_COMMAND QStringLiteral("su")
+#define DEFAULT_SUPER_USER_COMMAND QStringLiteral("su")
 #endif
 
 namespace KDESu
@@ -46,10 +46,8 @@ public:
 
 bool SuProcessPrivate::isPrivilegeEscalation() const
 {
-    return (superUserCommand == QLatin1String("sudo")
-            || superUserCommand == QLatin1String("doas"));
+    return (superUserCommand == QLatin1String("sudo") || superUserCommand == QLatin1String("doas"));
 }
-
 
 SuProcess::SuProcess(const QByteArray &user, const QByteArray &command)
     : StubProcess(*new SuProcessPrivate)
@@ -101,8 +99,8 @@ int SuProcess::checkNeedPassword()
 }
 
 /*
-* Execute a command with su(1).
-*/
+ * Execute a command with su(1).
+ */
 int SuProcess::exec(const char *password, int check)
 {
     Q_D(SuProcess);
@@ -153,7 +151,8 @@ int SuProcess::exec(const char *password, int check)
 
     if (ret == error) {
         if (!check) {
-            qCCritical(KSU_LOG) << "[" << __FILE__ << ":" << __LINE__ << "] " << "Conversation with" << d->superUserCommand << "failed.";
+            qCCritical(KSU_LOG) << "[" << __FILE__ << ":" << __LINE__ << "] "
+                                << "Conversation with" << d->superUserCommand << "failed.";
         }
         return ret;
     }
@@ -164,9 +163,9 @@ int SuProcess::exec(const char *password, int check)
                 return ret;
             }
             if (kill(m_pid, SIGKILL) < 0) {
-                //FIXME SIGKILL doesn't work for sudo,
-                //why is this different from su?
-                //A: because sudo runs as root. Perhaps we could write a Ctrl+C to its stdin, instead?
+                // FIXME SIGKILL doesn't work for sudo,
+                // why is this different from su?
+                // A: because sudo runs as root. Perhaps we could write a Ctrl+C to its stdin, instead?
                 ret = error;
             } else {
                 int iret = waitForChild();
@@ -193,7 +192,8 @@ int SuProcess::exec(const char *password, int check)
     int iret = converseStub(check);
     if (iret < 0) {
         if (!check) {
-            qCCritical(KSU_LOG) << "[" << __FILE__ << ":" << __LINE__ << "] " << "Conversation with kdesu_stub failed.";
+            qCCritical(KSU_LOG) << "[" << __FILE__ << ":" << __LINE__ << "] "
+                                << "Conversation with kdesu_stub failed.";
         }
         return iret;
     } else if (iret == 1) {
@@ -212,9 +212,9 @@ int SuProcess::exec(const char *password, int check)
 }
 
 /*
-* Conversation with su: feed the password.
-* Return values: -1 = error, 0 = ok, 1 = kill me, 2 not authorized
-*/
+ * Conversation with su: feed the password.
+ * Return values: -1 = error, 0 = ok, 1 = kill me, 2 not authorized
+ */
 int SuProcess::converseSU(const char *password)
 {
     enum { WaitForPrompt, CheckStar, HandleStub } state = WaitForPrompt;
@@ -248,7 +248,8 @@ int SuProcess::converseSU(const char *password)
             // Match "Password: " with the regex ^[^:]+:[\w]*$.
             for (i = 0, j = 0, colon = 0; i < len; ++i) {
                 if (line[i] == ':') {
-                    j = i; colon++;
+                    j = i;
+                    colon++;
                     continue;
                 }
                 if (!isspace(line[i])) {

@@ -7,28 +7,25 @@
 #ifndef __Repo_h_included__
 #define __Repo_h_included__
 
-
-#include <QMap>
 #include <QByteArray>
-
+#include <QMap>
 
 /**
  * Used internally.
  */
-struct Data_entry 
-{
+struct Data_entry {
     QByteArray value;
     QByteArray group;
     unsigned int timeout;
 };
-
 
 /**
  * String repository.
  *
  * This class implements a string repository with expiration.
  */
-class Repository {
+class Repository
+{
 public:
     Repository();
     ~Repository();
@@ -37,31 +34,30 @@ public:
     int expire();
 
     /** Add a data element */
-    void add(const QByteArray& key, Data_entry& data);
+    void add(const QByteArray &key, Data_entry &data);
 
     /** Delete a data element. */
-    int remove(const QByteArray& key);
+    int remove(const QByteArray &key);
 
     /** Delete all data entries having the given group.  */
-    int removeGroup(const QByteArray& group);
+    int removeGroup(const QByteArray &group);
 
     /** Delete all data entries based on key. */
-    int removeSpecialKey(const QByteArray& key );
+    int removeSpecialKey(const QByteArray &key);
 
     /** Checks for the existence of the specified group. */
     int hasGroup(const QByteArray &group) const;
 
     /** Return a data value.  */
-    QByteArray find(const QByteArray& key) const;
+    QByteArray find(const QByteArray &key) const;
 
     /** Returns the key values for the given group. */
-    QByteArray findKeys(const QByteArray& group, const char *sep= "-") const;
+    QByteArray findKeys(const QByteArray &group, const char *sep = "-") const;
 
 private:
-
-    QMap<QByteArray,Data_entry> repo;
-    typedef QMap<QByteArray,Data_entry>::Iterator RepoIterator;
-    typedef QMap<QByteArray,Data_entry>::ConstIterator RepoCIterator;
+    QMap<QByteArray, Data_entry> repo;
+    typedef QMap<QByteArray, Data_entry>::Iterator RepoIterator;
+    typedef QMap<QByteArray, Data_entry>::ConstIterator RepoCIterator;
     unsigned head_time;
 };
 
