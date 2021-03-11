@@ -9,8 +9,8 @@
 
 #include "client.h"
 
-#include <ksu_debug.h>
 #include <config-kdesu.h>
+#include <ksu_debug.h>
 
 #include <errno.h>
 #include <sys/socket.h>
@@ -27,19 +27,20 @@ extern int kdesuDebugArea();
 
 namespace KDESu
 {
-
 class KDEsuClientPrivate
 {
 public:
-    KDEsuClientPrivate() : sockfd(-1) {}
+    KDEsuClientPrivate()
+        : sockfd(-1)
+    {
+    }
     QString daemon;
     int sockfd;
     QByteArray sock;
 };
 
 #ifndef SUN_LEN
-#define SUN_LEN(ptr) ((QT_SOCKLEN_T) (((struct sockaddr_un *) 0)->sun_path) \
-                      + strlen ((ptr)->sun_path))
+#define SUN_LEN(ptr) ((QT_SOCKLEN_T)(((struct sockaddr_un *)0)->sun_path) + strlen((ptr)->sun_path))
 #endif
 
 KDEsuClient::KDEsuClient()
@@ -52,7 +53,8 @@ KDEsuClient::KDEsuClient()
         display = QString::fromLocal8Bit(qgetenv("WAYLAND_DISPLAY"));
     }
     if (display.isEmpty()) {
-        qCWarning(KSU_LOG) << "[" << __FILE__ << ":" << __LINE__ << "] " << "$DISPLAY is not set.";
+        qCWarning(KSU_LOG) << "[" << __FILE__ << ":" << __LINE__ << "] "
+                           << "$DISPLAY is not set.";
         return;
     }
 
@@ -62,9 +64,7 @@ KDEsuClient::KDEsuClient()
     QString display = QStringLiteral("NODISPLAY");
 #endif
 
-    d->sock = QFile::encodeName(QStandardPaths::writableLocation(QStandardPaths::RuntimeLocation) +
-                                QStringLiteral("/kdesud_") +
-                                display);
+    d->sock = QFile::encodeName(QStandardPaths::writableLocation(QStandardPaths::RuntimeLocation) + QStringLiteral("/kdesud_") + display);
     connect();
 }
 
@@ -87,21 +87,24 @@ int KDEsuClient::connect()
 
     d->sockfd = socket(PF_UNIX, SOCK_STREAM, 0);
     if (d->sockfd < 0) {
-        qCWarning(KSU_LOG) << "[" << __FILE__ << ":" << __LINE__ << "] " << "socket():" << strerror(errno);
+        qCWarning(KSU_LOG) << "[" << __FILE__ << ":" << __LINE__ << "] "
+                           << "socket():" << strerror(errno);
         return -1;
     }
     struct sockaddr_un addr;
     addr.sun_family = AF_UNIX;
     strcpy(addr.sun_path, d->sock.constData());
 
-    if (QT_SOCKET_CONNECT(d->sockfd, (struct sockaddr *) &addr, SUN_LEN(&addr)) < 0) {
-        qCWarning(KSU_LOG) << "[" << __FILE__ << ":" << __LINE__ << "] " << "connect():" << strerror(errno);
-        close(d->sockfd); d->sockfd = -1;
+    if (QT_SOCKET_CONNECT(d->sockfd, (struct sockaddr *)&addr, SUN_LEN(&addr)) < 0) {
+        qCWarning(KSU_LOG) << "[" << __FILE__ << ":" << __LINE__ << "] "
+                           << "connect():" << strerror(errno);
+        close(d->sockfd);
+        d->sockfd = -1;
         return -1;
     }
 
-#if !defined(SO_PEERCRED) || ! HAVE_STRUCT_UCRED
-# if HAVE_GETPEEREID
+#if !defined(SO_PEERCRED) || !HAVE_STRUCT_UCRED
+#if HAVE_GETPEEREID
     uid_t euid;
     gid_t egid;
     // Security: if socket exists, we must own it
@@ -111,10 +114,10 @@ int KDEsuClient::connect()
         d->sockfd = -1;
         return -1;
     }
-# else
-#  ifdef __GNUC__
-#   warning "Using sloppy security checks"
-#  endif
+#else
+#ifdef __GNUC__
+#warning "Using sloppy security checks"
+#endif
     // We check the owner of the socket after we have connected.
     // If the socket was somehow not ours an attacker will be able
     // to delete it after we connect but shouldn't be able to
@@ -122,20 +125,23 @@ int KDEsuClient::connect()
     QT_STATBUF s;
     if (QT_LSTAT(d->sock.constData(), &s) != 0) {
         qCWarning(KSU_LOG) << "stat failed (" << d->sock << ")";
-        close(d->sockfd); d->sockfd = -1;
+        close(d->sockfd);
+        d->sockfd = -1;
         return -1;
     }
     if (s.st_uid != getuid()) {
         qCWarning(KSU_LOG) << "socket not owned by me! socket uid =" << s.st_uid;
-        close(d->sockfd); d->sockfd = -1;
+        close(d->sockfd);
+        d->sockfd = -1;
         return -1;
     }
     if (!S_ISSOCK(s.st_mode)) {
         qCWarning(KSU_LOG) << "socket is not a socket (" << d->sock << ")";
-        close(d->sockfd); d->sockfd = -1;
+        close(d->sockfd);
+        d->sockfd = -1;
         return -1;
     }
-# endif
+#endif
 #else
     struct ucred cred;
     QT_SOCKLEN_T siz = sizeof(cred);
@@ -143,7 +149,8 @@ int KDEsuClient::connect()
     // Security: if socket exists, we must own it
     if (getsockopt(d->sockfd, SOL_SOCKET, SO_PEERCRED, &cred, &siz) == 0 && cred.uid != getuid()) {
         qCWarning(KSU_LOG) << "socket not owned by me! socket uid =" << cred.uid;
-        close(d->sockfd); d->sockfd = -1;
+        close(d->sockfd);
+        d->sockfd = -1;
         return -1;
     }
 #endif
@@ -186,7 +193,8 @@ int KDEsuClient::command(const QByteArray &cmd, QByteArray *result)
     char buf[1024];
     int nbytes = recv(d->sockfd, buf, 1023, 0);
     if (nbytes <= 0) {
-        qCWarning(KSU_LOG) << "[" << __FILE__ << ":" << __LINE__ << "] " << "no reply from daemon.";
+        qCWarning(KSU_LOG) << "[" << __FILE__ << ":" << __LINE__ << "] "
+                           << "no reply from daemon.";
         return -1;
     }
     buf[nbytes] = '\000';
@@ -396,7 +404,8 @@ bool KDEsuClient::isServerSGID()
 
     QT_STATBUF sbuf;
     if (QT_STAT(QFile::encodeName(d->daemon).constData(), &sbuf) < 0) {
-        qCWarning(KSU_LOG) << "[" << __FILE__ << ":" << __LINE__ << "] " << "stat():" << strerror(errno);
+        qCWarning(KSU_LOG) << "[" << __FILE__ << ":" << __LINE__ << "] "
+                           << "stat():" << strerror(errno);
         return false;
     }
     return (sbuf.st_mode & S_ISGID);
@@ -412,7 +421,8 @@ int KDEsuClient::startServer()
     }
 
     if (!isServerSGID()) {
-        qCWarning(KSU_LOG) << "[" << __FILE__ << ":" << __LINE__ << "] " << "kdesud not setgid!";
+        qCWarning(KSU_LOG) << "[" << __FILE__ << ":" << __LINE__ << "] "
+                           << "kdesud not setgid!";
     }
 
     // kdesud only forks to the background after it is accepting

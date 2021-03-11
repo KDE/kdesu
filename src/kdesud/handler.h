@@ -9,8 +9,8 @@
 
 #include <sys/types.h>
 
-#include <QByteArray>
 #include "secure.h"
+#include <QByteArray>
 
 /**
  * A ConnectionHandler handles a client. It is called from the main program
@@ -19,9 +19,8 @@
  * and executed.
  */
 
-class ConnectionHandler: public SocketSecurity 
+class ConnectionHandler : public SocketSecurity
 {
-
 public:
     ConnectionHandler(int fd);
     ~ConnectionHandler();
@@ -43,12 +42,12 @@ private:
 
     int doCommand(QByteArray buf);
     void respond(int ok, const QByteArray &s = QByteArray());
-    QByteArray makeKey(int namspace, const QByteArray &s1,
-                       const QByteArray &s2 = QByteArray(), const QByteArray &s3 = QByteArray()) const;
+    QByteArray makeKey(int namspace, const QByteArray &s1, const QByteArray &s2 = QByteArray(), const QByteArray &s3 = QByteArray()) const;
 
     int m_Fd, m_Timeout;
     int m_Priority, m_Scheduler;
     QByteArray m_Buf, m_Pass, m_Host;
+
 public:
     int m_exitCode;
     bool m_hasExitCode;

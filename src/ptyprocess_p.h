@@ -11,16 +11,17 @@
 
 #include <KPty>
 
-#include <QList>
 #include <QByteArray>
+#include <QList>
 
 namespace KDESu
 {
-
 class PtyProcessPrivate
 {
 public:
-    PtyProcessPrivate() {}
+    PtyProcessPrivate()
+    {
+    }
     virtual ~PtyProcessPrivate()
     {
         delete pty;

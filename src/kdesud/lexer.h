@@ -13,7 +13,8 @@
  * This is a lexer for the kdesud protocol.
  */
 
-class Lexer {
+class Lexer
+{
 public:
     Lexer(const QByteArray &input);
     ~Lexer();

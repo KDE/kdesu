@@ -7,8 +7,8 @@
 #ifndef __Secure_h_included__
 #define __Secure_h_included__
 
-#include <sys/types.h>
 #include <sys/socket.h>
+#include <sys/types.h>
 
 /**
  * The Socket_security class autheticates the peer for you. It provides
@@ -16,18 +16,28 @@
  * binary.
  */
 
-class SocketSecurity {
+class SocketSecurity
+{
 public:
     explicit SocketSecurity(int fd);
 
     /** Returns the peer's process-id. */
-    int peerPid() const { return pid; }
+    int peerPid() const
+    {
+        return pid;
+    }
 
     /** Returns the peer's user-id */
-    int peerUid() const { return uid; }
+    int peerUid() const
+    {
+        return uid;
+    }
 
     /** Returns the peer's group-id */
-    int peerGid() const { return gid; }
+    int peerGid() const
+    {
+        return gid;
+    }
 
 private:
     int pid;

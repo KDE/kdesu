@@ -28,24 +28,24 @@
 
 #include <config-kdesu.h>
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <string.h>
 #include <errno.h>
 #include <pwd.h>
-#include <termios.h>
 #include <signal.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <termios.h>
+#include <unistd.h>
 
 #if HAVE_INITGROUPS
 #include <grp.h>
 #endif
 
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <sys/wait.h>
-#include <sys/time.h>
 #include <sys/resource.h>
+#include <sys/stat.h>
+#include <sys/time.h>
+#include <sys/types.h>
+#include <sys/wait.h>
 
 #ifdef POSIX1B_SCHEDULING
 #include <sched.h>
@@ -60,19 +60,17 @@ struct param_struct {
     char *value;
 };
 
-struct param_struct params[] = {
-    { "kdesu_stub", 0L },
-    { "display", 0L },
-    { "display_auth", 0L },
-    { "command", 0L },
-    { "path", 0L },
-    { "xwindows_only", 0L },
-    { "user", 0L },
-    { "priority", 0L },
-    { "scheduler", 0L },
-    /* obsoleted by app_startup_id    { "app_start_pid", 0L } */
-    { "app_startup_id", 0L }
-};
+struct param_struct params[] = {{"kdesu_stub", 0L},
+                                {"display", 0L},
+                                {"display_auth", 0L},
+                                {"command", 0L},
+                                {"path", 0L},
+                                {"xwindows_only", 0L},
+                                {"user", 0L},
+                                {"priority", 0L},
+                                {"scheduler", 0L},
+                                /* obsoleted by app_startup_id    { "app_start_pid", 0L } */
+                                {"app_startup_id", 0L}};
 
 #define P_HEADER 0
 #define P_DISPLAY 1
@@ -205,7 +203,8 @@ int main()
         printf("%s\n", params[i].name);
         fflush(stdout);
         if (fgets(buf, BUFSIZE, stdin) == 0L) {
-            printf("end\n"); fflush(stdout);
+            printf("end\n");
+            fflush(stdout);
             perror("kdesu_stub: fgets()");
             exit(1);
         }
@@ -221,7 +220,8 @@ int main()
     for (;;) {
         char *tmp;
         if (fgets(buf, BUFSIZE, stdin) == 0L) {
-            printf("end\n"); fflush(stdout);
+            printf("end\n");
+            fflush(stdout);
             perror("kdesu_stub: fgets()");
             exit(1);
         }
@@ -268,14 +268,14 @@ int main()
         struct sched_param sched;
         int min = sched_get_priority_min(SCHED_FIFO);
         int max = sched_get_priority_max(SCHED_FIFO);
-        sched.sched_priority = min + (int)(((double) prio) * (max - min) / 100 + 0.5);
+        sched.sched_priority = min + (int)(((double)prio) * (max - min) / 100 + 0.5);
         sched_setscheduler(0, SCHED_FIFO, &sched);
 #else
         printf("kdesu_stub: realtime scheduling not supported\n");
 #endif
     } else {
 #if HAVE_SETPRIORITY
-        int val = 20 - (int)(((double) prio) * 40 / 100 + 0.5);
+        int val = 20 - (int)(((double)prio) * 40 / 100 + 0.5);
         setpriority(PRIO_PROCESS, getpid(), val);
 #endif
     }

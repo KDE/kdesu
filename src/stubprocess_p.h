@@ -12,7 +12,6 @@
 
 namespace KDESu
 {
-
 class StubProcessPrivate : public PtyProcessPrivate
 {
 };

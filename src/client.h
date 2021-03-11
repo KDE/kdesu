@@ -12,15 +12,14 @@
 
 #include <kdesu/kdesu_export.h>
 
-#include <QList>
 #include <QByteArray>
+#include <QList>
 #include <memory>
 
 #ifdef Q_OS_UNIX
 
 namespace KDESu
 {
-
 /** \class KDEsuClient client.h KDESu/Client
  * A client class to access kdesud, the KDE su daemon. Kdesud can assist in
  * password caching in two ways:
@@ -58,10 +57,7 @@ public:
      * @param env Extra environment variables.
      * @return Zero on success, -1 on failure.
      */
-    int exec(const QByteArray &command,
-             const QByteArray &user,
-             const QByteArray &options = nullptr,
-             const QList<QByteArray> &env = QList<QByteArray>());
+    int exec(const QByteArray &command, const QByteArray &user, const QByteArray &options = nullptr, const QList<QByteArray> &env = QList<QByteArray>());
 
     /**
      * Wait for the last command to exit and return the exit code.
@@ -198,8 +194,8 @@ private:
     std::unique_ptr<class KDEsuClientPrivate> const d;
 };
 
-} //END namespace KDESu
+} // END namespace KDESu
 
-#endif //Q_OS_UNIX
+#endif // Q_OS_UNIX
 
-#endif //KDESUCLIENT_H
+#endif // KDESUCLIENT_H
