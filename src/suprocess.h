@@ -27,7 +27,7 @@ public:
     enum Errors {
         SuNotFound = 1,
         SuNotAllowed,
-        SuIncorrectPassword
+        SuIncorrectPassword,
     };
 
     /**
@@ -36,7 +36,7 @@ public:
     enum checkMode {
         NoCheck = 0,
         Install = 1,
-        NeedPassword = 2
+        NeedPassword = 2,
     };
 
     explicit SuProcess(const QByteArray &user = nullptr, const QByteArray &command = nullptr);
@@ -76,7 +76,7 @@ private:
         error = -1,
         ok = 0,
         killme = 1,
-        notauthorized = 2
+        notauthorized = 2,
     };
 
     int converseSU(const char *password);

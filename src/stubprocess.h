@@ -39,7 +39,7 @@ public:
      */
     enum Scheduler {
         SchedNormal,
-        SchedRealtime
+        SchedRealtime,
     };
 
     StubProcess();

@@ -36,7 +36,10 @@ public:
     void sendExitCode();
 
 private:
-    enum Results { Res_OK, Res_NO };
+    enum Results {
+        Res_OK,
+        Res_NO,
+    };
 
     int doCommand(QByteArray buf);
     void respond(int ok, const QByteArray &s = QByteArray());

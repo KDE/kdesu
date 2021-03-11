@@ -27,7 +27,7 @@ public:
     enum Errors {
         SshNotFound = 1,
         SshNeedsPassword,
-        SshIncorrectPassword
+        SshIncorrectPassword,
     };
 
     explicit SshProcess(const QByteArray &host = QByteArray(),

@@ -217,7 +217,11 @@ int SuProcess::exec(const char *password, int check)
 */
 int SuProcess::converseSU(const char *password)
 {
-    enum { WaitForPrompt, CheckStar, HandleStub } state = WaitForPrompt;
+    enum {
+        WaitForPrompt,
+        CheckStar,
+        HandleStub,
+    } state = WaitForPrompt;
     int colon;
     unsigned i, j;
 

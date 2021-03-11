@@ -39,9 +39,9 @@ public:
 
     /** Error return values for checkPidExited() */
     enum checkPidStatus {
-        Error = -1,     /**< No child */
+        Error = -1, /**< No child */
         NotExited = -2, /**< Child hasn't exited */
-        Killed = -3     /**< Child terminated by signal */
+        Killed = -3, /**< Child terminated by signal */
     };
 
     PtyProcess();
