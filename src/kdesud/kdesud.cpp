@@ -118,15 +118,13 @@ int initXconnection()
     x11Display = XOpenDisplay(nullptr);
     if (x11Display != nullptr) {
         XSetIOErrorHandler(xio_errhandler);
+        /* clang-format off */
         XCreateSimpleWindow(x11Display,
                             DefaultRootWindow(x11Display),
-                            0,
-                            0,
-                            1,
-                            1,
-                            0,
+                            0, 0, 1, 1, 0,
                             BlackPixelOfScreen(DefaultScreenOfDisplay(x11Display)),
                             BlackPixelOfScreen(DefaultScreenOfDisplay(x11Display)));
+        /* clang-format on*/
         return XConnectionNumber(x11Display);
     } else {
         qCWarning(KSUD_LOG) << "Can't connect to the X Server.\n";
