@@ -10,7 +10,7 @@
 #include <ksud_debug.h>
 
 #include <assert.h>
-#include <errno.h>
+#include <cerrno>
 #include <signal.h>
 #include <stdlib.h>
 #include <string.h>

@@ -11,7 +11,7 @@
 #include <config-kdesud.h>
 #include <ksud_debug.h>
 
-#include <errno.h>
+#include <cerrno>
 #include <fcntl.h>
 #include <stdio.h>
 #include <string.h>

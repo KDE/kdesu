@@ -35,8 +35,8 @@
 #include <config-kdesu.h>
 #include <ksud_debug.h>
 
+#include <cerrno>
 #include <ctype.h>
-#include <errno.h>
 #include <fcntl.h>
 #include <pwd.h>
 #include <signal.h>

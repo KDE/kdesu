@@ -12,7 +12,7 @@
 #include <config-kdesu.h>
 #include <ksu_debug.h>
 
-#include <errno.h>
+#include <cerrno>
 #include <sys/socket.h>
 #include <sys/un.h>
 
