@@ -48,6 +48,7 @@ private Q_SLOTS:
         QVERIFY(suapp == QLatin1String("sudo"));
         int result = suProcess->exec(MYPASSWORD, 0);
         QVERIFY(result == 0);
+        delete suProcess;
     }
 
     void sudoBadPassword()
@@ -59,6 +60,7 @@ private Q_SLOTS:
         QVERIFY(suapp == QLatin1String("sudo"));
         int result2 = suProcess->exec("broken", 0);
         QVERIFY(result2 == KDESu::SuProcess::SuIncorrectPassword);
+        delete suProcess;
     }
 
     void doasBadPassword()
@@ -70,6 +72,7 @@ private Q_SLOTS:
         QVERIFY(suapp == QLatin1String("doas"));
         int result2 = suProcess->exec("broken", 0);
         QVERIFY(result2 == KDESu::SuProcess::SuIncorrectPassword);
+        delete suProcess;
     }
 
     void doasGoodPassword()
@@ -81,6 +84,7 @@ private Q_SLOTS:
         QVERIFY(suapp == QLatin1String("doas"));
         int result = suProcess->exec(MYPASSWORD, 0);
         QVERIFY(result == 0);
+        delete suProcess;
     }
 
     void suGoodPassword()
@@ -92,6 +96,7 @@ private Q_SLOTS:
         QVERIFY(suapp == QLatin1String("su"));
         int result2 = suProcess->exec(ROOTPASSWORD, 0);
         QVERIFY(result2 == 0);
+        delete suProcess;
     }
 
     void suBadPassword()
@@ -103,6 +108,7 @@ private Q_SLOTS:
         QVERIFY(suapp == QLatin1String("su"));
         int result2 = suProcess->exec("broken", 0);
         QVERIFY(result2 == KDESu::SuProcess::SuIncorrectPassword);
+        delete suProcess;
     }
 };
 }
