@@ -65,7 +65,7 @@ target_link_libraries(KF5Su
 )
 
 set_target_properties(KF5Su PROPERTIES
-  VERSION ${KDESU_VERSION_STRING}
+  VERSION ${KDESU_VERSION}
   SOVERSION ${KDESU_SOVERSION}
   EXPORT_NAME Su
 )
