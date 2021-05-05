@@ -43,72 +43,66 @@ private Q_SLOTS:
     {
         editConfig(QString::fromLocal8Bit("sudo"), QString::fromLocal8Bit(CMAKE_HOME_DIRECTORY) + QString::fromLocal8Bit("/autotests/sudo"));
 
-        KDESu::SuProcess *suProcess = new KDESu::SuProcess("root", "ls");
-        QString suapp = suProcess->superUserCommand();
+        KDESu::SuProcess suProcess("root", "ls");
+        QString suapp = suProcess.superUserCommand();
         QVERIFY(suapp == QLatin1String("sudo"));
-        int result = suProcess->exec(MYPASSWORD, 0);
+        int result = suProcess.exec(MYPASSWORD, 0);
         QVERIFY(result == 0);
-        delete suProcess;
     }
 
     void sudoBadPassword()
     {
         editConfig(QString::fromLocal8Bit("sudo"), QString::fromLocal8Bit(CMAKE_HOME_DIRECTORY) + QString::fromLocal8Bit("/autotests/sudo"));
 
-        KDESu::SuProcess *suProcess = new KDESu::SuProcess("root", "ls");
-        QString suapp = suProcess->superUserCommand();
+        KDESu::SuProcess suProcess("root", "ls");
+        QString suapp = suProcess.superUserCommand();
         QVERIFY(suapp == QLatin1String("sudo"));
-        int result2 = suProcess->exec("broken", 0);
+        int result2 = suProcess.exec("broken", 0);
         QVERIFY(result2 == KDESu::SuProcess::SuIncorrectPassword);
-        delete suProcess;
     }
 
     void doasBadPassword()
     {
         editConfig(QString::fromLocal8Bit("doas"), QString::fromLocal8Bit(CMAKE_HOME_DIRECTORY) + QString::fromLocal8Bit("/autotests/sudo"));
 
-        KDESu::SuProcess *suProcess = new KDESu::SuProcess("root", "ls");
-        QString suapp = suProcess->superUserCommand();
+        KDESu::SuProcess suProcess("root", "ls");
+        QString suapp = suProcess.superUserCommand();
         QVERIFY(suapp == QLatin1String("doas"));
-        int result2 = suProcess->exec("broken", 0);
+        int result2 = suProcess.exec("broken", 0);
         QVERIFY(result2 == KDESu::SuProcess::SuIncorrectPassword);
-        delete suProcess;
     }
 
     void doasGoodPassword()
     {
         editConfig(QString::fromLocal8Bit("doas"), QString::fromLocal8Bit(CMAKE_HOME_DIRECTORY) + QString::fromLocal8Bit("/autotests/sudo"));
 
-        KDESu::SuProcess *suProcess = new KDESu::SuProcess("root", "ls");
-        QString suapp = suProcess->superUserCommand();
+        KDESu::SuProcess suProcess("root", "ls");
+        QString suapp = suProcess.superUserCommand();
         QVERIFY(suapp == QLatin1String("doas"));
-        int result = suProcess->exec(MYPASSWORD, 0);
+        int result = suProcess.exec(MYPASSWORD, 0);
         QVERIFY(result == 0);
-        delete suProcess;
     }
 
     void suGoodPassword()
     {
         editConfig(QString::fromLocal8Bit("su"), QString::fromLocal8Bit(CMAKE_HOME_DIRECTORY) + QString::fromLocal8Bit("/autotests/su"));
 
-        KDESu::SuProcess *suProcess = new KDESu::SuProcess("root", "ls");
-        QString suapp = suProcess->superUserCommand();
+        KDESu::SuProcess suProcess("root", "ls");
+        QString suapp = suProcess.superUserCommand();
         QVERIFY(suapp == QLatin1String("su"));
-        int result2 = suProcess->exec(ROOTPASSWORD, 0);
+        int result2 = suProcess.exec(ROOTPASSWORD, 0);
         QVERIFY(result2 == 0);
-        delete suProcess;
     }
 
     void suBadPassword()
     {
         editConfig(QString::fromLocal8Bit("su"), QString::fromLocal8Bit(CMAKE_HOME_DIRECTORY) + QString::fromLocal8Bit("/autotests/su"));
 
-        KDESu::SuProcess *suProcess = new KDESu::SuProcess("root", "ls");
-        QString suapp = suProcess->superUserCommand();
+        KDESu::SuProcess suProcess("root", "ls");
+        QString suapp = suProcess.superUserCommand();
         QVERIFY(suapp == QLatin1String("su"));
-        int result2 = suProcess->exec("broken", 0);
+        int result2 = suProcess.exec("broken", 0);
         QVERIFY(result2 == KDESu::SuProcess::SuIncorrectPassword);
-        delete suProcess;
     }
 };
 }
