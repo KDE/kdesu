@@ -4,24 +4,24 @@ check_function_exists(getpeereucred HAVE_GETPEERUCRED) # solaris style
 
 configure_file (config-kdesud.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config-kdesud.h )
 
+add_executable(kdesud)
+ecm_mark_nongui_executable(kdesud)
 
-set(kdesud_SRCS
+target_sources(kdesud PRIVATE
    kdesud.cpp
    repo.cpp
    lexer.cpp
    handler.cpp
-   secure.cpp )
+   secure.cpp
+)
 
-ecm_qt_declare_logging_category(kdesud_SRCS
+ecm_qt_declare_logging_category(kdesud
     HEADER ksud_debug.h
     IDENTIFIER KSUD_LOG
     CATEGORY_NAME kf.su.kdesud
     DESCRIPTION "kdesud (KDESu)"
     EXPORT KSU
 )
-
-add_executable(kdesud ${kdesud_SRCS})
-ecm_mark_nongui_executable(kdesud)
 
 target_link_libraries(kdesud KF5::Su KF5::I18n ${X11_LIBRARIES})
 if(HAVE_X11)

@@ -16,7 +16,16 @@ set(CMAKE_EXTRA_INCLUDE_FILES)  #reset CMAKE_EXTRA_INCLUDE_FILES
 
 configure_file(config-kdesu.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config-kdesu.h)
 
-set(kdesu_LIB_SRCS
+add_library(KF5Su)
+add_library(KF5::Su ALIAS KF5Su)
+
+set_target_properties(KF5Su PROPERTIES
+    VERSION     ${KDESU_VERSION}
+    SOVERSION   ${KDESU_SOVERSION}
+    EXPORT_NAME Su
+)
+
+target_sources(KF5Su PRIVATE
   client.cpp
   ptyprocess.cpp
   kcookie.cpp
@@ -25,7 +34,7 @@ set(kdesu_LIB_SRCS
   stubprocess.cpp
 )
 
-ecm_qt_declare_logging_category(kdesu_LIB_SRCS
+ecm_qt_declare_logging_category(KF5Su
     HEADER ksu_debug.h
     IDENTIFIER KSU_LOG
     CATEGORY_NAME kf.su
@@ -33,8 +42,6 @@ ecm_qt_declare_logging_category(kdesu_LIB_SRCS
     EXPORT KSU
 )
 
-add_library(KF5Su ${kdesu_LIB_SRCS})
-add_library(KF5::Su ALIAS KF5Su)
 ecm_generate_export_header(KF5Su
     EXPORT_FILE_NAME kdesu/kdesu_export.h
     BASE_NAME KDESu
@@ -64,11 +71,6 @@ target_link_libraries(KF5Su
     KF5::Service # KToolInvocation::kdeinitExecWait
 )
 
-set_target_properties(KF5Su PROPERTIES
-  VERSION ${KDESU_VERSION}
-  SOVERSION ${KDESU_SOVERSION}
-  EXPORT_NAME Su
-)
 
 ecm_generate_headers(KDESu_CamelCase_HEADERS
   HEADER_NAMES
