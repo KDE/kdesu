@@ -27,7 +27,7 @@ typedef unsigned ksocklen_t;
  * Under Linux, Socket_security is supported.
  */
 
-#if defined(HAVE_GETPEEREID)
+#if HAVE_GETPEEREID
 
 SocketSecurity::SocketSecurity(int sockfd)
     : pid(-1)
@@ -43,7 +43,7 @@ SocketSecurity::SocketSecurity(int sockfd)
     }
 }
 
-#elif defined(HAVE_GETPEERUCRED)
+#elif HAVE_GETPEERUCRED
 
 #include <ucred.h>
 
