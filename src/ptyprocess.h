@@ -155,7 +155,7 @@ public:
     */
 
     /**
-    ** Wait @p ms miliseconds (ie. 1/10th of a second is 100ms),
+    ** Wait @p ms milliseconds (ie. 1/10th of a second is 100ms),
     ** using @p fd as a filedescriptor to wait on. Returns
     ** select(2)'s result, which is -1 on error, 0 on timeout,
     ** or positive if there is data on one of the selected fd's.

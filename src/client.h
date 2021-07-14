@@ -142,7 +142,7 @@ public:
      * Delete all persistent variables with the given key.
      *
      * A specicalized variant of delVar(QByteArray) that removes all
-     * subsets of the cached varaibles given by @p key. In order for all
+     * subsets of the cached variables given by @p key. In order for all
      * cached variables related to this key to be deleted properly, the
      * value given to the @p group argument when the setVar function
      * was called, must be a subset of the argument given here and the key

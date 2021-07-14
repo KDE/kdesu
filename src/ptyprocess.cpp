@@ -46,9 +46,9 @@ namespace KDESu
 using namespace KDESuPrivate;
 
 /*
-** Wait for @p ms miliseconds
+** Wait for @p ms milliseconds
 ** @param fd file descriptor
-** @param ms time to wait in miliseconds
+** @param ms time to wait in milliseconds
 ** @return
 */
 int PtyProcess::waitMS(int fd, int ms)
@@ -402,7 +402,7 @@ int PtyProcess::waitForChild()
         // specify timeout to make sure select() does not block, even if the
         // process is dead / non-responsive. It does not matter if we abort too
         // early. In that case 0 is returned, and we'll try again in the next
-        // iteration. (As long as we don't consitently time out in each iteration)
+        // iteration. (As long as we don't consistently time out in each iteration)
         timeval timeout;
         timeout.tv_sec = 0;
         timeout.tv_usec = 100000;

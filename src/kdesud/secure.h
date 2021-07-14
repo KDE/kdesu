@@ -11,7 +11,7 @@
 #include <sys/types.h>
 
 /**
- * The Socket_security class autheticates the peer for you. It provides
+ * The Socket_security class authenticates the peer for you. It provides
  * the process-id, user-id and group-id plus the MD5 sum of the connected
  * binary.
  */

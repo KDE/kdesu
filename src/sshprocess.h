@@ -38,7 +38,7 @@ public:
     void setHost(const QByteArray &host);
 
     /**
-     * Sets the localtion of the remote stub.
+     * Sets the location of the remote stub.
      */
     void setStub(const QByteArray &stub);
 
