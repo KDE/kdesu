@@ -127,7 +127,8 @@ struct PIDType<4> {
 
 int StubProcess::converseStub(int check)
 {
-    QByteArray line, tmp;
+    QByteArray line;
+    QByteArray tmp;
 
     while (1) {
         line = readLine();

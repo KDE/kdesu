@@ -223,7 +223,8 @@ int SuProcess::converseSU(const char *password)
         HandleStub,
     } state = WaitForPrompt;
     int colon;
-    unsigned i, j;
+    unsigned i;
+    unsigned j;
 
     QByteArray line;
     while (true) {

@@ -92,7 +92,8 @@ bool PtyProcess::checkPid(pid_t pid)
 */
 int PtyProcess::checkPidExited(pid_t pid)
 {
-    int state, ret;
+    int state;
+    int ret;
     ret = waitpid(pid, &state, WNOHANG);
 
     if (ret < 0) {

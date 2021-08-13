@@ -164,7 +164,9 @@ int SshProcess::converseSsh(const char *password, int check)
 {
     Q_D(SshProcess);
 
-    unsigned i, j, colon;
+    unsigned i;
+    unsigned j;
+    unsigned colon;
 
     QByteArray line;
     int state = 0;

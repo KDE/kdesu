@@ -144,7 +144,8 @@ char **xstrsep(char *str)
     int i = 0;
     int size = 10;
     char **list = (char **)xmalloc(size * sizeof(char *));
-    char *ptr = str, *nptr;
+    char *ptr = str;
+    char *nptr;
     while ((nptr = strchr(ptr, ',')) != 0L) {
         if (i > size - 2) {
             list = xrealloc(list, (size *= 2) * sizeof(char *));
@@ -164,7 +165,8 @@ char **xstrsep(char *str)
 
 static void dequote(char *buf)
 {
-    char *in, *out;
+    char *in;
+    char *out;
     for (in = buf, out = buf; *in; in++, out++) {
         char c = *in;
         if (c == '\\') {
@@ -189,7 +191,8 @@ int main()
 {
     char buf[BUFSIZE + 1];
     char xauthority[200];
-    int i, prio;
+    int i;
+    int prio;
     pid_t pid;
     FILE *fout;
     struct passwd *pw;
@@ -354,7 +357,9 @@ int main()
     }
     if (pid) {
         /* Parent: wait for child, delete tempfiles and return. */
-        int ret, state, xit = 1;
+        int ret;
+        int state;
+        int xit = 1;
         while (1) {
             ret = waitpid(pid, &state, 0);
             if (ret == -1) {

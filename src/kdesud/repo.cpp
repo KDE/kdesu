@@ -25,24 +25,28 @@ Repository::~Repository()
 void Repository::add(const QByteArray &key, Data_entry &data)
 {
     RepoIterator it = repo.find(key);
-    if (it != repo.end())
+    if (it != repo.end()) {
         remove(key);
-    if (data.timeout == 0)
+    }
+    if (data.timeout == 0) {
         data.timeout = (unsigned)-1;
-    else
+    } else {
         data.timeout += time(nullptr);
+    }
     head_time = qMin(head_time, data.timeout);
     repo.insert(key, data);
 }
 
 int Repository::remove(const QByteArray &key)
 {
-    if (key.isEmpty())
+    if (key.isEmpty()) {
         return -1;
+    }
 
     RepoIterator it = repo.find(key);
-    if (it == repo.end())
+    if (it == repo.end()) {
         return -1;
+    }
     it.value().value.fill('x');
     it.value().group.fill('x');
     repo.erase(it);
@@ -92,8 +96,9 @@ int Repository::hasGroup(const QByteArray &group) const
     if (!group.isEmpty()) {
         RepoCIterator it;
         for (it = repo.begin(); it != repo.end(); ++it) {
-            if (it.value().group == group)
+            if (it.value().group == group) {
                 return 0;
+            }
         }
     }
     return -1;
@@ -121,8 +126,9 @@ QByteArray Repository::findKeys(const QByteArray &group, const char *sep) const
                         list += '\007'; // I do not know
                         list.append(key);
                     }
-                } else
+                } else {
                     list = key;
+                }
             }
         }
     }
@@ -131,20 +137,23 @@ QByteArray Repository::findKeys(const QByteArray &group, const char *sep) const
 
 QByteArray Repository::find(const QByteArray &key) const
 {
-    if (key.isEmpty())
+    if (key.isEmpty()) {
         return nullptr;
+    }
 
     RepoCIterator it = repo.find(key);
-    if (it == repo.end())
+    if (it == repo.end()) {
         return nullptr;
+    }
     return it.value().value;
 }
 
 int Repository::expire()
 {
     unsigned current = time(nullptr);
-    if (current < head_time)
+    if (current < head_time) {
         return 0;
+    }
 
     unsigned t;
     QStack<QByteArray> keys;
@@ -152,14 +161,16 @@ int Repository::expire()
     RepoIterator it;
     for (it = repo.begin(); it != repo.end(); ++it) {
         t = it.value().timeout;
-        if (t <= current)
+        if (t <= current) {
             keys.push(it.key());
-        else
+        } else {
             head_time = qMin(head_time, t);
+        }
     }
 
     int n = keys.count();
-    while (!keys.isEmpty())
+    while (!keys.isEmpty()) {
         remove(keys.pop());
+    }
     return n;
 }

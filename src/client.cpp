@@ -305,7 +305,8 @@ QList<QByteArray> KDEsuClient::getKeys(const QByteArray &group)
     cmd += '\n';
     QByteArray reply;
     command(cmd, &reply);
-    int index = 0, pos;
+    int index = 0;
+    int pos;
     QList<QByteArray> list;
     if (!reply.isEmpty()) {
         while (1) {

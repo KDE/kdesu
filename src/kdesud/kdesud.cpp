@@ -285,8 +285,9 @@ int main(int argc, char *argv[])
 
     // Create the Unix socket.
     int sockfd = create_socket();
-    if (sockfd < 0)
+    if (sockfd < 0) {
         exit(1);
+    }
     if (listen(sockfd, 10) < 0) {
         qCCritical(KSUD_LOG) << "listen(): " << ERR << "\n";
         kdesud_cleanup();
@@ -301,8 +302,9 @@ int main(int argc, char *argv[])
         kdesud_cleanup();
         exit(1);
     }
-    if (pid)
+    if (pid) {
         _exit(0);
+    }
 
 #if HAVE_X11
     // Make sure we exit when the display gets closed.
@@ -337,32 +339,37 @@ int main(int argc, char *argv[])
     socklen_t addrlen;
     struct sockaddr_un clientname;
 
-    fd_set tmp_fds, active_fds;
+    fd_set tmp_fds;
+    fd_set active_fds;
     FD_ZERO(&active_fds);
     FD_SET(sockfd, &active_fds);
     FD_SET(pipeOfDeath[0], &active_fds);
 #if HAVE_X11
-    if (x11Fd != -1)
+    if (x11Fd != -1) {
         FD_SET(x11Fd, &active_fds);
+    }
 #endif
 
     while (1) {
         tmp_fds = active_fds;
 #if HAVE_X11
-        if (x11Display)
+        if (x11Display) {
             XFlush(x11Display);
+        }
 #endif
         if (select(maxfd + 1, &tmp_fds, nullptr, nullptr, nullptr) < 0) {
-            if (errno == EINTR)
+            if (errno == EINTR) {
                 continue;
+            }
 
             qCCritical(KSUD_LOG) << "select(): " << ERR << "\n";
             exit(1);
         }
         repo->expire();
         for (int i = 0; i <= maxfd; i++) {
-            if (!FD_ISSET(i, &tmp_fds))
+            if (!FD_ISSET(i, &tmp_fds)) {
                 continue;
+            }
 
             if (i == pipeOfDeath[0]) {
                 char buf[101];
@@ -389,9 +396,11 @@ int main(int argc, char *argv[])
             if (i == x11Fd) {
                 // Discard X events
                 XEvent event_return;
-                if (x11Display)
-                    while (XPending(x11Display))
+                if (x11Display) {
+                    while (XPending(x11Display)) {
                         XNextEvent(x11Display, &event_return);
+                    }
+                }
                 continue;
             }
 #endif
@@ -405,8 +414,9 @@ int main(int argc, char *argv[])
                     qCCritical(KSUD_LOG) << "accept():" << ERR << "\n";
                     continue;
                 }
-                while (fd + 1 > (int)handler.size())
+                while (fd + 1 > (int)handler.size()) {
                     handler.append(nullptr);
+                }
                 delete handler[fd];
                 handler[fd] = new ConnectionHandler(fd);
                 maxfd = qMax(maxfd, fd);
