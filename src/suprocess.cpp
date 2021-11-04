@@ -281,11 +281,11 @@ int SuProcess::converseSU(const char *password)
                 state = HandleStub;
                 break;
             }
-            const uint len = line.length();
-            for (i = 0; i < len; ++i) {
-                if (s[i] != '*') {
-                    return error;
-                }
+            const bool starCond = std::any_of(s.cbegin(), s.cend(), [](const char c) {
+                return c != '*';
+            });
+            if (starCond) {
+                return error;
             }
             state = HandleStub;
             break;

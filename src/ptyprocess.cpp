@@ -287,8 +287,8 @@ int PtyProcess::exec(const QByteArray &command, const QList<QByteArray> &args)
         _exit(1);
     }
 
-    for (i = 0; i < d->env.count(); ++i) {
-        putenv(const_cast<char *>(d->env.at(i).constData()));
+    for (const QByteArray &var : std::as_const(d->env)) {
+        putenv(const_cast<char *>(var.constData()));
     }
     unsetenv("KDE_FULL_SESSION");
     // for : Qt: Session management error
@@ -324,8 +324,8 @@ int PtyProcess::exec(const QByteArray &command, const QList<QByteArray> &args)
 
     i = 0;
     argp[i++] = path.constData();
-    for (QList<QByteArray>::ConstIterator it = args.begin(); it != args.end(); ++it, ++i) {
-        argp[i] = (*it).constData();
+    for (const QByteArray &arg : args) {
+        argp[i++] = arg.constData();
     }
 
     argp[i] = nullptr;

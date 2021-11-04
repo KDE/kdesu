@@ -163,8 +163,7 @@ QByteArray KDEsuClient::escape(const QByteArray &str)
     QByteArray copy;
     copy.reserve(str.size() + 4);
     copy.append('"');
-    for (int i = 0; i < str.size(); i++) {
-        uchar c = str.at(i);
+    for (const uchar c : str) {
         if (c < 32) {
             copy.append('\\');
             copy.append('^');
@@ -230,9 +229,9 @@ int KDEsuClient::exec(const QByteArray &prog, const QByteArray &user, const QByt
     if (!options.isEmpty() || !env.isEmpty()) {
         cmd += ' ';
         cmd += escape(options);
-        for (int i = 0; i < env.count(); ++i) {
+        for (const auto &var : env) {
             cmd += ' ';
-            cmd += escape(env.at(i));
+            cmd += escape(var);
         }
     }
     cmd += '\n';

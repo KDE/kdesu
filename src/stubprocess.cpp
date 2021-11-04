@@ -76,9 +76,9 @@ void StubProcess::setScheduler(int sched)
 QByteArray StubProcess::commaSeparatedList(const QList<QByteArray> &lst)
 {
     QByteArray str;
-    for (int i = 0; i < lst.count(); ++i) {
+    for (const auto &ba : lst) {
         str += ',';
-        str += lst.at(i);
+        str += ba;
     }
     return str;
 }
@@ -87,8 +87,7 @@ void StubProcess::writeString(const QByteArray &str)
 {
     QByteArray out;
     out.reserve(str.size() + 8);
-    for (int i = 0; i < str.size(); i++) {
-        uchar c = str.at(i);
+    for (const uchar c : str) {
         if (c < 32) {
             out.append('\\');
             out.append(c + '@');
@@ -195,12 +194,13 @@ int StubProcess::converseStub(int check)
                 writeLine("yes");
             }
         } else if (line == "app_startup_id") {
-            QList<QByteArray> env = environment();
+            const QList<QByteArray> env = environment();
             QByteArray tmp;
-            for (int i = 0; i < env.count(); ++i) {
-                const char startup_env[] = "DESKTOP_STARTUP_ID=";
-                if (env.at(i).startsWith(startup_env)) {
-                    tmp = env.at(i).mid(sizeof(startup_env) - 1);
+            static const char startup_env[] = "DESKTOP_STARTUP_ID=";
+            static const std::size_t size = sizeof(startup_env);
+            for (const auto &var : env) {
+                if (var.startsWith(startup_env)) {
+                    tmp = var.mid(size - 1);
                 }
             }
             if (tmp.isEmpty()) {
@@ -214,9 +214,9 @@ int StubProcess::converseStub(int check)
             tmp.setNum((PIDType<sizeof(pid_t)>::PID_t)(getpid()));
             writeLine(tmp);
         } else if (line == "environment") { // additional env vars
-            QList<QByteArray> env = environment();
-            for (int i = 0; i < env.count(); ++i) {
-                writeString(env.at(i));
+            const QList<QByteArray> env = environment();
+            for (const auto &var : env) {
+                writeString(var);
             }
             writeLine("");
         } else if (line == "end") {
