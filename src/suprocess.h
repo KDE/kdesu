@@ -39,7 +39,7 @@ public:
     };
 
     explicit SuProcess(const QByteArray &user = nullptr, const QByteArray &command = nullptr);
-    ~SuProcess();
+    ~SuProcess() override;
 
     int exec(const char *password, int check = NoCheck);
 
