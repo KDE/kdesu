@@ -383,7 +383,7 @@ int KDEsuClient::stopServer()
 
 static QString findDaemon()
 {
-    QString daemon = QFile::decodeName(KDE_INSTALL_FULL_LIBEXECDIR_KF5 "/kdesud");
+    QString daemon = QFile::decodeName(KDE_INSTALL_FULL_LIBEXECDIR_KF "/kdesud");
     if (!QFile::exists(daemon)) { // if not in libexec, find it in PATH
         daemon = QStandardPaths::findExecutable(QStringLiteral("kdesud"));
         if (daemon.isEmpty()) {
