@@ -8,7 +8,7 @@
 #ifndef KDESUKCOOKIE_H
 #define KDESUKCOOKIE_H
 
-#include <QByteRef>
+#include <QByteArray>
 
 #include <config-kdesu.h>
 

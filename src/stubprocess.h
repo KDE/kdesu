@@ -12,7 +12,7 @@
 
 #include <kdesu/kdesu_export.h>
 
-#include <QByteRef>
+#include <QByteArray>
 #include <QList>
 
 namespace KDESu

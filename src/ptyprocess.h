@@ -11,7 +11,7 @@
 #include <memory>
 #include <sys/types.h>
 
-#include <QByteRef>
+#include <QByteArray>
 #include <QList>
 #include <QString>
 #include <QStringList>

@@ -11,10 +11,10 @@
 
 #include <ksu_debug.h>
 
+#include <QProcess>
 #include <QStandardPaths>
 #include <QString>
 #include <QStringList>
-#include <Q_PID>
 
 extern int kdesuDebugArea();
 
