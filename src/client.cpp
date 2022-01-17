@@ -17,6 +17,7 @@
 #include <sys/un.h>
 
 #include <QFile>
+#include <QProcess>
 #include <QRegularExpression>
 #include <QStandardPaths>
 #include <qplatformdefs.h>
@@ -425,13 +426,15 @@ int KDEsuClient::startServer()
                            << "kdesud not setgid!";
     }
 
-    // kdesud only forks to the background after it is accepting
-    // connections.
-    // We start it via kdeinit to make sure that it doesn't inherit
-    // any fd's from the parent process.
-    int ret = KToolInvocation::kdeinitExecWait(d->daemon);
+    QProcess proc;
+    proc.start(d->daemon, QStringList{});
+    if (!proc.waitForFinished()) {
+        qCCritical(KSU_LOG) << "Couldn't start kdesud!";
+        return -1;
+    }
+
     connect();
-    return ret;
+    return proc.exitCode();
 }
 
 } // namespace KDESu
