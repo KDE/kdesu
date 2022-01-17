@@ -195,7 +195,7 @@ int create_socket()
         }
     }
 
-    sockfd = socket(PF_UNIX, SOCK_STREAM, 0);
+    sockfd = socket(PF_UNIX, SOCK_STREAM | SOCK_CLOEXEC, 0);
     if (sockfd < 0) {
         qCCritical(KSUD_LOG) << "socket(): " << ERR << "\n";
         return -1;
@@ -293,7 +293,26 @@ int main(int argc, char *argv[])
         kdesud_cleanup();
         exit(1);
     }
+
+    if (sockfd != 3) {
+        sockfd = dup3(sockfd, 3, O_CLOEXEC);
+    }
+    if (sockfd < 0) {
+        qCCritical(KSUD_LOG) << "Failed to set sockfd to fd 3" << ERR << "\n";
+        kdesud_cleanup();
+        exit(1);
+    }
+
     int maxfd = sockfd;
+
+    // Close all file descriptors higher than 3 (0 stdin, 1 stdout, 2 stderr and 3 sockfd)
+    // before calling fork()
+    const int closeRes = close_range(4, ~0U, 0);
+    if (closeRes < 0) {
+        qCCritical(KSUD_LOG) << "Failed to close file descriptors higher than 3" << ERR << "\n";
+        kdesud_cleanup();
+        exit(1);
+    }
 
     // Ok, we're accepting connections. Fork to the background.
     pid_t pid = fork();
@@ -315,7 +334,7 @@ int main(int argc, char *argv[])
     repo = new Repository;
     QVector<ConnectionHandler *> handler;
 
-    pipe(pipeOfDeath);
+    pipe2(pipeOfDeath, O_CLOEXEC);
     maxfd = qMax(maxfd, pipeOfDeath[0]);
 
     // Signal handlers
