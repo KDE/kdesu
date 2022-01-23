@@ -5,3 +5,5 @@
 
 /* Define to 1 if you have the `getpeerucred' function. */
 #cmakedefine01 HAVE_GETPEERUCRED
+
+#cmakedefine01 HAVE_CLOSE_RANGE

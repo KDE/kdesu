@@ -32,6 +32,7 @@
     PING                       OK         Ping the server (diagnostics).
 */
 
+#include "config-kdesud.h"
 #include <config-kdesu.h>
 #include <ksud_debug.h>
 
@@ -55,6 +56,12 @@
 #include <sys/wait.h>
 #ifdef HAVE_SYS_SELECT_H
 #include <sys/select.h> // Needed on some systems.
+#endif
+
+#include <dirent.h>
+
+#if !HAVE_CLOSE_RANGE
+#include <sys/syscall.h> // close_range syscall
 #endif
 
 #include <QByteArray>
@@ -84,6 +91,56 @@
 #define ERR strerror(errno)
 
 using namespace KDESu;
+
+static int closeExtraFds()
+{
+#if HAVE_CLOSE_RANGE
+    const int res = close_range(4, ~0U, 0);
+    if (res == 0) {
+        return 0;
+    }
+    // If ENOSYS, fallback to opendir/readdir/closedir below
+    if (errno != ENOSYS) {
+        return -1;
+    }
+#elif defined(SYS_close_range)
+    const int res = syscall(SYS_close_range, 4, ~0U, 0);
+    if (res == 0) {
+        return 0;
+    }
+    // If ENOSYS, fallback to opendir/readdir/closedir below
+    if (errno != ENOSYS) {
+        return -1;
+    }
+#endif
+
+#if !defined(__FreeBSD__) && !defined(__OpenBSD__) // /proc, /dev are Linux only
+    // close_range isn't available, fallback to iterarting over "/dev/fd/"
+    // and close the fd's manually
+    qCDebug(KSUD_LOG) << "close_range function/syscall isn't available, falling back to iterarting "
+                         "over '/dev/fd' and closing the file descriptors manually.\n";
+
+    std::unique_ptr<DIR, int (*)(DIR *)> dirPtr(opendir("/dev/fd"), closedir);
+    if (!dirPtr) {
+        return -1;
+    }
+
+    int closeRes = 0;
+    const int dirFd = dirfd(dirPtr.get());
+    while (struct dirent *dirEnt = readdir(dirPtr.get())) {
+        const int currFd = std::atoi(dirEnt->d_name);
+        if (currFd > 3 && currFd != dirFd) {
+            closeRes = close(currFd);
+            if (closeRes == -1) {
+                break;
+            }
+        }
+    }
+    return closeRes;
+#else
+    return -1;
+#endif
+}
 
 // Globals
 
@@ -305,11 +362,8 @@ int main(int argc, char *argv[])
 
     int maxfd = sockfd;
 
-    // Close all file descriptors higher than 3 (0 stdin, 1 stdout, 2 stderr and 3 sockfd)
-    // before calling fork()
-    const int closeRes = close_range(4, ~0U, 0);
-    if (closeRes < 0) {
-        qCCritical(KSUD_LOG) << "Failed to close file descriptors higher than 3" << ERR << "\n";
+    if (closeExtraFds() < 0) {
+        qCCritical(KSUD_LOG) << "Failed to close file descriptors higher than 3, with error:" << ERR << "\n";
         kdesud_cleanup();
         exit(1);
     }
