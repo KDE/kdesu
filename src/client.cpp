@@ -406,11 +406,6 @@ int KDEsuClient::startServer()
         return -1;
     }
 
-    if (!isServerSGID()) {
-        qCWarning(KSU_LOG) << "[" << __FILE__ << ":" << __LINE__ << "] "
-                           << "kdesud not setgid!";
-    }
-
     QProcess proc;
     proc.start(d->daemon, QStringList{});
     if (!proc.waitForFinished()) {

@@ -176,13 +176,20 @@ public:
      */
     int startServer();
 
+#if KDESU_ENABLE_DEPRECATED_SINCE(5, 99)
     /**
-     * Obsolete: returns true.
+     * The server used to rely on being installed with an sgid bit to
+     * prevent core dumps, ptrace and similar. This has been changed, and
+     * the same security guarantees now apply even without the sgid bit,
+     * so since 5.99 this always returns true.
      *
-     * The server used to rely on being installed with an sgid bit to prevent core dumps, ptrace and similar.
-     * This has been changed, and the same security guarantees now apply even without the sgid bit.
+     * If calling code depends on KDESu 5.99 or newer already, use of this
+     * can be dropped. With an older version of KDESu, then this should be
+     * called to determine whether the server is usable.
      */
+    KDESU_DEPRECATED_VERSION(5, 99, "SGID no longer relevant since 5.99")
     bool isServerSGID();
+#endif
 
 private:
     int connect();
