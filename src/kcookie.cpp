@@ -79,17 +79,18 @@ void KCookie::getXCookie()
         disp.remove(0, 9);
     }
 
+    const QString xauthExec = QStandardPaths::findExecutable(QStringLiteral("xauth"));
+    if (xauthExec.isEmpty()) {
+        qCCritical(KSU_LOG) << "[" << __FILE__ << ":" << __LINE__ << "] "
+                            << "Could not run xauth, not found in path";
+        return;
+    }
+
     QProcess proc;
-    proc.start(QStringLiteral("xauth"), QStringList() << QStringLiteral("list") << QString::fromUtf8(disp));
+    proc.start(xauthExec, QStringList{QStringLiteral("list"), QString::fromUtf8(disp)});
     if (!proc.waitForStarted()) {
-        const QString xauth = QStandardPaths::findExecutable(QStringLiteral("xauth"));
-        if (xauth.isEmpty()) {
-            qCCritical(KSU_LOG) << "[" << __FILE__ << ":" << __LINE__ << "] "
-                                << "Could not run xauth, not found in path";
-        } else {
-            qCCritical(KSU_LOG) << "[" << __FILE__ << ":" << __LINE__ << "] "
-                                << "Could not run xauth. Found in path:" << xauth;
-        }
+        qCCritical(KSU_LOG) << "[" << __FILE__ << ":" << __LINE__ << "] "
+                            << "Could not run xauth. Found in path:" << xauthExec;
         return;
     }
     proc.waitForReadyRead(100);
