@@ -22,8 +22,6 @@
 #include <QStandardPaths>
 #include <qplatformdefs.h>
 
-#include <KToolInvocation>
-
 extern int kdesuDebugArea();
 
 namespace KDESu

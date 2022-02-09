@@ -18,9 +18,9 @@ find_package(Qt${QT_MAJOR_VERSION}Core ${REQUIRED_QT_VERSION} REQUIRED NO_MODULE
 include(KDEFrameworkCompilerSettings NO_POLICY_SCOPE)
 include(KDECMakeSettings)
 
+find_package(KF5Config ${KF_DEP_VERSION} REQUIRED)
 find_package(KF5CoreAddons ${KF_DEP_VERSION} REQUIRED)
 find_package(KF5I18n ${KF_DEP_VERSION} REQUIRED)
-find_package(KF5Service ${KF_DEP_VERSION} REQUIRED)
 find_package(KF5Pty ${KF_DEP_VERSION} REQUIRED)
 
 #optional features

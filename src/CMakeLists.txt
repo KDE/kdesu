@@ -68,7 +68,7 @@ target_link_libraries(KF5Su
     KF5::Pty
   PRIVATE
     KF5::CoreAddons # KUser::loginName
-    KF5::Service # KToolInvocation::kdeinitExecWait
+    KF5::ConfigCore # KConfigGroup
 )
 
 
