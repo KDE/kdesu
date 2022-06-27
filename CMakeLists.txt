@@ -20,6 +20,7 @@ include(ECMGenerateHeaders)
 include(ECMMarkNonGuiExecutable)
 include(ECMQtDeclareLoggingCategory)
 include(ECMAddQch)
+include(ECMDeprecationSettings)
 
 set(REQUIRED_QT_VERSION 5.15.2)
 find_package(Qt${QT_MAJOR_VERSION}Core ${REQUIRED_QT_VERSION} REQUIRED NO_MODULE)
@@ -54,8 +55,11 @@ ecm_setup_version(PROJECT VARIABLE_PREFIX KDESU
                         VERSION_HEADER "${CMAKE_CURRENT_BINARY_DIR}/kdesu_version.h"
                         PACKAGE_VERSION_FILE "${CMAKE_CURRENT_BINARY_DIR}/KF5SuConfigVersion.cmake"
                         SOVERSION 5)
-add_definitions(-DQT_DISABLE_DEPRECATED_BEFORE=0x050f02)
-add_definitions(-DKF_DISABLE_DEPRECATED_BEFORE_AND_AT=0x055100)
+ecm_set_disabled_deprecation_versions(
+    QT 5.15.2
+    KF 5.95
+)
+
 ki18n_install(po)
 add_subdirectory(src)
 
