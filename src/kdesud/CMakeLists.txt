@@ -30,11 +30,6 @@ if(HAVE_X11)
   target_include_directories(kdesud PRIVATE ${X11_X11_INCLUDE_PATH})
 endif()
 
-if(KDE4_ENABLE_FPIE)
-    macro_add_compile_flags(kdesud ${KDE4_CXX_FPIE_FLAGS})
-    macro_add_link_flags(kdesud ${KDE4_PIE_LDFLAGS})
-endif()
-
 if(BUILD_TESTING)
   add_subdirectory(autotests)
 endif()
