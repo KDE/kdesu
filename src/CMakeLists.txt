@@ -85,7 +85,7 @@ ecm_generate_headers(KDESu_CamelCase_HEADERS
 )
 install(FILES ${KDESu_CamelCase_HEADERS} DESTINATION ${KDE_INSTALL_INCLUDEDIR_KF}/KDESu/KDESu COMPONENT Devel)
 
-install(TARGETS KF5Su EXPORT KF5SuTargets ${KF5_INSTALL_TARGETS_DEFAULT_ARGS})
+install(TARGETS KF5Su EXPORT KF5SuTargets ${KF_INSTALL_TARGETS_DEFAULT_ARGS})
 
 ########### next target ###############
 
