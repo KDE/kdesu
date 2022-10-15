@@ -392,10 +392,12 @@ static QString findDaemon()
     return daemon;
 }
 
+#if KDESU_BUILD_DEPRECATED_SINCE(5, 99)
 bool KDEsuClient::isServerSGID()
 {
     return true;
 }
+#endif
 
 int KDEsuClient::startServer()
 {
