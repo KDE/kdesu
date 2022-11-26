@@ -86,7 +86,7 @@
 
 #ifdef __FreeBSD__
 #include <sys/procctl.h>
-#else
+#elif defined(__linux__)
 #include <sys/prctl.h>
 #endif
 
