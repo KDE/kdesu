@@ -39,7 +39,7 @@ msgstr "Dimoni «su» de KDE"
 #: kdesud.cpp:351
 #, kde-format
 msgid "Daemon used by kdesu"
-msgstr "Dimoni utilitzat pel kdesu"
+msgstr "Dimoni utilitzat per kdesu"
 
 #: kdesud.cpp:353
 #, kde-format
