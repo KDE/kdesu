@@ -25,10 +25,10 @@ include(ECMDeprecationSettings)
 set(REQUIRED_QT_VERSION 6.4.0)
 find_package(Qt${QT_MAJOR_VERSION}Core ${REQUIRED_QT_VERSION} REQUIRED NO_MODULE)
 
-find_package(KF5Config ${KF_DEP_VERSION} REQUIRED)
-find_package(KF5CoreAddons ${KF_DEP_VERSION} REQUIRED)
-find_package(KF5I18n ${KF_DEP_VERSION} REQUIRED)
-find_package(KF5Pty ${KF_DEP_VERSION} REQUIRED)
+find_package(KF6Config ${KF_DEP_VERSION} REQUIRED)
+find_package(KF6CoreAddons ${KF_DEP_VERSION} REQUIRED)
+find_package(KF6I18n ${KF_DEP_VERSION} REQUIRED)
+find_package(KF6Pty ${KF_DEP_VERSION} REQUIRED)
 
 #optional features
 find_package(X11)
@@ -53,8 +53,8 @@ add_feature_info(QCH ${BUILD_QCH} "API documentation in QCH format (for e.g. Qt 
 
 ecm_setup_version(PROJECT VARIABLE_PREFIX KDESU
                         VERSION_HEADER "${CMAKE_CURRENT_BINARY_DIR}/kdesu_version.h"
-                        PACKAGE_VERSION_FILE "${CMAKE_CURRENT_BINARY_DIR}/KF5SuConfigVersion.cmake"
-                        SOVERSION 5)
+                        PACKAGE_VERSION_FILE "${CMAKE_CURRENT_BINARY_DIR}/KF6SuConfigVersion.cmake"
+                        SOVERSION 6)
 ecm_set_disabled_deprecation_versions(
     QT 5.15.2
     KF 5.95
@@ -64,34 +64,34 @@ ki18n_install(po)
 add_subdirectory(src)
 
 # create a Config.cmake and a ConfigVersion.cmake file and install them
-set(CMAKECONFIG_INSTALL_DIR "${KDE_INSTALL_CMAKEPACKAGEDIR}/KF5Su")
+set(CMAKECONFIG_INSTALL_DIR "${KDE_INSTALL_CMAKEPACKAGEDIR}/KF6Su")
 
 if (BUILD_QCH)
     ecm_install_qch_export(
-        TARGETS KF5Su_QCH
-        FILE KF5SuQchTargets.cmake
+        TARGETS KF6Su_QCH
+        FILE KF6SuQchTargets.cmake
         DESTINATION "${CMAKECONFIG_INSTALL_DIR}"
         COMPONENT Devel
     )
-    set(PACKAGE_INCLUDE_QCHTARGETS "include(\"\${CMAKE_CURRENT_LIST_DIR}/KF5SuQchTargets.cmake\")")
+    set(PACKAGE_INCLUDE_QCHTARGETS "include(\"\${CMAKE_CURRENT_LIST_DIR}/KF6SuQchTargets.cmake\")")
 endif()
 
 include(CMakePackageConfigHelpers)
 
 configure_package_config_file(
-  "${CMAKE_CURRENT_SOURCE_DIR}/KF5SuConfig.cmake.in"
-  "${CMAKE_CURRENT_BINARY_DIR}/KF5SuConfig.cmake"
+  "${CMAKE_CURRENT_SOURCE_DIR}/KF6SuConfig.cmake.in"
+  "${CMAKE_CURRENT_BINARY_DIR}/KF6SuConfig.cmake"
   INSTALL_DESTINATION  ${CMAKECONFIG_INSTALL_DIR}
 )
 
 install(FILES
-  "${CMAKE_CURRENT_BINARY_DIR}/KF5SuConfig.cmake"
-  "${CMAKE_CURRENT_BINARY_DIR}/KF5SuConfigVersion.cmake"
+  "${CMAKE_CURRENT_BINARY_DIR}/KF6SuConfig.cmake"
+  "${CMAKE_CURRENT_BINARY_DIR}/KF6SuConfigVersion.cmake"
   DESTINATION "${CMAKECONFIG_INSTALL_DIR}"
   COMPONENT Devel
 )
 
-install(EXPORT KF5SuTargets DESTINATION "${CMAKECONFIG_INSTALL_DIR}" FILE KF5SuTargets.cmake NAMESPACE KF5:: )
+install(EXPORT KF6SuTargets DESTINATION "${CMAKECONFIG_INSTALL_DIR}" FILE KF6SuTargets.cmake NAMESPACE KF6:: )
 
 install(FILES
    ${CMAKE_CURRENT_BINARY_DIR}/kdesu_version.h

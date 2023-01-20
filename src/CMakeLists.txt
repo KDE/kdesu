@@ -16,16 +16,16 @@ set(CMAKE_EXTRA_INCLUDE_FILES)  #reset CMAKE_EXTRA_INCLUDE_FILES
 
 configure_file(config-kdesu.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config-kdesu.h)
 
-add_library(KF5Su)
-add_library(KF5::Su ALIAS KF5Su)
+add_library(KF6Su)
+add_library(KF6::Su ALIAS KF6Su)
 
-set_target_properties(KF5Su PROPERTIES
+set_target_properties(KF6Su PROPERTIES
     VERSION     ${KDESU_VERSION}
     SOVERSION   ${KDESU_SOVERSION}
     EXPORT_NAME Su
 )
 
-target_sources(KF5Su PRIVATE
+target_sources(KF6Su PRIVATE
   client.cpp
   ptyprocess.cpp
   kcookie.cpp
@@ -34,7 +34,7 @@ target_sources(KF5Su PRIVATE
   stubprocess.cpp
 )
 
-ecm_qt_declare_logging_category(KF5Su
+ecm_qt_declare_logging_category(KF6Su
     HEADER ksu_debug.h
     IDENTIFIER KSU_LOG
     CATEGORY_NAME kf.su
@@ -42,7 +42,7 @@ ecm_qt_declare_logging_category(KF5Su
     EXPORT KSU
 )
 
-ecm_generate_export_header(KF5Su
+ecm_generate_export_header(KF6Su
     EXPORT_FILE_NAME kdesu/kdesu_export.h
     BASE_NAME KDESu
     GROUP_BASE_NAME KF
@@ -53,22 +53,22 @@ ecm_generate_export_header(KF5Su
 )
 
 if(KDESU_USE_SUDO_DEFAULT)
-  target_compile_definitions(KF5Su PRIVATE -DKDESU_USE_SUDO_DEFAULT="true")
+  target_compile_definitions(KF6Su PRIVATE -DKDESU_USE_SUDO_DEFAULT="true")
 elseif(KDESU_USE_DOAS_DEFAULT)
-  target_compile_definitions(KF5Su PRIVATE -DKDESU_USE_DOAS_DEFAULT="true")
+  target_compile_definitions(KF6Su PRIVATE -DKDESU_USE_DOAS_DEFAULT="true")
 endif()
 
-target_include_directories(KF5Su PRIVATE ${CMAKE_CURRENT_BINARY_DIR}/..)
+target_include_directories(KF6Su PRIVATE ${CMAKE_CURRENT_BINARY_DIR}/..)
 
 # Apps must include <KDESu/File> or <kdesu/file.h>
-target_include_directories(KF5Su INTERFACE "$<INSTALL_INTERFACE:${KDE_INSTALL_INCLUDEDIR_KF}/KDESu>")
+target_include_directories(KF6Su INTERFACE "$<INSTALL_INTERFACE:${KDE_INSTALL_INCLUDEDIR_KF}/KDESu>")
 
-target_link_libraries(KF5Su
+target_link_libraries(KF6Su
   PUBLIC
-    KF5::Pty
+    KF6::Pty
   PRIVATE
-    KF5::CoreAddons # KUser::loginName
-    KF5::ConfigCore # KConfigGroup
+    KF6::CoreAddons # KUser::loginName
+    KF6::ConfigCore # KConfigGroup
 )
 
 
@@ -85,7 +85,7 @@ ecm_generate_headers(KDESu_CamelCase_HEADERS
 )
 install(FILES ${KDESu_CamelCase_HEADERS} DESTINATION ${KDE_INSTALL_INCLUDEDIR_KF}/KDESu/KDESu COMPONENT Devel)
 
-install(TARGETS KF5Su EXPORT KF5SuTargets ${KF_INSTALL_TARGETS_DEFAULT_ARGS})
+install(TARGETS KF6Su EXPORT KF6SuTargets ${KF_INSTALL_TARGETS_DEFAULT_ARGS})
 
 ########### next target ###############
 
@@ -112,16 +112,16 @@ install(FILES
 
 if(BUILD_QCH)
     ecm_add_qch(
-        KF5Su_QCH
+        KF6Su_QCH
         NAME KDESu
-        BASE_NAME KF5Su
+        BASE_NAME KF6Su
         VERSION ${KF_VERSION}
         ORG_DOMAIN org.kde
         SOURCES # using only public headers, to cover only public API
             ${KDESu_HEADERS}
         MD_MAINPAGE "${CMAKE_SOURCE_DIR}/README.md"
         LINK_QCHS
-            KF5Pty_QCH
+            KF6Pty_QCH
         INCLUDE_DIRS
             ${CMAKE_CURRENT_BINARY_DIR}
         BLANK_MACROS
@@ -136,7 +136,7 @@ if(BUILD_QCH)
 endif()
 
 include(ECMGeneratePriFile)
-ecm_generate_pri_file(BASE_NAME KDESu LIB_NAME KF5Su DEPS "KPty" FILENAME_VAR PRI_FILENAME INCLUDE_INSTALL_DIR ${KDE_INSTALL_INCLUDEDIR_KF}/KDESu)
+ecm_generate_pri_file(BASE_NAME KDESu LIB_NAME KF6Su DEPS "KPty" FILENAME_VAR PRI_FILENAME INCLUDE_INSTALL_DIR ${KDE_INSTALL_INCLUDEDIR_KF}/KDESu)
 install(FILES ${PRI_FILENAME} DESTINATION ${ECM_MKSPECS_INSTALL_DIR})
 
 ecm_qt_install_logging_categories(

@@ -10,8 +10,8 @@ deprecated: false
 release: true
 libraries:
  - qmake: KDESu
-   cmake: "KF5::Su"
-cmakename: KF5Su
+   cmake: "KF6::Su"
+cmakename: KF6Su
 
 public_lib: true
 group: Frameworks

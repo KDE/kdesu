@@ -25,7 +25,7 @@ ecm_qt_declare_logging_category(kdesud
     EXPORT KSU
 )
 
-target_link_libraries(kdesud KF5::Su KF5::I18n ${X11_LIBRARIES})
+target_link_libraries(kdesud KF6::Su KF6::I18n ${X11_LIBRARIES})
 if(HAVE_X11)
   target_include_directories(kdesud PRIVATE ${X11_X11_INCLUDE_PATH})
 endif()
