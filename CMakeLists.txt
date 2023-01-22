@@ -23,7 +23,7 @@ include(ECMAddQch)
 include(ECMDeprecationSettings)
 
 set(REQUIRED_QT_VERSION 6.4.0)
-find_package(Qt${QT_MAJOR_VERSION}Core ${REQUIRED_QT_VERSION} REQUIRED NO_MODULE)
+find_package(Qt6Core ${REQUIRED_QT_VERSION} REQUIRED NO_MODULE)
 
 find_package(KF6Config ${KF_DEP_VERSION} REQUIRED)
 find_package(KF6CoreAddons ${KF_DEP_VERSION} REQUIRED)
