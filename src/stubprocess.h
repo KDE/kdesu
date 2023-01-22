@@ -107,10 +107,6 @@ protected:
 
 private:
     Q_DECLARE_PRIVATE_D(PtyProcess::d, StubProcess)
-#if KDESU_BUILD_DEPRECATED_SINCE(5, 79)
-    // Unused, kept for ABI compatibility
-    const void *__kdesu_d_do_not_use;
-#endif
 };
 
 }
