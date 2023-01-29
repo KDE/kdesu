@@ -118,7 +118,7 @@ PtyProcess::PtyProcess()
 }
 
 PtyProcess::PtyProcess(PtyProcessPrivate &dd)
-    : d(&dd)
+    : d_ptr(&dd)
 {
     m_terminal = false;
     m_erase = false;
@@ -128,6 +128,8 @@ PtyProcess::~PtyProcess() = default;
 
 int PtyProcess::init()
 {
+    Q_D(PtyProcess);
+
     delete d->pty;
     d->pty = new KPty();
     if (!d->pty->open()) {
@@ -142,11 +144,15 @@ int PtyProcess::init()
 /** Set additional environment variables. */
 void PtyProcess::setEnvironment(const QList<QByteArray> &env)
 {
+    Q_D(PtyProcess);
+
     d->env = env;
 }
 
 int PtyProcess::fd() const
 {
+    Q_D(const PtyProcess);
+
     return d->pty ? d->pty->masterFd() : -1;
 }
 
@@ -158,11 +164,15 @@ int PtyProcess::pid() const
 /** Returns the additional environment variables set by setEnvironment() */
 QList<QByteArray> PtyProcess::environment() const
 {
+    Q_D(const PtyProcess);
+
     return d->env;
 }
 
 QByteArray PtyProcess::readAll(bool block)
 {
+    Q_D(PtyProcess);
+
     QByteArray ret;
     if (!d->inputBuffer.isEmpty()) {
         // if there is still something in the buffer, we need not block.
@@ -214,6 +224,8 @@ QByteArray PtyProcess::readAll(bool block)
 
 QByteArray PtyProcess::readLine(bool block)
 {
+    Q_D(PtyProcess);
+
     d->inputBuffer = readAll(block);
 
     int pos;
@@ -245,6 +257,8 @@ void PtyProcess::writeLine(const QByteArray &line, bool addnl)
 
 void PtyProcess::unreadLine(const QByteArray &line, bool addnl)
 {
+    Q_D(PtyProcess);
+
     QByteArray tmp = line;
     if (addnl) {
         tmp += '\n';
@@ -264,6 +278,8 @@ void PtyProcess::setExitString(const QByteArray &exit)
  */
 int PtyProcess::exec(const QByteArray &command, const QList<QByteArray> &args)
 {
+    Q_D(PtyProcess);
+
     int i;
 
     if (init() < 0) {
@@ -348,6 +364,8 @@ int PtyProcess::exec(const QByteArray &command, const QList<QByteArray> &args)
  */
 int PtyProcess::waitSlave()
 {
+    Q_D(PtyProcess);
+
     struct termios tio;
     while (1) {
         if (!checkPid(m_pid)) {
@@ -371,6 +389,8 @@ int PtyProcess::waitSlave()
 
 int PtyProcess::enableLocalEcho(bool enable)
 {
+    Q_D(PtyProcess);
+
     return d->pty->setEcho(enable) ? 0 : -1;
 }
 
@@ -470,6 +490,8 @@ int PtyProcess::waitForChild()
  */
 int PtyProcess::setupTTY()
 {
+    Q_D(PtyProcess);
+
     // Reset signal handlers
     for (int sig = 1; sig < NSIG; sig++) {
         signal(sig, SIG_DFL);

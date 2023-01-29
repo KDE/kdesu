@@ -106,7 +106,7 @@ protected:
     explicit StubProcess(StubProcessPrivate &dd);
 
 private:
-    Q_DECLARE_PRIVATE_D(PtyProcess::d, StubProcess)
+    Q_DECLARE_PRIVATE(StubProcess)
 };
 
 }

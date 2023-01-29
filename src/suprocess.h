@@ -81,7 +81,7 @@ private:
     int converseSU(const char *password);
 
 private:
-    Q_DECLARE_PRIVATE_D(PtyProcess::d, SuProcess)
+    Q_DECLARE_PRIVATE(SuProcess)
 };
 
 }

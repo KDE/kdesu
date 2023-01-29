@@ -190,12 +190,11 @@ private:
     int init();
     int setupTTY();
 
+protected:
+    std::unique_ptr<PtyProcessPrivate> const d_ptr;
+
 private:
-    friend class StubProcess;
-    friend class SshProcess;
-    friend class SuProcess;
-    std::unique_ptr<PtyProcessPrivate> const d;
-    // KF6 TODO: change private d to protected d_ptr, use normal Q_DECLARE_PRIVATE, remove friend
+    Q_DECLARE_PRIVATE(PtyProcess)
 };
 
 }
