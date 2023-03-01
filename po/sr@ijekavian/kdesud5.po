@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdesud5\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2019-05-20 02:55+0200\n"
+"POT-Creation-Date: 2022-09-23 00:41+0000\n"
 "PO-Revision-Date: 2017-09-28 17:57+0200\n"
 "Last-Translator: Chusslove Illich <caslav.ilic@gmx.net>\n"
 "Language-Team: Serbian <kde-i18n-sr@kde.org>\n"
@@ -30,27 +30,27 @@ msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "caslav.ilic@gmx.net"
 
-#: kdesud.cpp:274
+#: kdesud.cpp:349
 #, kde-format
 msgid "KDE su daemon"
 msgstr "КДЕ‑ов демон за su"
 
-#: kdesud.cpp:275
+#: kdesud.cpp:351
 #, kde-format
 msgid "Daemon used by kdesu"
 msgstr "Демон КДЕ суа"
 
-#: kdesud.cpp:277
+#: kdesud.cpp:353
 #, kde-format
 msgid "Copyright (c) 1999,2000 Geert Jansen"
 msgstr "© 1999-2000, Герт Јансен"
 
-#: kdesud.cpp:278
+#: kdesud.cpp:354
 #, kde-format
 msgid "Geert Jansen"
 msgstr "Герт Јансен"
 
-#: kdesud.cpp:278
+#: kdesud.cpp:354
 #, kde-format
 msgid "Author"
 msgstr "аутор"
