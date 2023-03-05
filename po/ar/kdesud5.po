@@ -30,7 +30,7 @@ msgstr "safa1996alfulaij@gmail.com"
 #: kdesud.cpp:349
 #, kde-format
 msgid "KDE su daemon"
-msgstr "عفريت كدي لِ‍ su"
+msgstr "عفريت كِيدِي لِ‍ su"
 
 #: kdesud.cpp:351
 #, kde-format
