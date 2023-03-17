@@ -100,10 +100,10 @@ install(TARGETS kdesu_stub DESTINATION ${KDE_INSTALL_LIBEXECDIR_KF})
 
 ########### install files ###############
 install(FILES
-  su.h
-  ssh.h
-  stub.h
-  process.h
+  compatheaders/su.h
+  compatheaders/ssh.h
+  compatheaders/stub.h
+  compatheaders/process.h
   defaults.h
   ${CMAKE_CURRENT_BINARY_DIR}/kdesu/kdesu_export.h
   ${KDESu_HEADERS}

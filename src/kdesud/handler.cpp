@@ -18,8 +18,8 @@
 
 #include <sys/socket.h>
 
-#include <ssh.h>
-#include <su.h>
+#include "sshprocess.h"
+#include "suprocess.h"
 
 #include "lexer.h"
 #include "repo.h"
