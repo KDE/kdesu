@@ -1,4 +1,4 @@
-# Translation of kdesud5 to Norwegian Nynorsk
+# Translation of kdesud6 to Norwegian Nynorsk
 #
 # Gaute Hvoslef Kvalnes <gaute@verdsveven.com>, 2000.
 # Karl Ove Hufthammer <karl@huftis.org>, 2007, 2008.

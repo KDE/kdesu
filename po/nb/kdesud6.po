@@ -1,4 +1,4 @@
-# Translation of kdesud5 to Norwegian Bokmål
+# Translation of kdesud6 to Norwegian Bokmål
 #
 # Hans Petter Bieker <bieker@kde.org>, 2000.
 msgid ""
