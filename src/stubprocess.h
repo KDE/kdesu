@@ -103,7 +103,7 @@ private:
     KDESU_NO_EXPORT void writeString(const QByteArray &str);
 
 protected:
-    explicit StubProcess(StubProcessPrivate &dd);
+    KDESU_NO_EXPORT explicit StubProcess(StubProcessPrivate &dd);
 
 private:
     Q_DECLARE_PRIVATE(StubProcess)

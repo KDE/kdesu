@@ -171,7 +171,7 @@ public:
     static int checkPidExited(pid_t pid);
 
 protected:
-    explicit PtyProcess(PtyProcessPrivate &dd);
+    KDESU_NO_EXPORT explicit PtyProcess(PtyProcessPrivate &dd);
 
     /** Standard hack to add virtual methods in a BC way. Unused. */
     virtual void virtual_hook(int id, void *data);
