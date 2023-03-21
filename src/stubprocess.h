@@ -99,7 +99,6 @@ protected:
     KDESuPrivate::KCookie *m_cookie;
 
 private:
-    QByteArray commaSeparatedList(const QList<QByteArray> &lst);
     KDESU_NO_EXPORT void writeString(const QByteArray &str);
 
 protected:
