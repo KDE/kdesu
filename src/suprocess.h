@@ -78,7 +78,7 @@ private:
         notauthorized = 2,
     };
 
-    int converseSU(const char *password);
+    KDESU_NO_EXPORT int converseSU(const char *password);
 
 private:
     Q_DECLARE_PRIVATE_D(PtyProcess::d, SuProcess)

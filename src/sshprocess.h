@@ -71,7 +71,7 @@ protected:
     QByteArray displayAuth() override;
 
 private:
-    int converseSsh(const char *password, int check);
+    KDESU_NO_EXPORT int converseSsh(const char *password, int check);
 
 private:
     Q_DECLARE_PRIVATE_D(PtyProcess::d, SshProcess)

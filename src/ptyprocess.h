@@ -198,8 +198,8 @@ protected:
     QByteArray m_exitString; /**< String to scan for in output that indicates child has exited. */
 
 private:
-    int init();
-    int setupTTY();
+    KDESU_NO_EXPORT int init();
+    KDESU_NO_EXPORT int setupTTY();
 
 private:
     friend class StubProcess;
