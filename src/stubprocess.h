@@ -100,7 +100,7 @@ protected:
 
 private:
     QByteArray commaSeparatedList(const QList<QByteArray> &lst);
-    void writeString(const QByteArray &str);
+    KDESU_NO_EXPORT void writeString(const QByteArray &str);
 
 protected:
     explicit StubProcess(StubProcessPrivate &dd);

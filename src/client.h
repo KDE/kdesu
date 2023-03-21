@@ -177,10 +177,10 @@ public:
     int startServer();
 
 private:
-    int connect();
+    KDESU_NO_EXPORT int connect();
 
-    int command(const QByteArray &cmd, QByteArray *result = nullptr);
-    QByteArray escape(const QByteArray &str);
+    KDESU_NO_EXPORT int command(const QByteArray &cmd, QByteArray *result = nullptr);
+    KDESU_NO_EXPORT QByteArray escape(const QByteArray &str);
 
 private:
     std::unique_ptr<class KDEsuClientPrivate> const d;
