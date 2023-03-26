@@ -26,10 +26,10 @@ extern int kdesuDebugArea();
 
 namespace KDESu
 {
-class KDEsuClientPrivate
+class ClientPrivate
 {
 public:
-    KDEsuClientPrivate()
+    ClientPrivate()
         : sockfd(-1)
     {
     }
@@ -42,8 +42,8 @@ public:
 #define SUN_LEN(ptr) ((QT_SOCKLEN_T)(((struct sockaddr_un *)0)->sun_path) + strlen((ptr)->sun_path))
 #endif
 
-KDEsuClient::KDEsuClient()
-    : d(new KDEsuClientPrivate)
+Client::Client()
+    : d(new ClientPrivate)
 {
 #if HAVE_X11
     QString display = QString::fromLocal8Bit(qgetenv("DISPLAY"));
@@ -67,14 +67,14 @@ KDEsuClient::KDEsuClient()
     connect();
 }
 
-KDEsuClient::~KDEsuClient()
+Client::~Client()
 {
     if (d->sockfd >= 0) {
         close(d->sockfd);
     }
 }
 
-int KDEsuClient::connect()
+int Client::connect()
 {
     if (d->sockfd >= 0) {
         close(d->sockfd);
@@ -157,7 +157,7 @@ int KDEsuClient::connect()
     return 0;
 }
 
-QByteArray KDEsuClient::escape(const QByteArray &str)
+QByteArray Client::escape(const QByteArray &str)
 {
     QByteArray copy;
     copy.reserve(str.size() + 4);
@@ -178,7 +178,7 @@ QByteArray KDEsuClient::escape(const QByteArray &str)
     return copy;
 }
 
-int KDEsuClient::command(const QByteArray &cmd, QByteArray *result)
+int Client::command(const QByteArray &cmd, QByteArray *result)
 {
     if (d->sockfd < 0) {
         return -1;
@@ -208,7 +208,7 @@ int KDEsuClient::command(const QByteArray &cmd, QByteArray *result)
     return 0;
 }
 
-int KDEsuClient::setPass(const char *pass, int timeout)
+int Client::setPass(const char *pass, int timeout)
 {
     QByteArray cmd = "PASS ";
     cmd += escape(pass);
@@ -218,7 +218,7 @@ int KDEsuClient::setPass(const char *pass, int timeout)
     return command(cmd);
 }
 
-int KDEsuClient::exec(const QByteArray &prog, const QByteArray &user, const QByteArray &options, const QList<QByteArray> &env)
+int Client::exec(const QByteArray &prog, const QByteArray &user, const QByteArray &options, const QList<QByteArray> &env)
 {
     QByteArray cmd;
     cmd = "EXEC ";
@@ -237,7 +237,7 @@ int KDEsuClient::exec(const QByteArray &prog, const QByteArray &user, const QByt
     return command(cmd);
 }
 
-int KDEsuClient::setHost(const QByteArray &host)
+int Client::setHost(const QByteArray &host)
 {
     QByteArray cmd = "HOST ";
     cmd += escape(host);
@@ -245,7 +245,7 @@ int KDEsuClient::setHost(const QByteArray &host)
     return command(cmd);
 }
 
-int KDEsuClient::setPriority(int prio)
+int Client::setPriority(int prio)
 {
     QByteArray cmd;
     cmd += "PRIO ";
@@ -254,7 +254,7 @@ int KDEsuClient::setPriority(int prio)
     return command(cmd);
 }
 
-int KDEsuClient::setScheduler(int sched)
+int Client::setScheduler(int sched)
 {
     QByteArray cmd;
     cmd += "SCHD ";
@@ -263,7 +263,7 @@ int KDEsuClient::setScheduler(int sched)
     return command(cmd);
 }
 
-int KDEsuClient::delCommand(const QByteArray &key, const QByteArray &user)
+int Client::delCommand(const QByteArray &key, const QByteArray &user)
 {
     QByteArray cmd = "DEL ";
     cmd += escape(key);
@@ -272,7 +272,7 @@ int KDEsuClient::delCommand(const QByteArray &key, const QByteArray &user)
     cmd += '\n';
     return command(cmd);
 }
-int KDEsuClient::setVar(const QByteArray &key, const QByteArray &value, int timeout, const QByteArray &group)
+int Client::setVar(const QByteArray &key, const QByteArray &value, int timeout, const QByteArray &group)
 {
     QByteArray cmd = "SET ";
     cmd += escape(key);
@@ -286,7 +286,7 @@ int KDEsuClient::setVar(const QByteArray &key, const QByteArray &value, int time
     return command(cmd);
 }
 
-QByteArray KDEsuClient::getVar(const QByteArray &key)
+QByteArray Client::getVar(const QByteArray &key)
 {
     QByteArray cmd = "GET ";
     cmd += escape(key);
@@ -296,7 +296,7 @@ QByteArray KDEsuClient::getVar(const QByteArray &key)
     return reply;
 }
 
-QList<QByteArray> KDEsuClient::getKeys(const QByteArray &group)
+QList<QByteArray> Client::getKeys(const QByteArray &group)
 {
     QByteArray cmd = "GETK ";
     cmd += escape(group);
@@ -325,7 +325,7 @@ QList<QByteArray> KDEsuClient::getKeys(const QByteArray &group)
     return list;
 }
 
-bool KDEsuClient::findGroup(const QByteArray &group)
+bool Client::findGroup(const QByteArray &group)
 {
     QByteArray cmd = "CHKG ";
     cmd += escape(group);
@@ -336,7 +336,7 @@ bool KDEsuClient::findGroup(const QByteArray &group)
     return true;
 }
 
-int KDEsuClient::delVar(const QByteArray &key)
+int Client::delVar(const QByteArray &key)
 {
     QByteArray cmd = "DELV ";
     cmd += escape(key);
@@ -344,7 +344,7 @@ int KDEsuClient::delVar(const QByteArray &key)
     return command(cmd);
 }
 
-int KDEsuClient::delGroup(const QByteArray &group)
+int Client::delGroup(const QByteArray &group)
 {
     QByteArray cmd = "DELG ";
     cmd += escape(group);
@@ -352,7 +352,7 @@ int KDEsuClient::delGroup(const QByteArray &group)
     return command(cmd);
 }
 
-int KDEsuClient::delVars(const QByteArray &special_key)
+int Client::delVars(const QByteArray &special_key)
 {
     QByteArray cmd = "DELS ";
     cmd += escape(special_key);
@@ -360,12 +360,12 @@ int KDEsuClient::delVars(const QByteArray &special_key)
     return command(cmd);
 }
 
-int KDEsuClient::ping()
+int Client::ping()
 {
     return command("PING\n");
 }
 
-int KDEsuClient::exitCode()
+int Client::exitCode()
 {
     QByteArray result;
     if (command("EXIT\n", &result) != 0) {
@@ -375,7 +375,7 @@ int KDEsuClient::exitCode()
     return result.toInt();
 }
 
-int KDEsuClient::stopServer()
+int Client::stopServer()
 {
     return command("STOP\n");
 }
@@ -392,7 +392,7 @@ static QString findDaemon()
     return daemon;
 }
 
-int KDEsuClient::startServer()
+int Client::startServer()
 {
     if (d->daemon.isEmpty()) {
         d->daemon = findDaemon();

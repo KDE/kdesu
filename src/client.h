@@ -20,7 +20,7 @@
 
 namespace KDESu
 {
-/** \class KDEsuClient client.h KDESu/Client
+/** \class Client client.h KDESu/Client
  * A client class to access kdesud, the KDE su daemon. Kdesud can assist in
  * password caching in two ways:
  *
@@ -33,16 +33,21 @@ namespace KDESu
  * as a persistent storage for string variables. These variables are
  * returned to the user.
  * See setVar, delVar, delGroup.
+ *
+ * Porting from KF5 to KF6:
+ *
+ * The class KDESu::KDEsuClient was renamed to KDESu::Client.
+ *
+ * @since 6.0
  */
-
-class KDESU_EXPORT KDEsuClient
+class KDESU_EXPORT Client
 {
 public:
-    KDEsuClient();
-    ~KDEsuClient();
+    Client();
+    ~Client();
 
-    KDEsuClient(const KDEsuClient &) = delete;
-    KDEsuClient &operator=(const KDEsuClient &) = delete;
+    Client(const Client &) = delete;
+    Client &operator=(const Client &) = delete;
 
     /**
      * Lets kdesud execute a command. If the daemon does not have a password
@@ -183,7 +188,7 @@ private:
     KDESU_NO_EXPORT QByteArray escape(const QByteArray &str);
 
 private:
-    std::unique_ptr<class KDEsuClientPrivate> const d;
+    std::unique_ptr<class ClientPrivate> const d;
 };
 
 } // END namespace KDESu

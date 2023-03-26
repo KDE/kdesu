@@ -21,7 +21,7 @@ private Q_SLOTS:
     {
     }
 
-    // copy of KDEsuClient::escape
+    // copy of KDESu::Client::escape
     QByteArray escape(const QByteArray &str)
     {
         QByteArray copy;
@@ -45,7 +45,7 @@ private Q_SLOTS:
 
     void commandWithDoubleQuotes()
     {
-        // Process command like in KDEsuClient::exec
+        // Process command like in KDESu::Client::exec
         QByteArray cmd;
         cmd = "EXEC ";
         cmd += escape("bash -c \"ls -la\"");

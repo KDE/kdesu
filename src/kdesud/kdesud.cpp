@@ -245,7 +245,7 @@ int create_socket()
     }
 
     if (!access(sock.constData(), R_OK | W_OK)) {
-        KDEsuClient client;
+        KDESu::Client client;
         if (client.ping() == -1) {
             qCWarning(KSUD_LOG) << "stale socket exists\n";
             if (unlink(sock.constData())) {

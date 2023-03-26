@@ -78,7 +78,7 @@ ecm_generate_headers(KDESu_CamelCase_HEADERS
   SuProcess
   SshProcess
   StubProcess
-  Client # technically the class is called KDEsuClient...
+  Client
 
   PREFIX KDESu
   REQUIRED_HEADERS KDESu_HEADERS
