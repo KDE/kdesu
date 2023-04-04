@@ -51,8 +51,9 @@ endif()
 option(BUILD_QCH "Build API documentation in QCH format (for e.g. Qt Assistant, Qt Creator & KDevelop)" OFF)
 add_feature_info(QCH ${BUILD_QCH} "API documentation in QCH format (for e.g. Qt Assistant, Qt Creator & KDevelop)")
 
+set(kdesu_version_header "${CMAKE_CURRENT_BINARY_DIR}/src/kdesu_version.h")
 ecm_setup_version(PROJECT VARIABLE_PREFIX KDESU
-                        VERSION_HEADER "${CMAKE_CURRENT_BINARY_DIR}/kdesu_version.h"
+                        VERSION_HEADER "${kdesu_version_header}"
                         PACKAGE_VERSION_FILE "${CMAKE_CURRENT_BINARY_DIR}/KF6SuConfigVersion.cmake"
                         SOVERSION 6)
 ecm_set_disabled_deprecation_versions(
@@ -94,7 +95,7 @@ install(FILES
 install(EXPORT KF6SuTargets DESTINATION "${CMAKECONFIG_INSTALL_DIR}" FILE KF6SuTargets.cmake NAMESPACE KF6:: )
 
 install(FILES
-   ${CMAKE_CURRENT_BINARY_DIR}/kdesu_version.h
+   ${kdesu_version_header}
   DESTINATION ${KDE_INSTALL_INCLUDEDIR_KF}/KDESu COMPONENT Devel
 )
 
