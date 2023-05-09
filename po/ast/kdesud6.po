@@ -1,13 +1,13 @@
 # Copyright (C) YEAR This file is copyright:
 # This file is distributed under the same license as the kdesu package.
 #
-# Enol P. <enolp@softastur.org>, 2022.
+# Enol P. <enolp@softastur.org>, 2022, 2023.
 msgid ""
 msgstr ""
 "Project-Id-Version: kdesu\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-09-23 00:41+0000\n"
-"PO-Revision-Date: 2022-12-04 00:24+0100\n"
+"PO-Revision-Date: 2023-05-05 22:35+0200\n"
 "Last-Translator: Enol P. <enolp@softastur.org>\n"
 "Language-Team: \n"
 "Language: ast\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 22.08.3\n"
+"X-Generator: Lokalize 23.04.0\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -40,7 +40,7 @@ msgstr "El degorriu qu'usa kdesu"
 #: kdesud.cpp:353
 #, kde-format
 msgid "Copyright (c) 1999,2000 Geert Jansen"
-msgstr "Copyright (c) 1999-2000 Geert Jansen"
+msgstr "© 1999-2000 Geert Jansen"
 
 #: kdesud.cpp:354
 #, kde-format
