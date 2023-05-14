@@ -40,7 +40,7 @@ msgstr "عفريت تستخدمه kdesu"
 #: kdesud.cpp:353
 #, kde-format
 msgid "Copyright (c) 1999,2000 Geert Jansen"
-msgstr "‏© ١٩٩٩،٢٠٠٠ Geert Jansen"
+msgstr "‏© 1999،2000 Geert Jansen"
 
 #: kdesud.cpp:354
 #, kde-format
