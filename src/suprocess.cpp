@@ -143,6 +143,10 @@ int SuProcess::exec(const char *password, int check)
         return check ? SuNotFound : -1;
     }
 
+    // Turn echo off for conversion with kdesu_stub. Needs to be done before
+    // it's started so that sudo copies this option to its internal PTY.
+    enableLocalEcho(false);
+
     if (StubProcess::exec(command, args) < 0) {
         return check ? SuNotFound : -1;
     }
