@@ -30,6 +30,8 @@ public:
     QList<QByteArray> env;
     KPty *pty = nullptr;
     QByteArray inputBuffer;
+    // Whether to keep echo on after PTY creation
+    bool wantLocalEcho = true;
 };
 
 }
