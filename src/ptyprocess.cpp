@@ -135,6 +135,9 @@ int PtyProcess::init()
                             << "Failed to open PTY.";
         return -1;
     }
+    if (!d->wantLocalEcho) {
+        enableLocalEcho(false);
+    }
     d->inputBuffer.resize(0);
     return 0;
 }
@@ -371,6 +374,12 @@ int PtyProcess::waitSlave()
 
 int PtyProcess::enableLocalEcho(bool enable)
 {
+    d->wantLocalEcho = enable;
+    if (!d->pty) {
+        // Apply it on init
+        return 0;
+    }
+
     return d->pty->setEcho(enable) ? 0 : -1;
 }
 
