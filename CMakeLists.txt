@@ -22,7 +22,7 @@ include(ECMQtDeclareLoggingCategory)
 include(ECMAddQch)
 include(ECMDeprecationSettings)
 
-set(REQUIRED_QT_VERSION 6.4.0)
+set(REQUIRED_QT_VERSION 6.5.0)
 find_package(Qt6Core ${REQUIRED_QT_VERSION} REQUIRED NO_MODULE)
 
 find_package(KF6Config ${KF_DEP_VERSION} REQUIRED)
