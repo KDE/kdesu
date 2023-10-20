@@ -67,9 +67,9 @@
 #include <QByteArray>
 #include <QCommandLineParser>
 #include <QFile>
+#include <QList>
 #include <QRegularExpression>
 #include <QStandardPaths>
-#include <QVector>
 
 #include <KAboutData>
 #include <KLocalizedString>
@@ -413,7 +413,7 @@ int main(int argc, char *argv[])
 #endif
 
     repo = new Repository;
-    QVector<ConnectionHandler *> handler;
+    QList<ConnectionHandler *> handler;
 
     pipe2(pipeOfDeath, O_CLOEXEC);
     maxfd = qMax(maxfd, pipeOfDeath[0]);
