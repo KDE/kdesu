@@ -58,7 +58,7 @@ SuProcess::SuProcess(const QByteArray &user, const QByteArray &command)
     m_command = command;
 
     KSharedConfig::Ptr config = KSharedConfig::openConfig();
-    KConfigGroup group(config, "super-user-command");
+    KConfigGroup group(config, QStringLiteral("super-user-command"));
     d->superUserCommand = group.readEntry("super-user-command", DEFAULT_SUPER_USER_COMMAND);
 
     if (!d->isPrivilegeEscalation() && d->superUserCommand != QLatin1String("su")) {
@@ -131,7 +131,7 @@ int SuProcess::exec(const char *password, int check)
     }
     // Get the kdesu_stub and su command from a config file if set, used in test
     KSharedConfig::Ptr config = KSharedConfig::openConfig();
-    KConfigGroup group(config, "super-user-command");
+    KConfigGroup group(config, QStringLiteral("super-user-command"));
     const QString defaultPath = QStringLiteral(KDE_INSTALL_FULL_LIBEXECDIR_KF) + QStringLiteral("/kdesu_stub");
     const QString kdesuStubPath = group.readEntry("kdesu_stub_path", defaultPath);
     args += kdesuStubPath.toLocal8Bit();

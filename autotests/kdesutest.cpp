@@ -32,7 +32,7 @@ private Q_SLOTS:
     void editConfig(QString command, QString commandPath)
     {
         KSharedConfig::Ptr config = KSharedConfig::openConfig();
-        KConfigGroup group(config, "super-user-command");
+        KConfigGroup group(config, QStringLiteral("super-user-command"));
         group.writeEntry("super-user-command", command);
         QString kdesuStubPath = QString::fromLocal8Bit(CMAKE_RUNTIME_OUTPUT_DIRECTORY) + QString::fromLocal8Bit("/kdesu_stub");
         group.writeEntry("kdesu_stub_path", kdesuStubPath);
