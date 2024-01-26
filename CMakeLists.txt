@@ -103,4 +103,5 @@ if(BUILD_TESTING)
   add_subdirectory(autotests)
 endif()
 
-feature_summary(WHAT ALL   FATAL_ON_MISSING_REQUIRED_PACKAGES)
+include(ECMFeatureSummary)
+ecm_feature_summary(WHAT ALL   FATAL_ON_MISSING_REQUIRED_PACKAGES)
