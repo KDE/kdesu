@@ -94,7 +94,9 @@ include(ECMMarkNonGuiExecutable)
 
 set_source_files_properties(kdesu_stub.c PROPERTIES
                             COMPILE_DEFINITIONS "_XOPEN_SOURCE;_BSD_SOURCE")
+
 add_executable(kdesu_stub kdesu_stub.c)
+set_property(TARGET kdesu_stub PROPERTY POSITION_INDEPENDENT_CODE ON)
 ecm_mark_nongui_executable(kdesu_stub)
 
 install(TARGETS kdesu_stub DESTINATION ${KDE_INSTALL_LIBEXECDIR_KF})
