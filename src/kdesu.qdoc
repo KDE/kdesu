@@ -1,0 +1,11 @@
+/*!
+    \module KDESu
+    \title KDESu C++ Classes
+    \ingroup modules
+    \cmakepackage KF6
+    \cmakecomponent Su
+
+    \brief IO.
+
+    Stuff
+*/
