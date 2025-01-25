@@ -9,7 +9,7 @@
 
 #include <QByteArray>
 
-/**
+/*!
  * This is a lexer for the kdesud protocol.
  */
 
@@ -22,10 +22,10 @@ public:
     Lexer(const Lexer &) = delete;
     Lexer &operator=(const Lexer &) = delete;
 
-    /** Read next token. */
+    /*! Read next token. */
     int lex();
 
-    /** Return the token's value. */
+    /*! Return the token's value. */
     QByteArray &lval();
 
     enum Tokens {

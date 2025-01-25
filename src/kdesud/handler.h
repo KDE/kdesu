@@ -12,7 +12,7 @@
 #include "secure.h"
 #include <QByteArray>
 
-/**
+/*!
  * A ConnectionHandler handles a client. It is called from the main program
  * loop whenever there is data to read from a corresponding socket.
  * It keeps reading data until a newline is read. Then, a command is parsed
@@ -28,7 +28,7 @@ public:
     ConnectionHandler(const ConnectionHandler &) = delete;
     ConnectionHandler &operator=(const ConnectionHandler &) = delete;
 
-    /** Handle incoming data. */
+    /*! Handle incoming data. */
     int handle();
 
     /* Send back exit code. */

@@ -10,7 +10,7 @@
 #include <sys/socket.h>
 #include <sys/types.h>
 
-/**
+/*!
  * The Socket_security class authenticates the peer for you. It provides
  * the process-id, user-id and group-id plus the MD5 sum of the connected
  * binary.
@@ -21,19 +21,19 @@ class SocketSecurity
 public:
     explicit SocketSecurity(int fd);
 
-    /** Returns the peer's process-id. */
+    /*! Returns the peer's process-id. */
     int peerPid() const
     {
         return pid;
     }
 
-    /** Returns the peer's user-id */
+    /*! Returns the peer's user-id */
     int peerUid() const
     {
         return uid;
     }
 
-    /** Returns the peer's group-id */
+    /*! Returns the peer's group-id */
     int peerGid() const
     {
         return gid;

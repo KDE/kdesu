@@ -19,7 +19,7 @@ include(ECMSetupVersion)
 include(ECMGenerateHeaders)
 include(ECMMarkNonGuiExecutable)
 include(ECMQtDeclareLoggingCategory)
-include(ECMAddQch)
+include(ECMGenerateQDoc)
 include(ECMDeprecationSettings)
 
 set(REQUIRED_QT_VERSION 6.6.0)
@@ -48,9 +48,6 @@ else()
   message("Using su as default (set KDESU_USE_SUDO_DEFAULT=On to use sudo)")
 endif()
 
-option(BUILD_QCH "Build API documentation in QCH format (for e.g. Qt Assistant, Qt Creator & KDevelop)" OFF)
-add_feature_info(QCH ${BUILD_QCH} "API documentation in QCH format (for e.g. Qt Assistant, Qt Creator & KDevelop)")
-
 set(kdesu_version_header "${CMAKE_CURRENT_BINARY_DIR}/src/kdesu_version.h")
 ecm_setup_version(PROJECT VARIABLE_PREFIX KDESU
                         VERSION_HEADER "${kdesu_version_header}"
@@ -66,16 +63,6 @@ add_subdirectory(src)
 
 # create a Config.cmake and a ConfigVersion.cmake file and install them
 set(CMAKECONFIG_INSTALL_DIR "${KDE_INSTALL_CMAKEPACKAGEDIR}/KF6Su")
-
-if (BUILD_QCH)
-    ecm_install_qch_export(
-        TARGETS KF6Su_QCH
-        FILE KF6SuQchTargets.cmake
-        DESTINATION "${CMAKECONFIG_INSTALL_DIR}"
-        COMPONENT Devel
-    )
-    set(PACKAGE_INCLUDE_QCHTARGETS "include(\"\${CMAKE_CURRENT_LIST_DIR}/KF6SuQchTargets.cmake\")")
-endif()
 
 include(CMakePackageConfigHelpers)
 

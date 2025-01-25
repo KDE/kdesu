@@ -215,7 +215,7 @@ void sigchld_handler(int)
     write(pipeOfDeath[1], &c, 1);
 }
 
-/**
+/*!
  * Creates an AF_UNIX socket in socket resource, mode 0600.
  */
 
@@ -334,7 +334,7 @@ static bool prevent_tracing()
     return r == 0;
 }
 
-/**
+/*!
  * Main program
  */
 

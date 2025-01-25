@@ -1,0 +1,24 @@
+/*!
+    \page kdesu-index.html
+    \title KDESu
+
+    User interface for running shell commands with root privileges.
+
+    KDESU provides functionality for building GUI front ends for
+    (password asking) console mode programs. For example, kdesu and
+    kdessh use it to interface with su and ssh respectively.
+
+    \section1 Using the Module
+
+    \include {module-use.qdocinc} {using the c++ api}
+
+    \section2 Building with CMake
+
+    \include {module-use.qdocinc} {building with cmake} {KF6} {Su} {KF6::Su}
+
+    \section1 API Reference
+
+    \list
+        \li \l{KDESu C++ Classes}
+    \endlist
+*/
