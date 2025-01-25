@@ -144,7 +144,7 @@ int PtyProcess::init()
     return 0;
 }
 
-/** Set additional environment variables. */
+/*! Set additional environment variables. */
 void PtyProcess::setEnvironment(const QList<QByteArray> &env)
 {
     Q_D(PtyProcess);
@@ -164,7 +164,7 @@ int PtyProcess::pid() const
     return m_pid;
 }
 
-/** Returns the additional environment variables set by setEnvironment() */
+/*! Returns the additional environment variables set by setEnvironment() */
 QList<QByteArray> PtyProcess::environment() const
 {
     Q_D(const PtyProcess);

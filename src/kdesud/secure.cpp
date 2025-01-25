@@ -23,7 +23,7 @@
 // It would be better to fix it more globally. (Caleb Tennis)
 typedef unsigned ksocklen_t;
 
-/**
+/*!
  * Under Linux, Socket_security is supported.
  */
 
@@ -84,7 +84,7 @@ SocketSecurity::SocketSecurity(int sockfd)
 #ifdef __GNUC__
 #warning SocketSecurity support for your platform not implemented/available!
 #endif
-/**
+/*!
  * The default version does nothing.
  */
 

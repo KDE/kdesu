@@ -20,7 +20,8 @@
 
 namespace KDESu
 {
-/** \class Client client.h KDESu/Client
+/*!
+ * \class Client client.h KDESu/Client
  * A client class to access kdesud, the KDE su daemon. Kdesud can assist in
  * password caching in two ways:
  *
@@ -49,7 +50,7 @@ public:
     Client(const Client &) = delete;
     Client &operator=(const Client &) = delete;
 
-    /**
+    /*!
      * Lets kdesud execute a command. If the daemon does not have a password
      * for this command, this will fail and you need to call setPass().
      *
@@ -61,13 +62,13 @@ public:
      */
     int exec(const QByteArray &command, const QByteArray &user, const QByteArray &options = nullptr, const QList<QByteArray> &env = QList<QByteArray>());
 
-    /**
+    /*!
      * Wait for the last command to exit and return the exit code.
      * @return Exit code of last command, -1 on failure.
      */
     int exitCode();
 
-    /**
+    /*!
      * Set root's password, lasts one session.
      *
      * @param pass Root's password.
@@ -76,22 +77,22 @@ public:
      */
     int setPass(const char *pass, int timeout);
 
-    /**
+    /*!
      * Set the target host (optional).
      */
     int setHost(const QByteArray &host);
 
-    /**
+    /*!
      * Set the desired priority (optional), see StubProcess.
      */
     int setPriority(int priority);
 
-    /**
+    /*!
      * Set the desired scheduler (optional), see StubProcess.
      */
     int setScheduler(int scheduler);
 
-    /**
+    /*!
      * Remove a password for a user/command.
      * @param command The command.
      * @param user The user.
@@ -99,7 +100,7 @@ public:
      */
     int delCommand(const QByteArray &command, const QByteArray &user);
 
-    /**
+    /*!
      * Set a persistent variable.
      * @param key The name of the variable.
      * @param value Its value.
@@ -110,21 +111,21 @@ public:
      */
     int setVar(const QByteArray &key, const QByteArray &value, int timeout = 0, const QByteArray &group = nullptr);
 
-    /**
+    /*!
      * Get a persistent variable.
      * @param key The name of the variable.
      * @return Its value.
      */
     QByteArray getVar(const QByteArray &key);
 
-    /**
+    /*!
      * Gets all the keys that are membes of the given group.
      * @param group the group name of the variables.
      * @return a list of the keys in the group.
      */
     QList<QByteArray> getKeys(const QByteArray &group);
 
-    /**
+    /*!
      * Returns true if the specified group exists is
      * cached.
      *
@@ -133,14 +134,14 @@ public:
      */
     bool findGroup(const QByteArray &group);
 
-    /**
+    /*!
      * Delete a persistent variable.
      * @param key The name of the variable.
      * @return zero on success, -1 on failure.
      */
     int delVar(const QByteArray &key);
 
-    /**
+    /*!
      * Delete all persistent variables with the given key.
      *
      * A specicalized variant of delVar(QByteArray) that removes all
@@ -157,7 +158,7 @@ public:
      */
     int delVars(const QByteArray &special_key);
 
-    /**
+    /*!
      * Delete all persistent variables in a group.
      *
      * @param group the group name. See setVar.
@@ -165,18 +166,18 @@ public:
      */
     int delGroup(const QByteArray &group);
 
-    /**
+    /*!
      * Ping kdesud. This can be used for diagnostics.
      * @return Zero on success, -1 on failure
      */
     int ping();
 
-    /**
+    /*!
      * Stop the daemon.
      */
     int stopServer();
 
-    /**
+    /*!
      * Try to start up kdesud
      */
     int startServer();

@@ -13,8 +13,7 @@ outputformats = HTML
 depends += \
     kde \
     qtcore \
-    qtgui \
-    qtwidgets
+    qtgui
 
 qhp.projects            = KDESu
 

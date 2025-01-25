@@ -24,7 +24,7 @@ namespace KDESu
 {
 class PtyProcessPrivate;
 
-/** \class PtyProcess ptyprocess.h KDESu/PtyProcess
+/*! \class PtyProcess ptyprocess.h KDESu/PtyProcess
  * Synchronous communication with tty programs.
  *
  * PtyProcess provides synchronous communication with tty based programs.
@@ -35,17 +35,17 @@ class PtyProcessPrivate;
 class KDESU_EXPORT PtyProcess
 {
 public:
-    /** Error return values for checkPidExited() */
+    /*! Error return values for checkPidExited() */
     enum checkPidStatus {
-        Error = -1, /**< No child */
-        NotExited = -2, /**< Child hasn't exited */
-        Killed = -3, /**< Child terminated by signal */
+        Error = -1, /*!< No child */
+        NotExited = -2, /*!< Child hasn't exited */
+        Killed = -3, /*!< Child terminated by signal */
     };
 
     PtyProcess();
     virtual ~PtyProcess();
 
-    /**
+    /*!
      * Forks off and execute a command. The command's standard in and output
      * are connected to the pseudo tty. They are accessible with readLine
      * and writeLine.
@@ -55,7 +55,7 @@ public:
      */
     int exec(const QByteArray &command, const QList<QByteArray> &args);
 
-    /**
+    /*!
      * Reads a line from the program's standard out. Depending on the @em block
      * parameter, this call blocks until something was read.
      * Note that in some situations this function will return less than a full
@@ -65,7 +65,7 @@ public:
      */
     QByteArray readLine(bool block = true);
 
-    /**
+    /*!
      * Read all available output from the program's standard out.
      * @param block If no output is in the buffer, should the function block
      * (else it will return an empty QByteArray)?
@@ -73,65 +73,65 @@ public:
      */
     QByteArray readAll(bool block = true);
 
-    /**
+    /*!
      * Writes a line of text to the program's standard in.
      * @param line The text to write.
      * @param addNewline Adds a '\n' to the line.
      */
     void writeLine(const QByteArray &line, bool addNewline = true);
 
-    /**
+    /*!
      * Puts back a line of input.
      * @param line The line to put back.
      * @param addNewline Adds a '\n' to the line.
      */
     void unreadLine(const QByteArray &line, bool addNewline = true);
 
-    /**
+    /*!
      * Sets the exit string. If a line of program output matches this,
      * waitForChild() will terminate the program and return.
      */
     void setExitString(const QByteArray &exit);
 
-    /**
+    /*!
      * Waits for the child to exit. See also setExitString.
      */
     int waitForChild();
 
-    /**
+    /*!
      * Waits until the pty has cleared the ECHO flag. This is useful
      * when programs write a password prompt before they disable ECHO.
      * Disabling it might flush any input that was written.
      */
     int waitSlave();
 
-    /**
+    /*!
      * Enables/disables local echo on the pseudo tty.
      */
     int enableLocalEcho(bool enable = true);
 
-    /**
+    /*!
      * Enables/disables terminal output. Relevant only to some subclasses.
      */
     void setTerminal(bool terminal);
 
-    /**
+    /*!
      * Overwrites the password as soon as it is used. Relevant only to
      * some subclasses.
      */
     void setErase(bool erase);
 
-    /**
+    /*!
      * Set additinal environment variables.
      */
     void setEnvironment(const QList<QByteArray> &env);
 
-    /**
+    /*!
      * Returns the filedescriptor of the process.
      */
     int fd() const;
 
-    /**
+    /*!
      * Returns the pid of the process.
      */
     int pid() const;
@@ -143,7 +143,7 @@ public:
     ** nicer Qt based ways to do what you want.
     */
 
-    /**
+    /*!
     ** Wait @p ms milliseconds (ie. 1/10th of a second is 100ms),
     ** using @p fd as a filedescriptor to wait on. Returns
     ** select(2)'s result, which is -1 on error, 0 on timeout,
@@ -154,14 +154,14 @@ public:
     */
     static int waitMS(int fd, int ms);
 
-    /**
+    /*!
     ** Basic check for the existence of @p pid.
     ** Returns true iff @p pid is an extant process,
     ** (one you could kill - see man kill(2) for signal 0).
     */
     static bool checkPid(pid_t pid);
 
-    /**
+    /*!
     ** Check process exit status for process @p pid.
     ** If child @p pid has exited, return its exit status,
     ** (which may be zero).
@@ -173,18 +173,18 @@ public:
 protected:
     KDESU_NO_EXPORT explicit PtyProcess(PtyProcessPrivate &dd);
 
-    /** Standard hack to add virtual methods in a BC way. Unused. */
+    /*! Standard hack to add virtual methods in a BC way. Unused. */
     virtual void virtual_hook(int id, void *data);
     QList<QByteArray> environment() const;
 
     // KF6 TODO: move to PtyProcessPrivate
-    bool m_erase; /**< @see setErase() */
-    bool m_terminal; /**< Indicates running in a terminal, causes additional
+    bool m_erase; /*!< @see setErase() */
+    bool m_terminal; /*!< Indicates running in a terminal, causes additional
                            newlines to be printed after output. Set to @c false
                            in constructor. @see setTerminal()  */
-    int m_pid; /**< PID of child process */
-    QByteArray m_command; /**< Unused */
-    QByteArray m_exitString; /**< String to scan for in output that indicates child has exited. */
+    int m_pid; /*!< PID of child process */
+    QByteArray m_command; /*!< Unused */
+    QByteArray m_exitString; /*!< String to scan for in output that indicates child has exited. */
 
 private:
     KDESU_NO_EXPORT int init();

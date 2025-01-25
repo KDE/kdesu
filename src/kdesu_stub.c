@@ -51,7 +51,7 @@
 #include <sched.h>
 #endif
 
-/**
+/*!
  * Params sent by the peer.
  */
 
@@ -84,7 +84,7 @@ struct param_struct params[] = {{"kdesu_stub", 0L},
 #define P_APP_STARTUP_ID 9
 #define P_LAST 10
 
-/**
+/*!
  * Safe malloc functions.
  */
 char *xmalloc(size_t size)
@@ -107,7 +107,7 @@ char **xrealloc(char **ptr, int size)
     exit(1);
 }
 
-/**
+/*!
  * Solaris does not have a setenv()...
  */
 int xsetenv(const char *name, const char *value)
@@ -122,7 +122,7 @@ int xsetenv(const char *name, const char *value)
     return putenv(s); /* yes: no free()! */
 }
 
-/**
+/*!
  * Safe strdup and strip newline
  */
 char *xstrdup(char *src)
@@ -136,7 +136,7 @@ char *xstrdup(char *src)
     return dst;
 }
 
-/**
+/*!
  * Split comma separated list.
  */
 char **xstrsep(char *str)
@@ -183,7 +183,7 @@ static void dequote(char *buf)
     *out = 0;
 }
 
-/**
+/*!
  * The main program
  */
 
