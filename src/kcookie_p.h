@@ -21,9 +21,8 @@ namespace KDESuPrivate
 /*!
  * Utility class to access the authentication tokens needed to run a KDE
  * program (X11 cookies on X11, for instance).
- * @internal
+ * \internal
  */
-
 class KCookie
 {
 public:

@@ -23,24 +23,33 @@ class KCookie;
 }
 class StubProcessPrivate;
 
-/*! \class StubProcess stubprocess.h KDESu/StubProcess
- * Chat with kdesu_stub.
+/*!
+ * \class KDESu::StubProcess
+ * \inmodule KDESu
+ * \inheaderfile KDESu/StubProcess
+ *
+ * \brief Chat with kdesu_stub.
  *
  * StubProcess extends PtyProcess with functionality to chat with kdesu_stub.
  */
-
 class KDESU_EXPORT StubProcess : public PtyProcess
 {
 public:
     /*!
      * Different schedulers. SchedNormal is the normal Unix timesharing
      * scheduler, while SchedRealtime is a POSIX.1b realtime scheduler.
+     *
+     * \value SchedNormal
+     * \value SchedRealtime
      */
     enum Scheduler {
         SchedNormal,
         SchedRealtime,
     };
 
+    /*!
+     *
+     */
     StubProcess();
     ~StubProcess() override;
 

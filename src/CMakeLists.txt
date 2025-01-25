@@ -84,6 +84,9 @@ ecm_generate_headers(KDESu_CamelCase_HEADERS
   PREFIX KDESu
   REQUIRED_HEADERS KDESu_HEADERS
 )
+
+ecm_generate_qdoc(KF6Su kdesu.qdocconf)
+
 install(FILES ${KDESu_CamelCase_HEADERS} DESTINATION ${KDE_INSTALL_INCLUDEDIR_KF}/KDESu/KDESu COMPONENT Devel)
 
 install(TARGETS KF6Su EXPORT KF6SuTargets ${KF_INSTALL_TARGETS_DEFAULT_ARGS})

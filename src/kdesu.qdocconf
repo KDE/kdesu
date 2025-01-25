@@ -8,6 +8,8 @@ documentationinheaders = true
 headerdirs = .
 sourcedirs = .
 
+excludedirs = kdesud
+
 outputformats = HTML
 
 depends += \
