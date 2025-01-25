@@ -18,12 +18,11 @@ namespace KDESu
 {
 namespace KDESuPrivate
 {
-/**
+/*!
  * Utility class to access the authentication tokens needed to run a KDE
  * program (X11 cookies on X11, for instance).
- * @internal
+ * \internal
  */
-
 class KCookie
 {
 public:
@@ -33,13 +32,13 @@ public:
     KCookie(const KCookie &) = delete;
     KCookie &operator=(const KCookie &) = delete;
 
-    /**
+    /*!
      * Returns the X11 display.
      */
     QByteArray display() const;
 
 #if HAVE_X11
-    /**
+    /*!
      * Returns the X11 magic cookie, if available.
      */
     QByteArray displayAuth() const;

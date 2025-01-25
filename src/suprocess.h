@@ -16,21 +16,34 @@ namespace KDESu
 {
 class SuProcessPrivate;
 
-/** \class SuProcess suprocess.h KDESu/SuProcess
- * Executes a command under elevated privileges, using su.
+/*!
+ * \class KDESu::SuProcess
+ * \inmodule KDESu
+ * \inheaderfile KDESu/SuProcess
+ *
+ * \brief Executes a command under elevated privileges, using su.
  */
 
 class KDESU_EXPORT SuProcess : public StubProcess
 {
 public:
+    /*!
+     * \value SuNotFound
+     * \value SuNotAllowed
+     * \value SuIncorrectPassword
+     */
     enum Errors {
         SuNotFound = 1,
         SuNotAllowed,
         SuIncorrectPassword,
     };
 
-    /**
+    /*!
      * Executes the command. This will wait for the command to finish.
+     *
+     * \value NoCheck
+     * \value Install
+     * \value NeedPassword
      */
     enum checkMode {
         NoCheck = 0,
@@ -38,29 +51,37 @@ public:
         NeedPassword = 2,
     };
 
+    /*!
+     *
+     */
     explicit SuProcess(const QByteArray &user = nullptr, const QByteArray &command = nullptr);
     ~SuProcess() override;
 
+    /*!
+     *
+     */
     int exec(const char *password, int check = NoCheck);
 
-    /**
+    /*!
      * Checks if the stub is installed and the password is correct.
-     * @return Zero if everything is correct, nonzero otherwise.
+     *
+     * Returns zero if everything is correct, nonzero otherwise.
      */
     int checkInstall(const char *password);
 
-    /**
+    /*!
      * Checks if a password is needed.
      */
     int checkNeedPassword();
 
-    /**
+    /*!
      * Checks what the default super user command is, e.g. sudo, su, etc
-     * @return the default super user command
+     *
+     * Returns the default super user command
      */
     QString superUserCommand();
 
-    /**
+    /*!
      * Checks whether or not the user's password is being asked for or another
      * user's password. Due to usage of systems such as sudo, even when attempting
      * to switch to another user one may need to enter their own password.

@@ -1,0 +1,32 @@
+include($KDE_DOCS/global/qt-module-defaults.qdocconf)
+
+project = KDESu
+description = Additions to Qt Core
+
+documentationinheaders = true
+
+headerdirs += .
+sourcedirs += .
+
+excludedirs = kdesud
+
+outputformats = HTML
+
+depends += \
+    kde \
+    qtcore \
+    qtgui
+
+qhp.projects            = KDESu
+
+qhp.KDESu.file                = kdesu.qhp
+qhp.KDESu.namespace           = org.kde.kdesu.$QT_VERSION_TAG
+qhp.KDESu.virtualFolder       = kdesu
+qhp.KDESu.indexTitle          = KDESu
+qhp.KDESu.indexRoot           =
+
+qhp.KDESu.subprojects         = classes
+qhp.KDESu.subprojects.classes.title = C++ Classes
+qhp.KDESu.subprojects.classes.indexTitle = KDESu C++ Classes
+qhp.KDESu.subprojects.classes.selectors = class fake:headerfile
+qhp.KDESu.subprojects.classes.sortPages = true

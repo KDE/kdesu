@@ -10,7 +10,7 @@
 #include <QByteArray>
 #include <QMap>
 
-/**
+/*!
  * Used internally.
  */
 struct Data_entry {
@@ -19,7 +19,7 @@ struct Data_entry {
     unsigned int timeout;
 };
 
-/**
+/*!
  * String repository.
  *
  * This class implements a string repository with expiration.
@@ -30,28 +30,28 @@ public:
     Repository();
     ~Repository();
 
-    /** Remove data elements which are expired. */
+    /*! Remove data elements which are expired. */
     int expire();
 
-    /** Add a data element */
+    /*! Add a data element */
     void add(const QByteArray &key, Data_entry &data);
 
-    /** Delete a data element. */
+    /*! Delete a data element. */
     int remove(const QByteArray &key);
 
-    /** Delete all data entries having the given group.  */
+    /*! Delete all data entries having the given group.  */
     int removeGroup(const QByteArray &group);
 
-    /** Delete all data entries based on key. */
+    /*! Delete all data entries based on key. */
     int removeSpecialKey(const QByteArray &key);
 
-    /** Checks for the existence of the specified group. */
+    /*! Checks for the existence of the specified group. */
     int hasGroup(const QByteArray &group) const;
 
-    /** Return a data value.  */
+    /*! Return a data value.  */
     QByteArray find(const QByteArray &key) const;
 
-    /** Returns the key values for the given group. */
+    /*! Returns the key values for the given group. */
     QByteArray findKeys(const QByteArray &group, const char *sep = "-") const;
 
 private:

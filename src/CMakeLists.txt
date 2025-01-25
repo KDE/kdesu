@@ -84,6 +84,9 @@ ecm_generate_headers(KDESu_CamelCase_HEADERS
   PREFIX KDESu
   REQUIRED_HEADERS KDESu_HEADERS
 )
+
+ecm_generate_qdoc(KF6Su kdesu.qdocconf)
+
 install(FILES ${KDESu_CamelCase_HEADERS} DESTINATION ${KDE_INSTALL_INCLUDEDIR_KF}/KDESu/KDESu COMPONENT Devel)
 
 install(TARGETS KF6Su EXPORT KF6SuTargets ${KF_INSTALL_TARGETS_DEFAULT_ARGS})
@@ -108,31 +111,6 @@ install(FILES
   ${KDESu_HEADERS}
   DESTINATION  ${KDE_INSTALL_INCLUDEDIR_KF}/KDESu/kdesu COMPONENT Devel
 )
-
-if(BUILD_QCH)
-    ecm_add_qch(
-        KF6Su_QCH
-        NAME KDESu
-        BASE_NAME KF6Su
-        VERSION ${KF_VERSION}
-        ORG_DOMAIN org.kde
-        SOURCES # using only public headers, to cover only public API
-            ${KDESu_HEADERS}
-        MD_MAINPAGE "${CMAKE_SOURCE_DIR}/README.md"
-        LINK_QCHS
-            KF6Pty_QCH
-        INCLUDE_DIRS
-            ${CMAKE_CURRENT_BINARY_DIR}
-        BLANK_MACROS
-            KDESU_EXPORT
-            KDESU_DEPRECATED
-            KDESU_DEPRECATED_EXPORT
-            "KDESU_DEPRECATED_VERSION(x, y, t)"
-        TAGFILE_INSTALL_DESTINATION ${KDE_INSTALL_QTQCHDIR}
-        QCH_INSTALL_DESTINATION ${KDE_INSTALL_QTQCHDIR}
-        COMPONENT Devel
-    )
-endif()
 
 ecm_qt_install_logging_categories(
     EXPORT KSU
