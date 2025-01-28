@@ -1,11 +1,11 @@
 Dependencies:
-- 'on': ['Linux', 'FreeBSD']
-  'require':
+ - 'on': ['Linux', 'FreeBSD']
+   'require':
     'frameworks/extra-cmake-modules': '@same'
-    'frameworks/kconfig' : '@same'
-    'frameworks/kcoreaddons' : '@same'
-    'frameworks/kpty' : '@same'
+    'frameworks/kconfig': '@same'
+    'frameworks/kcoreaddons': '@same'
+    'frameworks/kpty': '@same'
 
 Options:
-  test-before-installing: True
-  require-passing-tests-on: [ 'Linux', 'FreeBSD' ]
+ test-before-installing: True
+ require-passing-tests-on: ['Linux', 'FreeBSD']

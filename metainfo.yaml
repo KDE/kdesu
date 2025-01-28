@@ -9,7 +9,7 @@ portingAid: false
 deprecated: false
 release: true
 libraries:
- - cmake: "KF6::Su"
+    - cmake: "KF6::Su"
 cmakename: KF6Su
 
 public_lib: true
