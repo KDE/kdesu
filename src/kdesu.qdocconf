@@ -12,6 +12,8 @@ excludedirs = kdesud
 
 outputformats = HTML
 
+navigation.landingpage = "KDESu"
+
 depends += \
     kde \
     qtcore \
