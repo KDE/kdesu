@@ -32,3 +32,5 @@ qhp.KDESu.subprojects.classes.title = C++ Classes
 qhp.KDESu.subprojects.classes.indexTitle = KDESu C++ Classes
 qhp.KDESu.subprojects.classes.selectors = class fake:headerfile
 qhp.KDESu.subprojects.classes.sortPages = true
+
+tagfile = kdesu.tags
