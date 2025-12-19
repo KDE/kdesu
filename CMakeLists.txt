@@ -55,7 +55,7 @@ ecm_setup_version(PROJECT VARIABLE_PREFIX KDESU
                         SOVERSION 6)
 ecm_set_disabled_deprecation_versions(
     QT 6.10.0
-    KF 6.19.0
+    KF 6.21.0
 )
 
 ki18n_install(po)
