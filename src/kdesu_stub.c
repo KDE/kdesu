@@ -169,7 +169,7 @@ static void dequote(char *buf)
     char *out;
     for (in = buf, out = buf; *in; in++, out++) {
         char c = *in;
-        if (c == '\\') {
+        if (c == '\\' && *(in + 1)) {
             c = *++in;
             if (c == '/') {
                 *out = '\\';
