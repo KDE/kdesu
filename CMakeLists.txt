@@ -21,6 +21,7 @@ include(ECMMarkNonGuiExecutable)
 include(ECMQtDeclareLoggingCategory)
 include(ECMGenerateQDoc)
 include(ECMDeprecationSettings)
+include(ECMInstalledLibraryCheck)
 
 set(REQUIRED_QT_VERSION 6.9.0)
 find_package(Qt6Core ${REQUIRED_QT_VERSION} REQUIRED NO_MODULE)

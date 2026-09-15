@@ -117,3 +117,17 @@ ecm_qt_install_logging_categories(
     FILE ksu.categories
     DESTINATION "${KDE_INSTALL_LOGGINGCATEGORIESDIR}"
 )
+
+ecm_add_installed_library_check(KF6Su
+    PACKAGE_NAME "KF6Su"
+    PACKAGE_TARGET_NAMESPACE "KF6::"
+)
+
+ecm_installed_library_check_include_strings(KF6Su
+    HEADERS ${KDESu_CamelCase_HEADERS}
+    PREFIX KDESu
+)
+
+ecm_installed_library_check_version_preprocessor_macros(KF6Su
+    PREFIX KDESU
+)
