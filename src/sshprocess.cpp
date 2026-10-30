@@ -9,7 +9,6 @@
 
 #include "sshprocess.h"
 
-#include "kcookie_p.h"
 #include "stubprocess_p.h"
 #include <ksu_debug.h>
 
